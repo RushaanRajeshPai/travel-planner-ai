@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, Sparkles, Eye, Route } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Sparkles, Eye, Route, AlertTriangle } from 'lucide-react';
 import maldives from '../assets/maldives.jpg';
 import swiss from '../assets/swiss.jpg';
 
@@ -41,35 +41,43 @@ const Home = () => {
   ];
 
   const features = [
-    {
-      title: "Build trip itinerary with AI",
-      description: "Create personalized travel plans powered by artificial intelligence",
-      icon: <Sparkles className="w-8 h-8" />,
-      route: "/travel-ai",
-      gradient: "from-purple-500 to-pink-500"
-    },
-    {
-      title: "Look for popular spots in your desired city",
-      description: "Discover trending destinations and must-visit attractions",
-      icon: <MapPin className="w-8 h-8" />,
-      route: "/popular",
-      gradient: "from-blue-500 to-teal-500"
-    },
-    {
-      title: "Look for Niche spots in your desired city",
-      description: "Find hidden gems and unique experiences off the beaten path",
-      icon: <Eye className="w-8 h-8" />,
-      route: "/niche",
-      gradient: "from-green-500 to-emerald-500"
-    },
-    {
-      title: "Check out the best intercity travel options",
-      description: "Compare and choose the most convenient travel routes",
-      icon: <Route className="w-8 h-8" />,
-      route: "/intercity-travel",
-      gradient: "from-orange-500 to-red-500"
-    }
-  ];
+  {
+    title: "Plan Your Trip with Smart AI",
+    description: "Create personalized travel plans powered by artificial intelligence",
+    icon: <Sparkles className="w-8 h-8" />,
+    route: "/travel-ai",
+    gradient: "from-purple-500 to-pink-500"
+  },
+  {
+    title: "Explore Popular Hotspots",
+    description: "Discover trending destinations and must-visit attractions",
+    icon: <MapPin className="w-8 h-8" />,
+    route: "/popular",
+    gradient: "from-blue-500 to-teal-500"
+  },
+  {
+    title: "Uncover Hidden Gems",
+    description: "Find unique experiences and offbeat locations",
+    icon: <Eye className="w-8 h-8" />,
+    route: "/niche",
+    gradient: "from-green-500 to-emerald-500"
+  },
+  {
+    title: "Find Best Intercity Travel Routes",
+    description: "Compare and choose the most convenient travel routes",
+    icon: <Route className="w-8 h-8" />,
+    route: "/intercity-travel",
+    gradient: "from-orange-500 to-red-500"
+  },
+  {
+    title: "Check Travel Advisories Worldwide",
+    description: "Stay informed with official advisories and country updates",
+    icon: <AlertTriangle className="w-8 h-8" />, // or use <Globe className="w-8 h-8" />
+    route: "/advisory",
+    gradient: "from-yellow-500 to-rose-500"
+  }
+];
+
 
   // Auto-slide functionality
   useEffect(() => {
@@ -208,7 +216,9 @@ const Home = () => {
         <div className="px-4 py-16 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-white mb-16">
-              Explore Our Features
+              <span className="bg-gradient-to-l from-cyan-400 via-sky-400 to-teal-200 bg-clip-text text-transparent">
+                Explore Our Features
+              </span>
             </h2>
             <div className="space-y-6">
               {features.map((feature, index) => (

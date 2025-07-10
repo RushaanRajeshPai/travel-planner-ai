@@ -330,6 +330,7 @@ const OAuth = () => {
                   <option value="Trekking" className="text-gray-700">Trekking</option>
                   <option value="Exploring cultural heritage" className="text-gray-700">Exploring cultural heritage</option>
                   <option value="Educational" className="text-gray-700">Educational</option>
+                  <option value="Honeymoon" className="text-gray-700">Honeymoon</option>
                 </select>
               </div>
 

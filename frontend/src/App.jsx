@@ -7,6 +7,7 @@ import TripPlannerAI from './Components/TripPlannerAI';
 import PopularSpots from './Components/PopularSpots';
 import NicheSpots from './Components/NicheSpots';
 import InterCityTravel from './Components/InterCityTravel';
+import TravelAdvisory from './Components/TravelAdvisory';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/popular" element={<PopularSpots />} />
         <Route path="/niche" element={<NicheSpots />} />
         <Route path="/intercity-travel" element={<InterCityTravel />} />
+        <Route path="/advisory" element={<TravelAdvisory />} />
       </Routes>
     </Router>
   );
