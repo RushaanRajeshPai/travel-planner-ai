@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import OAuth from './Components/OAuth';
 import Home from './Components/Home';
 import Hero from './Components/Hero'; 
-import TripPlannerAI from './Components/TripPlannerAI';
+import TravelPlannerAI from './Components/TravelPlannerAI';
 import PopularSpots from './Components/PopularSpots';
 import NicheSpots from './Components/NicheSpots';
 import InterCityTravel from './Components/InterCityTravel';
@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/" element={<Hero />} />
         <Route path="/auth" element={<OAuth />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/travel-ai" element={<TripPlannerAI />} />
+        <Route path="/travel-ai" element={<TravelPlannerAI />} />
         <Route path="/popular" element={<PopularSpots />} />
         <Route path="/niche" element={<NicheSpots />} />
         <Route path="/intercity-travel" element={<InterCityTravel />} />
