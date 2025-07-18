@@ -12,7 +12,7 @@ class InputProcessingAgent {
     this.name = 'InputProcessingAgent';
   }
 
-  async processInputs(destination, travelType, numberOfPeople, numberOfDays) {
+  async processInputs(destination, travelType, numberOfPeople, numberOfDays, budget) {
     try {
       console.log(`Agent 1: Processing inputs - Destination: ${destination}, Travel Type: ${travelType}, People: ${numberOfPeople}, Days: ${numberOfDays}`);
       
@@ -26,6 +26,7 @@ class InputProcessingAgent {
         travelType: travelType.toLowerCase(),
         numberOfPeople: parseInt(numberOfPeople),
         numberOfDays: parseInt(numberOfDays),
+        budget: parseFloat(budget),
         timestamp: new Date().toISOString()
       };
 
@@ -294,11 +295,11 @@ class ItineraryGenerationAgent {
     this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   }
 
-  async generateItinerary(filteredData, numberOfDays, numberOfPeople, travelType) {
+  async generateItinerary(filteredData, numberOfDays, numberOfPeople, travelType, budget) {
     try {
-      console.log(`Agent 4: Generating itinerary for ${numberOfDays} days`);
+      console.log(`Agent 4: Generating itinerary for ${numberOfDays} days with budget $${budget}`);
       
-      const prompt = this.createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType);
+      const prompt = this.createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType, budget);
       
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
@@ -312,7 +313,7 @@ class ItineraryGenerationAgent {
     }
   }
 
-  createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType) {
+  createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType, budget) {
     const housingOptions = [];
     
     if (filteredData.housing.hotels.length > 0) {
@@ -329,9 +330,10 @@ class ItineraryGenerationAgent {
     const restaurants = filteredData.restaurants.map(rest => rest.name).join(', ');
 
     return `
-Create a detailed ${numberOfDays}-day travel itinerary for ${numberOfPeople} people visiting ${filteredData.destination}.
+Create a detailed ${numberOfDays}-day travel itinerary for ${numberOfPeople} people visiting ${filteredData.destination} with a total budget of $${budget}.
 
 Travel Type: ${travelType}
+Budget Constraint: $${budget} total for ${numberOfPeople} people
 
 Available Accommodations:
 ${housingOptions.join('\n')}
@@ -358,69 +360,70 @@ Include:
 6. Activities that match the travel type: ${travelType}
 
 Make it engaging and practical for ${numberOfPeople} people.
+Make sure all recommendations fit within the $${budget} budget constraint.
 `;
   }
 }
 
 // Agent 5: Budget Estimation Agent
-class BudgetEstimationAgent {
-  constructor() {
-    this.name = 'BudgetEstimationAgent';
-    this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-  }
+// class BudgetEstimationAgent {
+//   constructor() {
+//     this.name = 'BudgetEstimationAgent';
+//     this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+//   }
 
-  async estimateBudget(itinerary, destination, numberOfDays, numberOfPeople, travelType) {
-    try {
-      console.log(`Agent 5: Estimating budget for ${destination}`);
+//   async estimateBudget(itinerary, destination, numberOfDays, numberOfPeople, travelType) {
+//     try {
+//       console.log(`Agent 5: Estimating budget for ${destination}`);
       
-      const prompt = this.createBudgetPrompt(itinerary, destination, numberOfDays, numberOfPeople, travelType);
+//       const prompt = this.createBudgetPrompt(itinerary, destination, numberOfDays, numberOfPeople, travelType);
       
-      const result = await this.model.generateContent(prompt);
-      const response = await result.response;
-      const budget = response.text();
+//       const result = await this.model.generateContent(prompt);
+//       const response = await result.response;
+//       const budget = response.text();
 
-      console.log('Agent 5: Budget estimation completed');
-      return budget;
-    } catch (error) {
-      console.error('Agent 5 Error:', error.message);
-      throw error;
-    }
-  }
+//       console.log('Agent 5: Budget estimation completed');
+//       return budget;
+//     } catch (error) {
+//       console.error('Agent 5 Error:', error.message);
+//       throw error;
+//     }
+//   }
 
-  createBudgetPrompt(itinerary, destination, numberOfDays, numberOfPeople, travelType) {
-    return `
-Based on the following itinerary for ${destination}, calculate a realistic per-person budget estimate:
+//   createBudgetPrompt(itinerary, destination, numberOfDays, numberOfPeople, travelType) {
+//     return `
+// Based on the following itinerary for ${destination}, calculate a realistic per-person budget estimate:
 
-${itinerary}
+// ${itinerary}
 
-Parameters:
-- Destination: ${destination}
-- Duration: ${numberOfDays} days
-- Number of people: ${numberOfPeople}
-- Travel type: ${travelType}
+// Parameters:
+// - Destination: ${destination}
+// - Duration: ${numberOfDays} days
+// - Number of people: ${numberOfPeople}
+// - Travel type: ${travelType}
 
-Please provide a detailed budget breakdown with:
-1. Accommodation costs (per person per night)
-2. Food and dining costs (per person per day)
-3. Activities and attractions (per person)
-4. Local transportation (per person)
-5. Miscellaneous expenses (per person)
+// Please provide a detailed budget breakdown with:
+// 1. Accommodation costs (per person per night)
+// 2. Food and dining costs (per person per day)
+// 3. Activities and attractions (per person)
+// 4. Local transportation (per person)
+// 5. Miscellaneous expenses (per person)
 
-Format the response as:
-**Per Person Budget Estimate for ${numberOfDays} Days:**
+// Format the response as:
+// **Per Person Budget Estimate for ${numberOfDays} Days:**
 
-**Accommodation:** $XXX - $XXX per night
-**Food & Dining:** $XXX - $XXX per day
-**Activities & Attractions:** $XXX - $XXX total
-**Local Transportation:** $XXX - $XXX total
-**Miscellaneous:** $XXX - $XXX total
+// **Accommodation:** $XXX - $XXX per night
+// **Food & Dining:** $XXX - $XXX per day
+// **Activities & Attractions:** $XXX - $XXX total
+// **Local Transportation:** $XXX - $XXX total
+// **Miscellaneous:** $XXX - $XXX total
 
-**Total Per Person: $XXX - $XXX**
+// **Total Per Person: $XXX - $XXX**
 
-Provide ranges (budget to luxury) and consider local pricing for ${destination}.
-`;
-  }
-}
+// Provide ranges (budget to luxury) and consider local pricing for ${destination}.
+// `;
+//   }
+// }
 
 // Main orchestrator
 class TravelPlannerOrchestrator {
@@ -429,14 +432,14 @@ class TravelPlannerOrchestrator {
     this.agent2 = new DataExtractionAgent();
     this.agent3 = new DataFilteringAgent();
     this.agent4 = new ItineraryGenerationAgent();
-    this.agent5 = new BudgetEstimationAgent();
+    // this.agent5 = new BudgetEstimationAgent();
   }
 
-  async orchestrate(destination, travelType, numberOfPeople, numberOfDays) {
+  async orchestrate(destination, travelType, numberOfPeople, numberOfDays, budget) {
     try {
       // Agent 1: Process inputs
       const processedInputs = await this.agent1.processInputs(
-        destination, travelType, numberOfPeople, numberOfDays
+        destination, travelType, numberOfPeople, numberOfDays, budget
       );
 
       // Agent 2: Extract data
@@ -452,20 +455,19 @@ class TravelPlannerOrchestrator {
       // Agent 4: Generate itinerary
       const itinerary = await this.agent4.generateItinerary(
         filteredData, processedInputs.numberOfDays, 
-        processedInputs.numberOfPeople, processedInputs.travelType
+        processedInputs.numberOfPeople, processedInputs.travelType, processedInputs.budget
       );
 
       // Agent 5: Estimate budget
-      const budget = await this.agent5.estimateBudget(
-        itinerary, processedInputs.destination, processedInputs.numberOfDays,
-        processedInputs.numberOfPeople, processedInputs.travelType
-      );
+      // const budget = await this.agent5.estimateBudget(
+      //   itinerary, processedInputs.destination, processedInputs.numberOfDays,
+      //   processedInputs.numberOfPeople, processedInputs.travelType
+      // );
 
       return {
         success: true,
         data: {
           itinerary,
-          budget,
           destination: processedInputs.destination,
           numberOfDays: processedInputs.numberOfDays,
           numberOfPeople: processedInputs.numberOfPeople,
@@ -475,26 +477,26 @@ class TravelPlannerOrchestrator {
     } catch (error) {
       console.error('Orchestration Error:', error.message);
       throw error;
-    }
+    }  
   }
 }
 
 // Route handler
 router.post('/generate-itinerary', async (req, res) => {
   try {
-    const { destination, travelType, numberOfPeople, numberOfDays } = req.body;
+    const { destination, travelType, numberOfPeople, numberOfDays, budget } = req.body;
 
     // Validate required fields
-    if (!destination || !travelType || !numberOfPeople || !numberOfDays) {
+    if (!destination || !travelType || !numberOfPeople || !numberOfDays || !budget) {
       return res.status(400).json({
         success: false,
-        message: 'All fields are required: destination, travelType, numberOfPeople, numberOfDays'
+        message: 'All fields are required: destination, travelType, numberOfPeople, numberOfDays, budget'
       });
     }
 
     const orchestrator = new TravelPlannerOrchestrator();
     const result = await orchestrator.orchestrate(
-      destination, travelType, numberOfPeople, numberOfDays
+      destination, travelType, numberOfPeople, numberOfDays, budget
     );
 
     res.json(result);
