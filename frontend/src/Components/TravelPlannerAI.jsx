@@ -12,6 +12,7 @@ const TravelPlannerAI = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [destinationImages, setDestinationImages] = useState([]);
 
   const travelTypes = [
     { value: 'relaxation', label: 'Relaxation', icon: Coffee },
@@ -29,8 +30,7 @@ const TravelPlannerAI = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
     setError('');
     setResult(null);
@@ -72,6 +72,45 @@ const TravelPlannerAI = () => {
     </div>
   );
 
+  const parseDayItinerary = (itinerary) => {
+    const days = [];
+    const dayPattern = /Day \d+[^:]*:/g;
+    const dayMatches = itinerary.match(dayPattern);
+    
+    if (!dayMatches) {
+      return [{ title: 'Your Itinerary', content: itinerary }];
+    }
+
+    const splits = itinerary.split(dayPattern);
+    
+    for (let i = 1; i < splits.length; i++) {
+      const dayTitle = dayMatches[i - 1].replace(':', '');
+      const dayContent = splits[i].trim();
+      
+      if (dayContent) {
+        days.push({
+          title: dayTitle,
+          content: dayContent
+        });
+      }
+    }
+
+    return days;
+  };
+
+  const formatDayContent = (content) => {
+    // Remove ## symbols and convert to bullet points for headings
+    let formatted = content.replace(/##\s*/g, '• ');
+    
+    // Convert **text** to bold
+    formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert line breaks to HTML breaks
+    formatted = formatted.replace(/\n/g, '<br>');
+    
+    return formatted;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
@@ -89,6 +128,8 @@ const TravelPlannerAI = () => {
   }
 
   if (result) {
+    const dayItineraries = parseDayItinerary(result.itinerary);
+    
     return (
       <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
         <div className="max-w-6xl mx-auto">
@@ -97,21 +138,23 @@ const TravelPlannerAI = () => {
             <p className="text-cyan-300">For {result.destination} • {result.numberOfDays} Days • {result.numberOfPeople} People</p>
           </div>
 
-          <div className="w-full">
-            <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                <Calendar className="w-6 h-6 text-cyan-400" />
-                Day-by-Day Itinerary
-              </h2>
-              <div className="prose prose-invert max-w-none">
-                <div
-                  className="whitespace-pre-wrap text-gray-200 leading-relaxed"
-                  dangerouslySetInnerHTML={{
-                    __html: result.itinerary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                  }}
-                />
+          <div className="space-y-6">
+            {dayItineraries.map((day, index) => (
+              <div key={index} className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
+                <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                  <Calendar className="w-6 h-6 text-cyan-400" />
+                  {day.title}
+                </h2>
+                <div className="prose prose-invert max-w-none">
+                  <div
+                    className="whitespace-pre-wrap text-gray-200 leading-relaxed text-lg"
+                    dangerouslySetInnerHTML={{
+                      __html: formatDayContent(day.content)
+                    }}
+                  />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
           <div className="mt-8 text-center">
@@ -122,7 +165,8 @@ const TravelPlannerAI = () => {
                   destination: '',
                   travelType: '',
                   numberOfPeople: '',
-                  numberOfDays: ''
+                  numberOfDays: '',
+                  budget: ''
                 });
               }}
               className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg"
@@ -148,10 +192,10 @@ const TravelPlannerAI = () => {
         </div>
 
         <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-2xl">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className=" text-white font-semibold mb-2 flex items-center gap-2">
+                <label className="text-white font-semibold mb-2 flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-cyan-400" />
                   Destination
                 </label>
@@ -167,7 +211,7 @@ const TravelPlannerAI = () => {
               </div>
 
               <div>
-                <label className=" text-white font-semibold mb-2 flex items-center gap-2">
+                <label className="text-white font-semibold mb-2 flex items-center gap-2">
                   <Compass className="w-5 h-5 text-cyan-400" />
                   Travel Type
                 </label>
@@ -188,7 +232,7 @@ const TravelPlannerAI = () => {
               </div>
 
               <div>
-                <label className=" text-white font-semibold mb-2 flex items-center gap-2">
+                <label className="text-white font-semibold mb-2 flex items-center gap-2">
                   <Users className="w-5 h-5 text-cyan-400" />
                   Number of People
                 </label>
@@ -206,7 +250,7 @@ const TravelPlannerAI = () => {
               </div>
 
               <div>
-                <label className=" text-white font-semibold mb-2 flex items-center gap-2">
+                <label className="text-white font-semibold mb-2 flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-cyan-400" />
                   Number of Days
                 </label>
@@ -224,7 +268,7 @@ const TravelPlannerAI = () => {
               </div>
 
               <div>
-                <label className=" text-white font-semibold mb-2 flex items-center gap-2">
+                <label className="text-white font-semibold mb-2 flex items-center gap-2">
                   <DollarSign className="w-5 h-5 text-cyan-400" />
                   Budget
                 </label>
@@ -249,7 +293,7 @@ const TravelPlannerAI = () => {
 
             <div className="text-center">
               <button
-                type="submit"
+                onClick={handleSubmit}
                 disabled={loading}
                 className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-12 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto"
               >
@@ -266,7 +310,7 @@ const TravelPlannerAI = () => {
                 )}
               </button>
             </div>
-          </form>
+          </div>
 
           <div className="mt-8 text-center">
             <p className="text-cyan-300 text-sm flex items-center justify-center gap-2">
@@ -275,35 +319,6 @@ const TravelPlannerAI = () => {
             </p>
           </div>
         </div>
-
-        {/* <div className="mt-12 bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
-          <h2 className="text-2xl font-bold text-white mb-6 text-center">
-            Why Settle for Generic Travel Plans?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="bg-cyan-500/20 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Compass className="w-8 h-8 text-cyan-400" />
-              </div>
-              <h3 className="text-white font-semibold mb-2">AI-Powered Planning</h3>
-              <p className="text-gray-300 text-sm">Smart recommendations tailored just for you</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-cyan-500/20 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <MapPin className="w-8 h-8 text-cyan-400" />
-              </div>
-              <h3 className="text-white font-semibold mb-2">Discover Hidden Gems</h3>
-              <p className="text-gray-300 text-sm">Uncover unique destinations beyond the tourist trail</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-cyan-500/20 rounded-full p-4 w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Calendar className="w-8 h-8 text-cyan-400" />
-              </div>
-              <h3 className="text-white font-semibold mb-2">Perfect Timing</h3>
-              <p className="text-gray-300 text-sm">Optimized schedules that maximize your experience</p>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );
