@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const TravelPlannerAI = () => {
   const [formData, setFormData] = useState({
@@ -97,37 +97,19 @@ const TravelPlannerAI = () => {
             <p className="text-cyan-300">For {result.destination} • {result.numberOfDays} Days • {result.numberOfPeople} People</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
-              <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
-                <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                  <Calendar className="w-6 h-6 text-cyan-400" />
-                  Day-by-Day Itinerary
-                </h2>
-                <div className="prose prose-invert max-w-none">
-                  <div
-                    className="whitespace-pre-wrap text-gray-200 leading-relaxed"
-                    dangerouslySetInnerHTML={{
-                      __html: result.itinerary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-1">
-              <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
-                <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                  <Users className="w-6 h-6 text-cyan-400" />
-                  Budget Estimate
-                </h2>
+          <div className="w-full">
+            <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                <Calendar className="w-6 h-6 text-cyan-400" />
+                Day-by-Day Itinerary
+              </h2>
+              <div className="prose prose-invert max-w-none">
                 <div
                   className="whitespace-pre-wrap text-gray-200 leading-relaxed"
                   dangerouslySetInnerHTML={{
-                    __html: result.budget.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    __html: result.itinerary.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                   }}
                 />
-
               </div>
             </div>
           </div>
