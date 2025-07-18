@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2 } from 'lucide-react';
+import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign } from 'lucide-react';
 
 const TravelPlannerAI = () => {
   const [formData, setFormData] = useState({
     destination: '',
     travelType: '',
     numberOfPeople: '',
-    numberOfDays: ''
+    numberOfDays: '',
+    budget: ''
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -235,6 +236,23 @@ const TravelPlannerAI = () => {
                   placeholder="e.g., 7"
                   min="1"
                   max="30"
+                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className=" text-white font-semibold mb-2 flex items-center gap-2">
+                  <DollarSign className="w-5 h-5 text-cyan-400" />
+                  Budget
+                </label>
+                <input
+                  type="number"
+                  name="budget"
+                  value={formData.budget}
+                  onChange={handleInputChange}
+                  placeholder="Enter your budget in USD"
+                  min="1"
                   className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
                   required
                 />
