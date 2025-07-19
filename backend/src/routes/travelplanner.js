@@ -498,7 +498,6 @@ router.post('/generate-itinerary', async (req, res) => {
     const result = await orchestrator.orchestrate(
       destination, travelType, numberOfPeople, numberOfDays, budget
     );
-
     res.json(result);
   } catch (error) {
     console.error('API Error:', error.message);
