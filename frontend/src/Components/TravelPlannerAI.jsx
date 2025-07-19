@@ -96,30 +96,41 @@ const TravelPlannerAI = () => {
   );
 
   const parseDayItinerary = (itinerary) => {
-    const days = [];
-    const dayPattern = /Day \d+[^:]*:/g;
-    const dayMatches = itinerary.match(dayPattern);
+  const days = [];
+  const dayPattern = /Day \d+[^:]*:/g;
+  const dayMatches = itinerary.match(dayPattern);
 
-    if (!dayMatches) {
-      return [{ title: 'Your Itinerary', content: itinerary }];
-    }
+  if (!dayMatches) {
+    return [{ title: 'Your Itinerary', content: itinerary }];
+  }
 
-    const splits = itinerary.split(dayPattern);
+  const splits = itinerary.split(dayPattern);
 
-    for (let i = 1; i < splits.length; i++) {
-      const dayTitle = dayMatches[i - 1].replace(':', '');
-      const dayContent = splits[i].trim();
+  for (let i = 1; i < splits.length; i++) {
+    // Extract the day title (e.g., "Day 1 (Arrival & Beau Vallon Beach Bliss)")
+    let dayTitle = dayMatches[i - 1].replace(':', '').trim();
 
-      if (dayContent) {
-        days.push({
-          title: dayTitle,
-          content: dayContent
-        });
+    // Get the content for the day
+    let dayContent = splits[i].trim();
+
+    // If the first line of content starts with "Morning", "Afternoon", etc., move it to content
+    const firstLineBreak = dayContent.indexOf('\n');
+    if (firstLineBreak !== -1) {
+      const firstLine = dayContent.slice(0, firstLineBreak);
+      if (/^(Morning|Afternoon|Evening|Night)/i.test(firstLine.trim())) {
+        // Only use dayTitle as the header, everything else as content
+        dayContent = dayContent;
       }
     }
 
-    return days;
-  };
+    days.push({
+      title: dayTitle,
+      content: dayContent
+    });
+  }
+
+  return days;
+};
 
   const formatDayContent = (content) => {
     // Remove ## symbols and convert to bullet points for headings
