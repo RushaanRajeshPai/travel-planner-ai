@@ -16,16 +16,16 @@ const TravelPlannerAI = () => {
   const [currentImage, setCurrentImage] = useState(0);
 
   useEffect(() => {
-  if (destinationImages.length === 0) return;
+    if (destinationImages.length === 0) return;
 
-  const interval = setInterval(() => {
-    setCurrentImage((prev) =>
-      prev === destinationImages.length - 1 ? 0 : prev + 1
-    );
-  }, 3000);
+    const interval = setInterval(() => {
+      setCurrentImage((prev) =>
+        prev === destinationImages.length - 1 ? 0 : prev + 1
+      );
+    }, 3000);
 
-  return () => clearInterval(interval);
-}, [destinationImages, currentImage]);
+    return () => clearInterval(interval);
+  }, [destinationImages, currentImage]);
 
   const travelTypes = [
     { value: 'relaxation', label: 'Relaxation', icon: Coffee },
@@ -163,12 +163,19 @@ const TravelPlannerAI = () => {
 
           {destinationImages.length > 0 && (
             <div className="mb-8 flex flex-col items-center">
-              <div className="relative w-full max-w-4xl h-100 rounded-xl overflow-hidden shadow-lg">
-                <img
-                  src={destinationImages[currentImage]}
-                  alt={`Destination ${currentImage + 1}`}
-                  className="object-center w-full h-full"
-                />
+              <div className="relative w-full max-w-3xl h-100 rounded-xl overflow-hidden shadow-lg">
+                <div className="relative w-full max-w-3xl h-100 overflow-hidden rounded-xl">
+                  {destinationImages.map((img, index) => (
+                    <img
+                      key={index}
+                      src={img}
+                      alt={`Destination ${index + 1}`}
+                      className={`absolute inset-0 w-full h-100 object-center transition-opacity duration-1000 ease-in-out ${index === currentImage ? 'opacity-100 z-20' : 'opacity-0 z-10'
+                        }`}
+                      style={{ transitionProperty: 'opacity' }}
+                    />
+                  ))}
+                </div>
                 <button
                   onClick={handlePrev}
                   className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/40 text-white rounded-full p-2"
