@@ -13,6 +13,19 @@ const TravelPlannerAI = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
   const [destinationImages, setDestinationImages] = useState([]);
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+  if (destinationImages.length === 0) return;
+
+  const interval = setInterval(() => {
+    setCurrentImage((prev) =>
+      prev === destinationImages.length - 1 ? 0 : prev + 1
+    );
+  }, 3000);
+
+  return () => clearInterval(interval);
+}, [destinationImages, currentImage]);
 
   const travelTypes = [
     { value: 'relaxation', label: 'Relaxation', icon: Coffee },
@@ -30,10 +43,19 @@ const TravelPlannerAI = () => {
     }));
   };
 
+  const handlePrev = () => {
+    setCurrentImage((prev) => (prev === 0 ? destinationImages.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setCurrentImage((prev) => (prev === destinationImages.length - 1 ? 0 : prev + 1));
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     setError('');
     setResult(null);
+    setDestinationImages([]); // Clear previous images
 
     try {
       const response = await fetch('http://localhost:5000/api/travel/generate-itinerary', {
@@ -48,6 +70,7 @@ const TravelPlannerAI = () => {
 
       if (data.success) {
         setResult(data.data);
+        setDestinationImages(data.data.destinationImages || []);
       } else {
         setError(data.message || 'Failed to generate itinerary');
       }
@@ -76,17 +99,17 @@ const TravelPlannerAI = () => {
     const days = [];
     const dayPattern = /Day \d+[^:]*:/g;
     const dayMatches = itinerary.match(dayPattern);
-    
+
     if (!dayMatches) {
       return [{ title: 'Your Itinerary', content: itinerary }];
     }
 
     const splits = itinerary.split(dayPattern);
-    
+
     for (let i = 1; i < splits.length; i++) {
       const dayTitle = dayMatches[i - 1].replace(':', '');
       const dayContent = splits[i].trim();
-      
+
       if (dayContent) {
         days.push({
           title: dayTitle,
@@ -101,13 +124,13 @@ const TravelPlannerAI = () => {
   const formatDayContent = (content) => {
     // Remove ## symbols and convert to bullet points for headings
     let formatted = content.replace(/##\s*/g, '• ');
-    
+
     // Convert **text** to bold
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
+
     // Convert line breaks to HTML breaks
     formatted = formatted.replace(/\n/g, '<br>');
-    
+
     return formatted;
   };
 
@@ -129,7 +152,7 @@ const TravelPlannerAI = () => {
 
   if (result) {
     const dayItineraries = parseDayItinerary(result.itinerary);
-    
+
     return (
       <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
         <div className="max-w-6xl mx-auto">
@@ -137,6 +160,39 @@ const TravelPlannerAI = () => {
             <h1 className="text-4xl font-bold text-white mb-2">Your Perfect Itinerary</h1>
             <p className="text-cyan-300">For {result.destination} • {result.numberOfDays} Days • {result.numberOfPeople} People</p>
           </div>
+
+          {destinationImages.length > 0 && (
+            <div className="mb-8 flex flex-col items-center">
+              <div className="relative w-full max-w-4xl h-100 rounded-xl overflow-hidden shadow-lg">
+                <img
+                  src={destinationImages[currentImage]}
+                  alt={`Destination ${currentImage + 1}`}
+                  className="object-center w-full h-full"
+                />
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/40 text-white rounded-full p-2"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/40 text-white rounded-full p-2"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="flex gap-2 mt-2">
+                {destinationImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`w-3 h-3 rounded-full ${idx === currentImage ? 'bg-cyan-400' : 'bg-gray-400'}`}
+                    onClick={() => setCurrentImage(idx)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="space-y-6">
             {dayItineraries.map((day, index) => (

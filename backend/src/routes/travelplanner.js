@@ -3,8 +3,27 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const axios = require('axios');
 const router = express.Router();
 
-// Initialize Google Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+const UNSPLASH_ACCESS_KEY = process.env.UNSPLASH_ACCESS_KEY;
+
+async function fetchUnsplashImages(destination, count = 5) {
+  try {
+    const response = await axios.get('https://api.unsplash.com/search/photos', {
+      params: {
+        query: destination,
+        per_page: count,
+        orientation: 'landscape'
+      },
+      headers: {
+        Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`
+      }
+    });
+    return response.data.results.map(photo => photo.urls.regular);
+  } catch (error) {
+    console.error('Unsplash fetch error:', error.message);
+    return [];
+  }
+}
 
 // Agent 1: Input Processing Agent
 class InputProcessingAgent {
@@ -458,11 +477,7 @@ class TravelPlannerOrchestrator {
         processedInputs.numberOfPeople, processedInputs.travelType, processedInputs.budget
       );
 
-      // Agent 5: Estimate budget
-      // const budget = await this.agent5.estimateBudget(
-      //   itinerary, processedInputs.destination, processedInputs.numberOfDays,
-      //   processedInputs.numberOfPeople, processedInputs.travelType
-      // );
+      const destinationImages = await fetchUnsplashImages(processedInputs.destination);
 
       return {
         success: true,
@@ -471,7 +486,8 @@ class TravelPlannerOrchestrator {
           destination: processedInputs.destination,
           numberOfDays: processedInputs.numberOfDays,
           numberOfPeople: processedInputs.numberOfPeople,
-          travelType: processedInputs.travelType
+          travelType: processedInputs.travelType,
+          destinationImages
         }
       };
     } catch (error) {
