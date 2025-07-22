@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign, ChevronLeft, ChevronRight, Utensils, ChevronDown } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
+import RevealOnScroll from './RevealOnScroll';
 
 const TravelPlannerAI = () => {
   const [formData, setFormData] = useState({
@@ -223,20 +224,22 @@ const TravelPlannerAI = () => {
 
           <div className="space-y-6">
             {dayItineraries.map((day, index) => (
-              <div key={index} className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30">
-                <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-                  <Calendar className="w-6 h-6 text-cyan-400" />
-                  {day.title}
-                </h2>
-                <div className="prose prose-invert max-w-none">
-                  <div
-                    className="whitespace-pre-wrap text-gray-200 leading-relaxed text-lg"
-                    dangerouslySetInnerHTML={{
-                      __html: removeBudgetBreakdown(formatDayContent(day.content))
-                    }}
-                  />
+              <RevealOnScroll key={index} delay={index * 0.1}>
+                <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 mt-6">
+                  <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                    <Calendar className="w-6 h-6 text-cyan-400" />
+                    {day.title}
+                  </h2>
+                  <div className="prose prose-invert max-w-none">
+                    <div
+                      className="whitespace-pre-wrap text-gray-200 leading-relaxed text-lg"
+                      dangerouslySetInnerHTML={{
+                        __html: removeBudgetBreakdown(formatDayContent(day.content))
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              </RevealOnScroll>
             ))}
           </div>
 
