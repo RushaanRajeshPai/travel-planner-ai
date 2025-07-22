@@ -10,8 +10,8 @@ const FloatingBlob = () => {
 
   useEffect(() => {
     const move = (e) => {
-      mouseX.set(e.clientX - 100); // shift so center of blob aligns
-      mouseY.set(e.clientY - 100);
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
     };
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
@@ -26,7 +26,7 @@ const FloatingBlob = () => {
       }}
     >
       <div className="w-[200px] h-[200px] 
-  bg-gradient-to-br from-purple-500 via-blue-400 to-cyan-400 
+  bg-gradient-to-br from-purple-500 via-blue-400 to-cyan-300 
   blur-2xl opacity-60 rounded-full mix-blend-soft-light" />
     </motion.div>
   );

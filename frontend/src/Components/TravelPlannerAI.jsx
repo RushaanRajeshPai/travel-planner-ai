@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign, ChevronLeft, ChevronRight, Utensils, ChevronDown } from 'lucide-react';
+import FloatingBlob from './FloatingBlob';
 
 const TravelPlannerAI = () => {
   const [formData, setFormData] = useState({
@@ -178,6 +179,7 @@ const TravelPlannerAI = () => {
 
     return (
       <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
+        <FloatingBlob />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-white mb-2">Your Perfect Itinerary</h1>
@@ -268,6 +270,7 @@ const TravelPlannerAI = () => {
 
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
+      <FloatingBlob />
       <div className="max-w-4xl mx-auto mt-10 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20"> 
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-cyan-300 mb-2">Generate Itinerary with Smart AI</h1>

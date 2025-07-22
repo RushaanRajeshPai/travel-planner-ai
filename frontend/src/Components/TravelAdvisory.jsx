@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDown, ExternalLink, AlertTriangle } from 'lucide-react';
+import FloatingBlob from './FloatingBlob';
 
 const TravelAdvisory = () => {
   const [userNationality, setUserNationality] = useState('');
@@ -100,6 +101,7 @@ const TravelAdvisory = () => {
 
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 flex items-center justify-center p-4">
+      <FloatingBlob />
       <div className="w-full max-w-2xl">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
           {/* Header */}
