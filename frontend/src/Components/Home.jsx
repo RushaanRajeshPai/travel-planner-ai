@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, MapPin, Sparkles, Eye, Route, AlertTriangle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Sparkles, Eye, AlertTriangle } from 'lucide-react';
 import maldives from '../assets/maldives.jpg';
 import swiss from '../assets/swiss.jpg';
+import itinerary from '../assets/itinerary.png'
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -46,7 +47,7 @@ const Home = () => {
     description: "Create personalized travel plans powered by artificial intelligence",
     icon: <Sparkles className="w-8 h-8" />,
     route: "/travel-ai",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+    image: itinerary,
     gradient: ""
   },
   {
@@ -54,7 +55,7 @@ const Home = () => {
     description: "Discover trending destinations and must-visit attractions",
     icon: <MapPin className="w-8 h-8" />,
     route: "/popular",
-    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+    image: itinerary,
     gradient: ""
   },
   {
@@ -62,7 +63,7 @@ const Home = () => {
     description: "Find unique experiences and offbeat locations",
     icon: <Eye className="w-8 h-8" />,
     route: "/niche",
-    image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80",
+    image: itinerary,
     gradient: ""
   },
   {
@@ -70,7 +71,7 @@ const Home = () => {
     description: "Stay informed with official advisories and country updates",
     icon: <AlertTriangle className="w-8 h-8" />,
     route: "/advisory",
-    image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=400&q=80",
+    image: itinerary,
     gradient: ""
   }
 ];
@@ -243,7 +244,8 @@ const Home = () => {
                         <img
                           src={feature.image}
                           alt={feature.title}
-                          className="rounded-xl w-full h-40 object-cover shadow-lg"
+                          className="rounded-xl w-full h-86 object-cover shadow-lg bg-white/10"
+                          style={{ maxHeight: '500px', margin: '0 auto' }}
                         />
                       </div>
                     </div>

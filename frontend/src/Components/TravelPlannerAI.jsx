@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap, Coffee, Loader2, DollarSign, ChevronLeft, ChevronRight, Utensils, ChevronDown } from 'lucide-react';
 
 const TravelPlannerAI = () => {
   const [formData, setFormData] = useState({
@@ -302,20 +302,23 @@ const TravelPlannerAI = () => {
                   <Compass className="w-5 h-5 text-cyan-400" />
                   Travel Type
                 </label>
-                <select
-                  name="travelType"
-                  value={formData.travelType}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
-                  required
-                >
-                  <option value="">Select travel type</option>
-                  {travelTypes.map(type => (
-                    <option key={type.value} value={type.value} className="bg-blue-900 text-white">
-                      {type.label}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    name="travelType"
+                    value={formData.travelType}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 pr-12 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none"
+                    required
+                  >
+                    <option value="">Select travel type</option>
+                    {travelTypes.map(type => (
+                      <option key={type.value} value={type.value} className="bg-blue-900 text-white">
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-5 h-5 text-cyan-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                </div>
               </div>
 
               <div>
@@ -373,21 +376,24 @@ const TravelPlannerAI = () => {
 
               <div>
                 <label className="text-white font-semibold mb-2 flex items-center gap-2">
-                  <span role="img" aria-label="food">🍽️</span>
+                  <Utensils className="w-5 h-5 text-cyan-400" />
                   Food Preference
                 </label>
-                <select
-                  name="foodPreference"
-                  value={formData.foodPreference}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
-                  required
-                >
-                  <option value="">Select food preference</option>
-                  <option value="vegetarian">Vegetarian</option>
-                  <option value="non-vegetarian">Non-vegetarian</option>
-                  <option value="mixed">Mixed</option>
-                </select>
+                <div className="relative">
+                  <select
+                    name="foodPreference"
+                    value={formData.foodPreference}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-3 pr-12 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none"
+                    required
+                  >
+                    <option value="" className="text-black bg-white">Select food preference</option>
+                    <option value="vegetarian" className="text-black bg-white">Vegetarian</option>
+                    <option value="non-vegetarian" className="text-black bg-white">Non-vegetarian</option>
+                    <option value="mixed" className="text-black bg-white">Mixed</option>
+                  </select>
+                  <ChevronDown className="w-5 h-5 text-cyan-400 absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                </div>
               </div>
             </div>
 
