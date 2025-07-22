@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ArrowRight, Sparkles, MapPin, Calendar, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import FloatingBlob from "./FloatingBlob";
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,7 +21,7 @@ const Hero = () => {
 
   return (
     <div className="w-screen min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-teal-800 overflow-hidden flex flex-col justify-between relative">
-
+      <FloatingBlob />
       {/* Background gradients */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-teal-400/20 rounded-full blur-xl animate-pulse"></div>
@@ -71,16 +72,6 @@ const Hero = () => {
             </button>
             <p className="text-blue-100/70 text-sm mt-4">✨ No credit card required • Create your first itinerary in minutes</p>
           </div>
-        </div>
-      </div>
-
-      {/* Bottom Section */}
-      <div className="relative z-10 py-12">
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 max-w-2xl mx-auto border border-white/20 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Why Settle for Generic Travel Plans?</h2>
-          <p className="text-blue-100/90 text-lg leading-relaxed">
-            Every traveler is unique. Your interests, budget, time, and dreams deserve a plan that's as individual as you are. Experience the difference when technology meets personalization.
-          </p>
         </div>
       </div>
 
