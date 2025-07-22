@@ -268,16 +268,15 @@ const TravelPlannerAI = () => {
 
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto mt-10 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20"> 
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-cyan-300 mt-20 mb-2">Generate Itinerary with Smart AI</h1>
+          <h1 className="text-5xl font-bold text-cyan-300 mb-2">Generate Itinerary with Smart AI</h1>
           {/* <p className="text-xl text-cyan-300 mb-2"></p> */}
           <p className="text-gray-300">
           Discover personalized day-by-day plans crafted for your dream destination.
           </p>
         </div>
-
-        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-8 border border-cyan-500/30 shadow-2xl">
+        <div className="bg-black/20 rounded-2xl p-8 border border-cyan-500/30 shadow-2xl">
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
