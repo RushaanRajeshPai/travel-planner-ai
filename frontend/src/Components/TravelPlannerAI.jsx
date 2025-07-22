@@ -270,11 +270,10 @@ const TravelPlannerAI = () => {
     <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4">EzyVoyage AI</h1>
-          <p className="text-xl text-cyan-300 mb-2">Plan your trip with Smart AI</p>
+          <h1 className="text-5xl font-bold text-cyan-300 mt-20 mb-2">Generate Itinerary with Smart AI</h1>
+          {/* <p className="text-xl text-cyan-300 mb-2"></p> */}
           <p className="text-gray-300">
-            Imagine having a travel expert who knows your preferences, understands your dreams,
-            and crafts the perfect journey just for you.
+          Discover personalized day-by-day plans crafted for your dream destination.
           </p>
         </div>
 

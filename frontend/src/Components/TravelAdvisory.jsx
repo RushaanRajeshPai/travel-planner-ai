@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Globe, ExternalLink, AlertTriangle } from 'lucide-react';
+import { ChevronDown, ExternalLink, AlertTriangle } from 'lucide-react';
 
 const TravelAdvisory = () => {
   const [userNationality, setUserNationality] = useState('');
@@ -9,6 +9,9 @@ const TravelAdvisory = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [userNationalityCountry, setUserNationalityCountry] = useState(null);
+
+  
 
   // Fetch user nationality and countries on component mount
   useEffect(() => {
@@ -33,6 +36,7 @@ const TravelAdvisory = () => {
 
       if (data.success) {
         setUserNationality(data.data.userNationality);
+        setUserNationalityCountry(data.data.userNationalityCountry);
         setCountries(data.data.countries);
       } else {
         setError(data.message || 'Failed to fetch user data');
@@ -87,6 +91,8 @@ const TravelAdvisory = () => {
     }
   };
 
+  
+
   // Filter countries based on search term
   const filteredCountries = countries.filter(country =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -99,8 +105,8 @@ const TravelAdvisory = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center mb-4">
-              <Globe className="text-white w-12 h-12 mr-3" />
-              <h1 className="text-4xl font-bold text-white">Travel Advisory</h1>
+              <AlertTriangle className="text-cyan-300 w-12 h-12 mr-3" />
+              <h1 className="text-4xl text-cyan-300 font-bold">Travel Advisory</h1>
             </div>
             <p className="text-blue-100 text-lg">
               Check official travel advisories for your destination
@@ -122,9 +128,12 @@ const TravelAdvisory = () => {
             </label>
             <div className="bg-white/10 border border-white/20 rounded-lg p-4">
               <div className="flex items-center">
+                {userNationalityCountry && (
+                  <span className="text-2xl mr-3">{userNationalityCountry.flag}</span>
+                )}
                 <span className="text-white font-medium">
-                  {userNationality || 'Loading...'}
-                </span>
+  {userNationalityCountry ? userNationalityCountry.name : (userNationality || 'Loading...')}
+</span>
               </div>
             </div>
           </div>
@@ -170,7 +179,7 @@ const TravelAdvisory = () => {
                   <div className="max-h-60 overflow-y-auto bg-white">
                     {filteredCountries.map((country) => (
                       <div
-                        key={country.code}
+                        key={country.flag}
                         onClick={() => handleCountrySelect(country)}
                         className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors duration-150 flex items-center text-gray-900 border-b border-gray-100 last:border-b-0 bg-white cursor-pointer"
                         style={{ backgroundColor: 'white', color: 'black' }}

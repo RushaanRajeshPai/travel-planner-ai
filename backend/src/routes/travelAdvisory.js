@@ -45,10 +45,15 @@ router.get('/user-nationality', authenticateToken, async (req, res) => {
       });
     }
 
+    const userNationalityCountry = countries.find(country => 
+      country.name.toLowerCase() === user.nationality.toLowerCase()
+    );
+    
     res.json({
       success: true,
       data: {
         userNationality: user.nationality,
+        userNationalityCountry: userNationalityCountry,
         countries: countries
       }
     });
@@ -59,6 +64,13 @@ router.get('/user-nationality', authenticateToken, async (req, res) => {
       message: 'Server error'
     });
   }
+});
+
+router.get('/all-countries', (req, res) => {
+  res.json({
+    success: true,
+    countries: countries
+  });
 });
 
 // Route to get travel advisory URL
