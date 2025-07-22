@@ -44,7 +44,7 @@ const Home = () => {
   const features = [
   {
     title: "Plan Your Trip with Smart AI",
-    description: "Create personalized travel plans powered by artificial intelligence",
+    description: "Create personalized travel plans powered by AI",
     icon: <Sparkles className="w-8 h-8" />,
     route: "/travel-ai",
     image: itinerary,
@@ -68,7 +68,7 @@ const Home = () => {
   },
   {
     title: "Check Travel Advisories Worldwide",
-    description: "Stay informed with official advisories and country updates",
+    description: "Stay informed with official advisories",
     icon: <AlertTriangle className="w-8 h-8" />,
     route: "/advisory",
     image: itinerary,

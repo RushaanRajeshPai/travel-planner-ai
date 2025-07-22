@@ -137,7 +137,7 @@ const TravelAdvisory = () => {
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full bg-white/10 border border-white/20 rounded-lg p-4 text-left text-white hover:bg-white/20 transition-colors duration-200 flex items-center justify-between"
+                className="w-full bg-white border border-white/20 rounded-lg p-4 text-left text-white hover:bg-white/20 transition-colors duration-200 flex items-center justify-between"
               >
                 <span className="flex items-center">
                   {selectedCountry ? (
@@ -154,29 +154,30 @@ const TravelAdvisory = () => {
 
               {/* Dropdown */}
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-sm border border-white/20 rounded-lg shadow-xl z-50 max-h-80 overflow-hidden">
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-white/20 rounded-lg shadow-xl z-50 max-h-80 overflow-hidden">
                   {/* Search Input */}
-                  <div className="p-3 border-b border-gray-200">
+                  <div className="p-3 border-b border-gray-200 bg-gray-50">
                     <input
                       type="text"
                       placeholder="Search countries..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
                     />
                   </div>
 
                   {/* Countries List */}
-                  <div className="max-h-60 overflow-y-auto">
+                  <div className="max-h-60 overflow-y-auto bg-white">
                     {filteredCountries.map((country) => (
-                      <button
+                      <div
                         key={country.code}
                         onClick={() => handleCountrySelect(country)}
-                        className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors duration-150 flex items-center text-gray-800 border-b border-gray-100 last:border-b-0"
+                        className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors duration-150 flex items-center text-gray-900 border-b border-gray-100 last:border-b-0 bg-white cursor-pointer"
+                        style={{ backgroundColor: 'white', color: 'black' }}
                       >
                         <span className="text-2xl mr-3">{country.flag}</span>
                         <span className="font-medium">{country.name}</span>
-                      </button>
+                      </div>
                     ))}
                   </div>
                 </div>
