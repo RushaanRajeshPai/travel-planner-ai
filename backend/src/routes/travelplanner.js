@@ -442,66 +442,6 @@ ${disclaimer}
   }
 }
 
-// Agent 5: Budget Estimation Agent
-// class BudgetEstimationAgent {
-//   constructor() {
-//     this.name = 'BudgetEstimationAgent';
-//     this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
-//   }
-
-//   async estimateBudget(itinerary, destination, numberOfDays, numberOfPeople, travelType) {
-//     try {
-//       console.log(`Agent 5: Estimating budget for ${destination}`);
-      
-//       const prompt = this.createBudgetPrompt(itinerary, destination, numberOfDays, numberOfPeople, travelType);
-      
-//       const result = await this.model.generateContent(prompt);
-//       const response = await result.response;
-//       const budget = response.text();
-
-//       console.log('Agent 5: Budget estimation completed');
-//       return budget;
-//     } catch (error) {
-//       console.error('Agent 5 Error:', error.message);
-//       throw error;
-//     }
-//   }
-
-//   createBudgetPrompt(itinerary, destination, numberOfDays, numberOfPeople, travelType) {
-//     return `
-// Based on the following itinerary for ${destination}, calculate a realistic per-person budget estimate:
-
-// ${itinerary}
-
-// Parameters:
-// - Destination: ${destination}
-// - Duration: ${numberOfDays} days
-// - Number of people: ${numberOfPeople}
-// - Travel type: ${travelType}
-
-// Please provide a detailed budget breakdown with:
-// 1. Accommodation costs (per person per night)
-// 2. Food and dining costs (per person per day)
-// 3. Activities and attractions (per person)
-// 4. Local transportation (per person)
-// 5. Miscellaneous expenses (per person)
-
-// Format the response as:
-// **Per Person Budget Estimate for ${numberOfDays} Days:**
-
-// **Accommodation:** $XXX - $XXX per night
-// **Food & Dining:** $XXX - $XXX per day
-// **Activities & Attractions:** $XXX - $XXX total
-// **Local Transportation:** $XXX - $XXX total
-// **Miscellaneous:** $XXX - $XXX total
-
-// **Total Per Person: $XXX - $XXX**
-
-// Provide ranges (budget to luxury) and consider local pricing for ${destination}.
-// `;
-//   }
-// }
-
 // Main orchestrator
 class TravelPlannerOrchestrator {
   constructor() {

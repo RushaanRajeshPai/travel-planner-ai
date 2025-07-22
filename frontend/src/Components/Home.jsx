@@ -107,7 +107,7 @@ const Home = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-4 00 items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 items-center justify-center p-4 relative overflow-hidden">
       <FloatingBlob />
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-teal-400/20 rounded-full blur-xl animate-pulse"></div>

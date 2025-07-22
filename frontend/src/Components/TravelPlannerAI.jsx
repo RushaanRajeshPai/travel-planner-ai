@@ -99,41 +99,36 @@ const TravelPlannerAI = () => {
   );
 
   const parseDayItinerary = (itinerary) => {
-  const days = [];
-  const dayPattern = /Day \d+[^:]*:/g;
-  const dayMatches = itinerary.match(dayPattern);
+    const days = [];
+    const dayPattern = /Day \d+[^:]*:/g;
+    const dayMatches = itinerary.match(dayPattern);
 
-  if (!dayMatches) {
-    return [{ title: 'Your Itinerary', content: itinerary }];
-  }
-
-  const splits = itinerary.split(dayPattern);
-
-  for (let i = 1; i < splits.length; i++) {
-    // Extract the day title (e.g., "Day 1 (Arrival & Beau Vallon Beach Bliss)")
-    let dayTitle = dayMatches[i - 1].replace(':', '').trim();
-
-    // Get the content for the day
-    let dayContent = splits[i].trim();
-
-    // If the first line of content starts with "Morning", "Afternoon", etc., move it to content
-    const firstLineBreak = dayContent.indexOf('\n');
-    if (firstLineBreak !== -1) {
-      const firstLine = dayContent.slice(0, firstLineBreak);
-      if (/^(Morning|Afternoon|Evening|Night)/i.test(firstLine.trim())) {
-        // Only use dayTitle as the header, everything else as content
-        dayContent = dayContent;
-      }
+    if (!dayMatches) {
+      let content = itinerary.replace(/^\s*\*\s?/gm, '');
+      content = content.replace(/(Night|Evening|Afternoon|Morning)([^\n]*)\n/g, '$1$2\n\n');
+      return [{ title: 'Your Itinerary', content }];
     }
 
-    days.push({
-      title: dayTitle,
-      content: dayContent
-    });
-  }
+    const splits = itinerary.split(dayPattern);
 
-  return days;
-};
+    for (let i = 1; i < splits.length; i++) {
+      let dayTitle = dayMatches[i - 1].replace(':', '').trim();
+
+      let dayContent = splits[i]
+        .trim()
+        .replace(/\*\*/g, '')                 // remove all double asterisks
+        .replace(/^\s*\*\s?/gm, '')           // remove leading bullets
+        .replace(/(Afternoon|Evening|Night)([^\n]*)/g, '\n\n$1$2');
+
+
+      days.push({
+        title: dayTitle,
+        content: dayContent
+      });
+    }
+
+    return days;
+  };
 
   const formatDayContent = (content) => {
     // Remove ## symbols and convert to bullet points for headings
@@ -178,7 +173,7 @@ const TravelPlannerAI = () => {
     const dayItineraries = parseDayItinerary(result.itinerary);
 
     return (
-      <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
+      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 overflow-hidden p-8">
         <FloatingBlob />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
@@ -271,12 +266,12 @@ const TravelPlannerAI = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
       <FloatingBlob />
-      <div className="max-w-4xl mx-auto mt-10 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20"> 
+      <div className="max-w-4xl mx-auto mt-10 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-cyan-300 mb-2">Generate Itinerary with Smart AI</h1>
           {/* <p className="text-xl text-cyan-300 mb-2"></p> */}
           <p className="text-gray-300">
-          Discover personalized day-by-day plans crafted for your dream destination.
+            Discover personalized day-by-day plans crafted for your dream destination.
           </p>
         </div>
         <div className="bg-black/20 rounded-2xl p-8 border border-cyan-500/30 shadow-2xl">
