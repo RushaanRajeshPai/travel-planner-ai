@@ -7,7 +7,8 @@ const TravelPlannerAI = () => {
     travelType: '',
     numberOfPeople: '',
     numberOfDays: '',
-    budget: ''
+    budget: '',
+    foodPreference: ''
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -32,7 +33,8 @@ const TravelPlannerAI = () => {
     { value: 'exploring cultural heritage', label: 'Cultural Heritage', icon: Compass },
     { value: 'trekking', label: 'Trekking', icon: Mountain },
     { value: 'educational', label: 'Educational', icon: GraduationCap },
-    { value: 'honeymoon', label: 'Honeymoon', icon: Heart }
+    { value: 'honeymoon', label: 'Honeymoon', icon: Heart },
+    { value: 'entertainment', label: 'Entertainment', icon: Heart }
   ];
 
   const handleInputChange = (e) => {
@@ -145,6 +147,16 @@ const TravelPlannerAI = () => {
     return formatted;
   };
 
+  const removeBudgetBreakdown = (htmlContent) => {
+    // Remove lines that look like budget breakdowns (e.g., "$10 (Lunch) + $15 (Dinner) = $25")
+    return htmlContent
+      .split('<br>')
+      .filter(line =>
+        !/(\$\d+(\.\d+)?\s*\([^)]+\)\s*(\+|\=)\s*)|Grand Total|Drinks\/Minimal Club Costs|Assuming/.test(line.trim())
+      )
+      .join('<br>');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
@@ -223,7 +235,7 @@ const TravelPlannerAI = () => {
                   <div
                     className="whitespace-pre-wrap text-gray-200 leading-relaxed text-lg"
                     dangerouslySetInnerHTML={{
-                      __html: formatDayContent(day.content)
+                      __html: removeBudgetBreakdown(formatDayContent(day.content))
                     }}
                   />
                 </div>
@@ -240,7 +252,8 @@ const TravelPlannerAI = () => {
                   travelType: '',
                   numberOfPeople: '',
                   numberOfDays: '',
-                  budget: ''
+                  budget: '',
+                  foodPreference: ''
                 });
               }}
               className="bg-cyan-500 hover:bg-cyan-600 text-white px-8 py-3 rounded-full font-semibold transition-all transform hover:scale-105 shadow-lg"
@@ -258,7 +271,7 @@ const TravelPlannerAI = () => {
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-white mb-4">EzyVoyage AI</h1>
-          <p className="text-xl text-cyan-300 mb-2">Your Next Adventure Starts Here</p>
+          <p className="text-xl text-cyan-300 mb-2">Plan your trip with Smart AI</p>
           <p className="text-gray-300">
             Imagine having a travel expert who knows your preferences, understands your dreams,
             and crafts the perfect journey just for you.
@@ -356,6 +369,25 @@ const TravelPlannerAI = () => {
                   className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
                   required
                 />
+              </div>
+
+              <div>
+                <label className="text-white font-semibold mb-2 flex items-center gap-2">
+                  <span role="img" aria-label="food">🍽️</span>
+                  Food Preference
+                </label>
+                <select
+                  name="foodPreference"
+                  value={formData.foodPreference}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  required
+                >
+                  <option value="">Select food preference</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="non-vegetarian">Non-vegetarian</option>
+                  <option value="mixed">Mixed</option>
+                </select>
               </div>
             </div>
 

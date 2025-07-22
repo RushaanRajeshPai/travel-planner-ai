@@ -31,12 +31,12 @@ class InputProcessingAgent {
     this.name = 'InputProcessingAgent';
   }
 
-  async processInputs(destination, travelType, numberOfPeople, numberOfDays, budget) {
+  async processInputs(destination, travelType, numberOfPeople, numberOfDays, budget, foodPreference) {
     try {
       console.log(`Agent 1: Processing inputs - Destination: ${destination}, Travel Type: ${travelType}, People: ${numberOfPeople}, Days: ${numberOfDays}`);
       
       // Validate inputs
-      if (!destination || !travelType || !numberOfPeople || !numberOfDays) {
+      if (!destination || !travelType || !numberOfPeople || !numberOfDays || !foodPreference) {
         throw new Error('All inputs are required');
       }
 
@@ -46,6 +46,7 @@ class InputProcessingAgent {
         numberOfPeople: parseInt(numberOfPeople),
         numberOfDays: parseInt(numberOfDays),
         budget: parseFloat(budget),
+        foodPreference: foodPreference.toLowerCase(),
         timestamp: new Date().toISOString()
       };
 
@@ -65,7 +66,7 @@ class DataExtractionAgent {
     this.foursquareApiKey = process.env.FOURSQUARE_API_KEY;
   }
 
-  async extractDestinationData(destination, travelType) {
+  async extractDestinationData(destination, travelType, foodPreference) {
     try {
       console.log(`Agent 2: Extracting data for ${destination} with travel type: ${travelType}`);
       
@@ -73,18 +74,19 @@ class DataExtractionAgent {
       const coordinates = await this.getCoordinates(destination);
       
       // Extract different types of data
-      const [touristSpots, restaurants, hotels, resorts, villas] = await Promise.all([
+      const [touristSpots, restaurants, hotels, resorts, villas, entertainmentSpots] = await Promise.all([
         this.getTouristSpots(coordinates, travelType),
-        this.getRestaurants(coordinates),
+        this.getRestaurants(coordinates, foodPreference),
         this.getHotels(coordinates),
         this.getResorts(coordinates),
-        this.getVillas(coordinates)
+        this.getVillas(coordinates),
+        travelType === 'entertainment' ? this.getEntertainmentSpots(coordinates) : []
       ]);
 
       const extractedData = {
         destination,
         coordinates,
-        touristSpots,
+        touristSpots: travelType === 'entertainment' ? entertainmentSpots : touristSpots,
         restaurants,
         housing: {
           hotels,
@@ -162,19 +164,27 @@ class DataExtractionAgent {
     }
   }
 
-  async getRestaurants(coordinates) {
+  async getRestaurants(coordinates, foodPreference) {
     try {
+      let query = '';
+      if (foodPreference === 'vegetarian') query = 'vegetarian';
+      else if (foodPreference === 'non-vegetarian') query = 'non-vegetarian';
+      // If mixed, no query filter
+
+      const params = {
+        ll: `${coordinates.lat},${coordinates.lng}`,
+        categories: '13000',
+        limit: 15,
+        radius: 5000
+      };
+      if (query) params.query = query;
+
       const response = await axios.get('https://api.foursquare.com/v3/places/search', {
         headers: {
           'Authorization': this.foursquareApiKey,
           'Accept': 'application/json'
         },
-        params: {
-          ll: `${coordinates.lat},${coordinates.lng}`,
-          categories: '13000',
-          limit: 15,
-          radius: 5000
-        }
+        params
       });
 
       return response.data.results || [];
@@ -249,6 +259,27 @@ class DataExtractionAgent {
       return [];
     }
   }
+
+  async getEntertainmentSpots(coordinates) {
+    try {
+      // Foursquare categories: Nightlife Spot (10032), Bar (13003), Music Venue (10021), Sports Bar (13029), Club (10033)
+      const response = await axios.get('https://api.foursquare.com/v3/places/search', {
+        headers: {
+          'Authorization': this.foursquareApiKey,
+          'Accept': 'application/json'
+        },
+        params: {
+          ll: `${coordinates.lat},${coordinates.lng}`,
+          categories: '10032,13003,10021,13029,10033',
+          limit: 20,
+          radius: 10000
+        }
+      });
+      return response.data.results || [];
+    } catch (error) {
+      return [];
+    }
+  }
 }
 
 // Agent 3: Data Filtering Agent
@@ -314,11 +345,11 @@ class ItineraryGenerationAgent {
     this.model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
   }
 
-  async generateItinerary(filteredData, numberOfDays, numberOfPeople, travelType, budget) {
+  async generateItinerary(filteredData, numberOfDays, numberOfPeople, travelType, budget, foodPreference) {
     try {
       console.log(`Agent 4: Generating itinerary for ${numberOfDays} days with budget $${budget}`);
       
-      const prompt = this.createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType, budget);
+      const prompt = this.createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType, budget, foodPreference);
       
       const result = await this.model.generateContent(prompt);
       const response = await result.response;
@@ -332,7 +363,7 @@ class ItineraryGenerationAgent {
     }
   }
 
-  createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType, budget) {
+  createItineraryPrompt(filteredData, numberOfDays, numberOfPeople, travelType, budget, foodPreference) {
     const housingOptions = [];
     
     if (filteredData.housing.hotels.length > 0) {
@@ -348,10 +379,33 @@ class ItineraryGenerationAgent {
     const attractions = filteredData.touristSpots.map(spot => spot.name).join(', ');
     const restaurants = filteredData.restaurants.map(rest => rest.name).join(', ');
 
+    let entertainmentInstructions = '';
+    let disclaimer = '';
+    if (travelType === 'entertainment') {
+      entertainmentInstructions = `
+Focus on nightlife, clubbing (keep clubbing activities till 2am), alcohol bars, concerts, and sports events. 
+Include at least one clubbing/nightlife activity per night, and mention the timing goes on till 2am.
+`;
+      disclaimer = `
+---
+**Disclaimer:** Drink at your own responsibility. Do not drink and drive. No underage drinking is allowed.
+`;
+    }
+
+    let foodInstructions = '';
+    if (foodPreference === 'vegetarian') {
+      foodInstructions = 'Only suggest vegetarian restaurants and meal spots.';
+    } else if (foodPreference === 'non-vegetarian') {
+      foodInstructions = 'Only suggest non-vegetarian restaurants and meal spots.';
+    } else {
+      foodInstructions = 'You can suggest any type of restaurants and meal spots.';
+    }
+
     return `
 Create a detailed ${numberOfDays}-day travel itinerary for ${numberOfPeople} people visiting ${filteredData.destination} with a total budget of $${budget}.
 
 Travel Type: ${travelType}
+Food Preference: ${foodPreference}
 Budget Constraint: $${budget} total for ${numberOfPeople} people
 
 Available Accommodations:
@@ -363,6 +417,9 @@ ${attractions}
 Dining Options:
 ${restaurants}
 
+${entertainmentInstructions}
+${foodInstructions}
+
 Please create a day-by-day itinerary with the following format:
 - Day X (Date)
   - Morning (9:00 AM - 12:00 PM): Activity with specific location
@@ -373,13 +430,14 @@ Please create a day-by-day itinerary with the following format:
 Include:
 1. Specific time slots for each activity
 2. Recommended accommodation from the provided list
-3. Meal suggestions with restaurant names
+3. Meal suggestions with restaurant names (respect food preference)
 4. Rest periods
 5. Travel time between locations
 6. Activities that match the travel type: ${travelType}
 
 Make it engaging and practical for ${numberOfPeople} people.
 Make sure all recommendations fit within the $${budget} budget constraint.
+${disclaimer}
 `;
   }
 }
@@ -454,16 +512,16 @@ class TravelPlannerOrchestrator {
     // this.agent5 = new BudgetEstimationAgent();
   }
 
-  async orchestrate(destination, travelType, numberOfPeople, numberOfDays, budget) {
+  async orchestrate(destination, travelType, numberOfPeople, numberOfDays, budget, foodPreference) {
     try {
       // Agent 1: Process inputs
       const processedInputs = await this.agent1.processInputs(
-        destination, travelType, numberOfPeople, numberOfDays, budget
+        destination, travelType, numberOfPeople, numberOfDays, budget, foodPreference
       );
 
       // Agent 2: Extract data
       const extractedData = await this.agent2.extractDestinationData(
-        processedInputs.destination, processedInputs.travelType
+        processedInputs.destination, processedInputs.travelType, processedInputs.foodPreference
       );
 
       // Agent 3: Filter data
@@ -474,7 +532,7 @@ class TravelPlannerOrchestrator {
       // Agent 4: Generate itinerary
       const itinerary = await this.agent4.generateItinerary(
         filteredData, processedInputs.numberOfDays, 
-        processedInputs.numberOfPeople, processedInputs.travelType, processedInputs.budget
+        processedInputs.numberOfPeople, processedInputs.travelType, processedInputs.budget, processedInputs.foodPreference
       );
 
       const destinationImages = await fetchUnsplashImages(processedInputs.destination);
@@ -500,19 +558,19 @@ class TravelPlannerOrchestrator {
 // Route handler
 router.post('/generate-itinerary', async (req, res) => {
   try {
-    const { destination, travelType, numberOfPeople, numberOfDays, budget } = req.body;
+    const { destination, travelType, numberOfPeople, numberOfDays, budget, foodPreference } = req.body;
 
     // Validate required fields
-    if (!destination || !travelType || !numberOfPeople || !numberOfDays || !budget) {
+    if (!destination || !travelType || !numberOfPeople || !numberOfDays || !budget || !foodPreference) {
       return res.status(400).json({
         success: false,
-        message: 'All fields are required: destination, travelType, numberOfPeople, numberOfDays, budget'
+        message: 'All fields are required: destination, travelType, numberOfPeople, numberOfDays, budget, foodPreference'
       });
     }
 
     const orchestrator = new TravelPlannerOrchestrator();
     const result = await orchestrator.orchestrate(
-      destination, travelType, numberOfPeople, numberOfDays, budget
+      destination, travelType, numberOfPeople, numberOfDays, budget, foodPreference
     );
     res.json(result);
   } catch (error) {
