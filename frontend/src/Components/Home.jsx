@@ -46,35 +46,32 @@ const Home = () => {
     description: "Create personalized travel plans powered by artificial intelligence",
     icon: <Sparkles className="w-8 h-8" />,
     route: "/travel-ai",
-    gradient: "from-purple-500 to-pink-500"
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+    gradient: ""
   },
   {
     title: "Explore Popular Hotspots",
     description: "Discover trending destinations and must-visit attractions",
     icon: <MapPin className="w-8 h-8" />,
     route: "/popular",
-    gradient: "from-blue-500 to-teal-500"
+    image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80",
+    gradient: ""
   },
   {
     title: "Uncover Hidden Gems",
     description: "Find unique experiences and offbeat locations",
     icon: <Eye className="w-8 h-8" />,
     route: "/niche",
-    gradient: "from-green-500 to-emerald-500"
-  },
-  {
-    title: "Find Best Intercity Travel Routes",
-    description: "Compare and choose the most convenient travel routes",
-    icon: <Route className="w-8 h-8" />,
-    route: "/intercity-travel",
-    gradient: "from-orange-500 to-red-500"
+    image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=400&q=80",
+    gradient: ""
   },
   {
     title: "Check Travel Advisories Worldwide",
     description: "Stay informed with official advisories and country updates",
-    icon: <AlertTriangle className="w-8 h-8" />, // or use <Globe className="w-8 h-8" />
+    icon: <AlertTriangle className="w-8 h-8" />,
     route: "/advisory",
-    gradient: "from-yellow-500 to-rose-500"
+    image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=400&q=80",
+    gradient: ""
   }
 ];
 
@@ -214,36 +211,40 @@ const Home = () => {
         </div>
         {/* Features Section */}
         <div className="px-4 py-16 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-white mb-16">
               <span className="bg-gradient-to-l from-cyan-400 via-sky-400 to-teal-200 bg-clip-text text-transparent">
                 Explore Our Features
               </span>
             </h2>
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-15">
               {features.map((feature, index) => (
                 <div
                   key={index}
                   onClick={() => handleFeatureClick(feature.route)}
                   className="group cursor-pointer transform hover:scale-105 transition-all duration-300"
                 >
-                  <div className={`bg-gradient-to-r ${feature.gradient} p-1 rounded-2xl`}>
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20 hover:bg-white/20 transition-colors">
-                      <div className="flex items-center space-x-6">
+                  <div className={`rounded-3xl shadow-xl ${feature.gradient} p-1 h-80 md:h-140`}>
+                    <div className="bg-white/20 backdrop-blur-md rounded-3xl p-10 border border-white/20 hover:bg-white/30 transition-colors flex flex-col h-full">
+                      <div className="flex items-center space-x-4 mb-6">
                         <div className="text-white flex-shrink-0">
                           {feature.icon}
                         </div>
                         <div className="flex-1">
-                          <h3 className="text-xl sm:text-2xl font-semibold text-white mb-2">
+                          <h3 className="text-2xl font-bold text-white mb-1">
                             {feature.title}
                           </h3>
-                          <p className="text-gray-300 text-sm sm:text-base">
+                          <p className="text-gray-100 text-base">
                             {feature.description}
                           </p>
                         </div>
-                        <div className="text-white/50 group-hover:text-white transition-colors">
-                          <ChevronRight className="w-6 h-6" />
-                        </div>
+                      </div>
+                      <div className="flex-1 flex items-center justify-center">
+                        <img
+                          src={feature.image}
+                          alt={feature.title}
+                          className="rounded-xl w-full h-40 object-cover shadow-lg"
+                        />
                       </div>
                     </div>
                   </div>
