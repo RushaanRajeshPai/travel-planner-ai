@@ -4,7 +4,7 @@ import OAuth from './Components/OAuth';
 import Home from './Components/Home';
 import Hero from './Components/Hero'; 
 import TravelPlannerAI from './Components/TravelPlannerAI';
-import PopularSpots from './Components/PopularSpots';
+import Popular from './Components/Popular';
 import NicheSpots from './Components/NicheSpots';
 import TravelAdvisory from './Components/TravelAdvisory';
 
@@ -16,7 +16,7 @@ const App = () => {
         <Route path="/auth" element={<OAuth />} />
         <Route path="/home" element={<Home />} />
         <Route path="/travel-ai" element={<TravelPlannerAI />} />
-        <Route path="/popular" element={<PopularSpots />} />
+        <Route path="/popular" element={<Popular />} />
         <Route path="/niche" element={<NicheSpots />} />
         <Route path="/advisory" element={<TravelAdvisory />} />
       </Routes>
