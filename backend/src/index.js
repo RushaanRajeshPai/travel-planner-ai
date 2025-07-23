@@ -7,7 +7,8 @@ const connectDB = require('./config/database');
 const authRoutes = require('./routes/auth');
 const travelPlannerRoutes = require('./routes/travelplanner');
 const travelAdvisoryRoutes = require('./routes/travelAdvisory');
-const popularRoutes = require('./routes/popular'); // Add this line
+const popularRoutes = require('./routes/popular');
+const nicheRoutes = require('./routes/niche'); // Add this line
 
 const app = express();
 
@@ -42,7 +43,8 @@ app.use(passport.session());
 app.use('/api/auth', authRoutes);
 app.use('/api/travel', travelPlannerRoutes);
 app.use('/api/travel-advisory', travelAdvisoryRoutes);
-app.use('/api/popular', popularRoutes); // Add this line
+app.use('/api/popular', popularRoutes);
+app.use('/api/niche', nicheRoutes); // Add this line
 
 // Health check
 app.get('/api/health', (req, res) => {
