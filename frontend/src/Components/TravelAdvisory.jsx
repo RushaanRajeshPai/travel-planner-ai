@@ -100,7 +100,7 @@ const TravelAdvisory = () => {
   );
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 flex items-center justify-center p-4">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 flex items-center justify-center p-4">
       <FloatingBlob />
       <div className="w-full max-w-2xl">
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">

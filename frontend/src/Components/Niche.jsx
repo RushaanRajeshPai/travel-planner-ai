@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Search, Star, MessageCircle, Clock, AlertCircle } from 'lucide-react';
+import { MapPin, Search, Star, MessageCircle, Clock, AlertCircle, ChevronDown } from 'lucide-react';
 
 const Niche = () => {
   const [location, setLocation] = useState('');
@@ -20,7 +20,7 @@ const Niche = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!location.trim() || !spotType) {
       setError('Please fill in all fields');
       return;
@@ -59,7 +59,8 @@ const Niche = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 p-6">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6 flex flex-col items-center justify-center">
+
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12">
@@ -72,13 +73,13 @@ const Niche = () => {
         </div>
 
         {/* Search Form */}
-        <div className="bg-blue-800/40 backdrop-blur-lg rounded-3xl p-8 mb-12 border border-blue-700/30 shadow-2xl">
+        <div className="bg-black/20 backdrop-blur-lg mx-auto w-full max-w-2xl rounded-2xl p-8 mb-12 border border-cyan-500/30 shadow-2xl">
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1  gap-6">
               {/* Location Input */}
               <div className="space-y-2">
-                <label className="flex items-center text-cyan-300 font-medium text-sm">
-                  <MapPin className="w-4 h-4 mr-2" />
+                <label className="flex items-center text-white font-semibold text-md">
+                  <MapPin className="w-5 h-5 mr-2 text-cyan-400" />
                   Location
                 </label>
                 <input
@@ -86,30 +87,33 @@ const Niche = () => {
                   placeholder="e.g., Mumbai, India"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-4 py-3 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
                 />
               </div>
 
               {/* Spot Type Dropdown */}
               <div className="space-y-2">
-                <label className="flex items-center text-cyan-300 font-medium text-sm">
-                  <Search className="w-4 h-4 mr-2" />
+                <label className="flex items-center text-white font-semibold text-md">
+                  <Search className="w-5 h-5 mr-2 text-cyan-400" />
                   What Are You Looking For?
                 </label>
-                <select
-                  value={spotType}
-                  onChange={(e) => setSpotType(e.target.value)}
-                  className="w-full px-4 py-3 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200 appearance-none cursor-pointer"
-                >
-                  <option value="" disabled className="text-blue-300">
-                    Select spot type
-                  </option>
-                  {spotTypes.map((type) => (
-                    <option key={type} value={type} className="bg-blue-900 text-white">
-                      {type}
+                <div className="relative">
+                  <select
+                    value={spotType}
+                    onChange={(e) => setSpotType(e.target.value)}
+                    className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer"
+                  >
+                    <option value="" disabled className="text-blue-300">
+                      Select spot type
                     </option>
-                  ))}
-                </select>
+                    {spotTypes.map((type) => (
+                      <option key={type} value={type} className="bg-blue-900 text-white">
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-5 h-5 text-cyan-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                </div>
               </div>
             </div>
 
@@ -158,7 +162,7 @@ const Niche = () => {
             <h2 className="text-3xl font-bold text-white text-center">
               Hidden Gems in {location}
             </h2>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {results.map((spot, index) => (
                 <div
@@ -169,7 +173,7 @@ const Niche = () => {
                     <h3 className="text-xl font-bold text-cyan-300 line-clamp-2">
                       {spot.name}
                     </h3>
-                    
+
                     <p className="text-blue-200 text-sm leading-relaxed line-clamp-3">
                       {spot.description}
                     </p>

@@ -267,7 +267,7 @@ const TravelPlannerAI = () => {
   }
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 p-8">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-8">
       <FloatingBlob />
       <div className="max-w-4xl mx-auto mt-10 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         <div className="text-center mb-12">

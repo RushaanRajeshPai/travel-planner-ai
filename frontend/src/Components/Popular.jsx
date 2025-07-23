@@ -59,7 +59,7 @@ const Popular = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-purple-900 to-blue-800 p-6">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6">
       <FloatingBlob />
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -73,9 +73,9 @@ const Popular = () => {
         </div>
 
         {/* Search Form */}
-        <div className="bg-gradient-to-r from-blue-800/50 to-purple-800/50 backdrop-blur-lg rounded-2xl border border-blue-400/30 p-8 mb-8 shadow-2xl">
+        <div className="bg-black/20 rounded-2xl border border-cyan-500/30  backdrop-blur-lg p-8 mb-8 shadow-2xl">
           <div className="space-y-6">
-            <div className="grid md:grid-cols-2 gap-6">
+            <div className="grid md:grid-cols-1 gap-6">
               {/* Location Input */}
               <div>
                 <label className="flex items-center text-cyan-300 text-sm font-medium mb-2">
