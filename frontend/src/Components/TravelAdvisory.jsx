@@ -12,7 +12,7 @@ const TravelAdvisory = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [userNationalityCountry, setUserNationalityCountry] = useState(null);
 
-  
+
 
   // Fetch user nationality and countries on component mount
   useEffect(() => {
@@ -92,7 +92,7 @@ const TravelAdvisory = () => {
     }
   };
 
-  
+
 
   // Filter countries based on search term
   const filteredCountries = countries.filter(country =>
@@ -124,18 +124,19 @@ const TravelAdvisory = () => {
           )}
 
           {/* Your Nationality */}
-          <div className="mb-6">
+          <div className="bg-black/20 rounded-2xl border border-cyan-500/30  p-8 mb-8 shadow-2xl">
+            <div className="mb-6">
             <label className="block text-white text-sm font-medium mb-2">
               Your Nationality
             </label>
-            <div className="bg-white/10 border border-white/20 rounded-lg p-4">
+            <div className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer">
               <div className="flex items-center">
                 {userNationalityCountry && (
                   <span className="text-2xl mr-3">{userNationalityCountry.flag}</span>
                 )}
                 <span className="text-white font-medium">
-  {userNationalityCountry ? userNationalityCountry.name : (userNationality || 'Loading...')}
-</span>
+                  {userNationalityCountry ? userNationalityCountry.name : (userNationality || 'Loading...')}
+                </span>
               </div>
             </div>
           </div>
@@ -220,6 +221,7 @@ const TravelAdvisory = () => {
             <p className="text-blue-100 text-sm">
               You will be redirected to the official government travel advisory website
             </p>
+          </div>
           </div>
         </div>
       </div>

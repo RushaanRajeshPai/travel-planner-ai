@@ -61,7 +61,7 @@ const Niche = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6 flex flex-col items-center justify-center">
 
-      <div className="max-w-4xl mx-auto mt-5 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+      <div className="max-w-2xl  mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-300 mb-4">
@@ -148,12 +148,12 @@ const Niche = () => {
           )}
 
           {/* No Credit Card Message */}
-          <div className="mt-6 text-center">
+          {/* <div className="mt-6 text-center">
             <p className="text-blue-300 text-sm flex items-center justify-center space-x-2">
               <span>✨</span>
               <span>No credit card required • Discover hidden gems in seconds</span>
             </p>
-          </div>
+          </div> */}
         </div>
 
         {/* Results Section */}

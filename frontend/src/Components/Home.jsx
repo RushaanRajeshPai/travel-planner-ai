@@ -4,6 +4,8 @@ import maldives from '../assets/maldives.jpg';
 import swiss from '../assets/swiss.jpg';
 import itinerary from '../assets/itinerary.png'
 import adv from '../assets/adv.png'
+import popular from '../assets/popular.png';
+import hidden from '../assets/hidden.png';
 import FloatingBlob from './FloatingBlob';
 
 const Home = () => {
@@ -57,7 +59,7 @@ const Home = () => {
     description: "Discover trending destinations and must-visit attractions",
     icon: <MapPin className="w-8 h-8" />,
     route: "/popular",
-    image: itinerary,
+    image: popular,
     gradient: ""
   },
   {
@@ -65,7 +67,7 @@ const Home = () => {
     description: "Find unique experiences and offbeat locations",
     icon: <Eye className="w-8 h-8" />,
     route: "/niche",
-    image: itinerary,
+    image: hidden,
     gradient: ""
   },
   {
@@ -247,7 +249,7 @@ const Home = () => {
                         <img
                           src={feature.image}
                           alt={feature.title}
-                          className="rounded-xl w-full h-86 object-cover shadow-lg bg-white/10"
+                          className="rounded-xl w-full h-86 object-full shadow-lg bg-white/10"
                           style={{ maxHeight: '500px', maxWidth:'500px', margin: '0 auto' }}
                         />
                       </div>
