@@ -14,9 +14,9 @@ const Hero = () => {
   }, []);
 
   const features = [
-    { icon: <Sparkles className="w-6 h-6" />, title: "AI-Powered Planning", description: "Smart recommendations tailored just for you" },
-    { icon: <MapPin className="w-6 h-6" />, title: "Discover Hidden Gems", description: "Uncover unique destinations beyond the tourist trail" },
-    { icon: <Calendar className="w-6 h-6" />, title: "Perfect Timing", description: "Optimized schedules that maximize your experience" }
+    { icon: <Sparkles className="w-6 h-6" />, title: "AI-Powered Planning", description: "AI-powered travel suggestions personalized to your style" },
+    { icon: <MapPin className="w-6 h-6" />, title: "Discover Hidden & Iconic Gems", description: "Uncover unique destinations beyond the tourist trail" },
+    { icon: <Calendar className="w-6 h-6" />, title: "View Global Travel Alerts", description: "Access current advisories for every destination worldwide" }
   ];
 
   return (
@@ -45,7 +45,7 @@ const Hero = () => {
             </h1>
             <p className="text-xl md:text-2xl text-blue-100/90 mb-8 leading-relaxed max-w-3xl mx-auto">
               Imagine having a travel expert who knows your preferences, understands your dreams,
-              and crafts the perfect journey just for you. Stop spending hours researching –
+              and crafts the perfect journey just for you. Stop spending hours researching, 
               let intelligence guide your wanderlust.
             </p>
           </div>
