@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Search, Star, Users } from 'lucide-react';
+import { MapPin, Search, Star, Users, ChevronDown } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 
 const Popular = () => {
@@ -29,7 +29,7 @@ const Popular = () => {
 
     setLoading(true);
     setError('');
-    
+
     try {
       const response = await fetch('http://localhost:5000/api/popular/spots', {
         method: 'POST',
@@ -43,7 +43,7 @@ const Popular = () => {
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setSpots(data.spots);
       } else {
@@ -61,7 +61,7 @@ const Popular = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6">
       <FloatingBlob />
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-2xl mt-25 mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
@@ -73,13 +73,13 @@ const Popular = () => {
         </div>
 
         {/* Search Form */}
-        <div className="bg-black/20 rounded-2xl border border-cyan-500/30  backdrop-blur-lg p-8 mb-8 shadow-2xl">
+        <div className="bg-black/20 rounded-2xl border border-cyan-500/30   p-8 mb-8 shadow-2xl">
           <div className="space-y-6">
             <div className="grid md:grid-cols-1 gap-6">
               {/* Location Input */}
               <div>
-                <label className="flex items-center text-cyan-300 text-sm font-medium mb-2">
-                  <MapPin size={16} className="mr-2" />
+                <label className="flex items-center text-white font-semibold mb-2">
+                  <MapPin size={16} className="w-5 h-5 mr-2 text-cyan-300" />
                   Location
                 </label>
                 <input
@@ -87,28 +87,33 @@ const Popular = () => {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                   placeholder="e.g., Paris, France"
-                  className="w-full px-4 py-3 bg-blue-900/50 border border-blue-400/30 rounded-lg text-white placeholder-blue-300/60 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 transition-all"
+                  className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer"
                 />
               </div>
 
               {/* Spot Type Dropdown */}
-              <div>
-                <label className="flex items-center text-cyan-300 text-sm font-medium mb-2">
-                  <Search size={16} className="mr-2" />
+              <div className="space-y-2">
+                <label className="flex items-center text-white font-semibold text-md">
+                  <Search className="w-5 h-5 mr-2 text-cyan-400" />
                   What Are You Looking For?
                 </label>
-                <select
-                  value={spotType}
-                  onChange={(e) => setSpotType(e.target.value)}
-                  className="w-full px-4 py-3 bg-blue-900/50 border border-blue-400/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400/50 transition-all appearance-none cursor-pointer"
-                >
-                  <option value="">Select spot type</option>
-                  {spotTypes.map((type, index) => (
-                    <option key={index} value={type} className="bg-blue-900">
-                      {type}
+                <div className="relative">
+                  <select
+                    value={spotType}
+                    onChange={(e) => setSpotType(e.target.value)}
+                    className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer"
+                  >
+                    <option value="" disabled className="text-blue-300">
+                      Select spot type
                     </option>
-                  ))}
-                </select>
+                    {spotTypes.map((type) => (
+                      <option key={type} value={type} className="bg-blue-900 text-white">
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-5 h-5 text-cyan-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                </div>
               </div>
             </div>
 
@@ -152,7 +157,7 @@ const Popular = () => {
                   <h3 className="text-xl font-bold text-white line-clamp-2">
                     {spot.name}
                   </h3>
-                  
+
                   <div className="flex items-center space-x-4">
                     <div className="flex items-center text-yellow-400">
                       <Star size={16} className="mr-1 fill-current" />

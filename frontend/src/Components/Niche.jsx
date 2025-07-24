@@ -61,19 +61,19 @@ const Niche = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6 flex flex-col items-center justify-center">
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-4xl mx-auto mt-5 bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-300 mb-4">
             Explore Hidden Gems
           </h1>
           <p className="text-blue-200 text-lg max-w-2xl mx-auto">
-            Discover secret spots and niche locations that only locals know about. Find hidden treasures with fewer crowds and authentic experiences.
+            Discover niche locations with fewer crowds that only locals know about.
           </p>
         </div>
 
         {/* Search Form */}
-        <div className="bg-black/20 backdrop-blur-lg mx-auto w-full max-w-2xl rounded-2xl p-8 mb-12 border border-cyan-500/30 shadow-2xl">
+        <div className="bg-black/20  mx-auto w-full max-w-2xl rounded-2xl p-8 mb-12 border border-cyan-500/30 shadow-2xl">
           <div className="space-y-6">
             <div className="grid grid-cols-1  gap-6">
               {/* Location Input */}
@@ -87,7 +87,7 @@ const Niche = () => {
                   placeholder="e.g., Mumbai, India"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent"
+                  className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer"
                 />
               </div>
 
