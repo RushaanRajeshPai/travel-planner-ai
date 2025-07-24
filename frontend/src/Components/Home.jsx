@@ -55,7 +55,15 @@ const Home = () => {
     gradient: ""
   },
   {
-    title: "Explore Popular Hotspots",
+    title: "Check Travel Advisories Worldwide",
+    description: "Stay informed with official advisories",
+    icon: <AlertTriangle className="w-8 h-8" />,
+    route: "/advisory",
+    image: adv,
+    gradient: ""
+  },
+  {
+    title: "Visit Iconic Locations",
     description: "Discover trending destinations and must-visit attractions",
     icon: <MapPin className="w-8 h-8" />,
     route: "/popular",
@@ -70,14 +78,7 @@ const Home = () => {
     image: hidden,
     gradient: ""
   },
-  {
-    title: "Check Travel Advisories Worldwide",
-    description: "Stay informed with official advisories",
-    icon: <AlertTriangle className="w-8 h-8" />,
-    route: "/advisory",
-    image: adv,
-    gradient: ""
-  }
+  
 ];
 
 

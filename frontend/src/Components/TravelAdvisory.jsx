@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, ExternalLink, AlertTriangle } from 'lucide-react';
+import { ChevronDown, ExternalLink, AlertTriangle, Globe, MapPin } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 
 const TravelAdvisory = () => {
@@ -106,8 +106,7 @@ const TravelAdvisory = () => {
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="flex items-center justify-center mb-4">
-              <AlertTriangle className="text-cyan-300 w-12 h-12 mr-3" />
+            <div className="flex items-center justify-center mb-2">
               <h1 className="text-4xl text-cyan-300 font-bold">Travel Advisory</h1>
             </div>
             <p className="text-blue-100 text-lg">
@@ -126,102 +125,97 @@ const TravelAdvisory = () => {
           {/* Your Nationality */}
           <div className="bg-black/20 rounded-2xl border border-cyan-500/30  p-8 mb-8 shadow-2xl">
             <div className="mb-6">
-            <label className="block text-white text-sm font-medium mb-2">
-              Your Nationality
-            </label>
-            <div className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer">
-              <div className="flex items-center">
-                {userNationalityCountry && (
-                  <span className="text-2xl mr-3">{userNationalityCountry.flag}</span>
-                )}
-                <span className="text-white font-medium">
-                  {userNationalityCountry ? userNationalityCountry.name : (userNationality || 'Loading...')}
-                </span>
+              <label className="flex items-center text-white font-semibold mb-2">
+                <Globe className="w-5 h-5 mr-2 text-cyan-400"/>
+                Your Nationality
+              </label>
+              <div className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer">
+                <div className="flex items-center">
+                  {userNationalityCountry && (
+                    <span className="text-2xl mr-3">{userNationalityCountry.flag}</span>
+                  )}
+                  <span className="text-white font-medium">
+                    {userNationalityCountry ? userNationalityCountry.name : (userNationality || 'Loading...')}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Destination Country Dropdown */}
-          <div className="mb-6">
-            <label className="block text-white text-sm font-medium mb-2">
-              Select Destination Country
-            </label>
-            <div className="relative">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="w-full bg-white border border-white/20 rounded-lg p-4 text-left text-white hover:bg-white/20 transition-colors duration-200 flex items-center justify-between"
-              >
-                <span className="flex items-center">
-                  {selectedCountry ? (
-                    <>
-                      <span className="text-2xl mr-3">{selectedCountry.flag}</span>
-                      <span>{selectedCountry.name}</span>
-                    </>
-                  ) : (
-                    'Select a country'
-                  )}
-                </span>
-                <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
-              </button>
+            {/* Destination Country Dropdown */}
+            <div className="mb-6">
+              <label className="flex items-center text-white font-semibold mb-2">
+                <MapPin className="w-5 h-5 mr-2 text-cyan-400" />
+                Select Destination Country
+              </label>
+              <div className="relative">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="w-full px-4 py-3 pr-10 !bg-blue-900/60 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer flex items-center justify-between"
+                >
+                  <span className="flex items-center">
+                    {selectedCountry ? (
+                      <>
+                        <span className="text-2xl mr-3">{selectedCountry.flag}</span>
+                        <span>{selectedCountry.name}</span>
+                      </>
+                    ) : (
+                      <span className="text-blue-300">Select a country</span>
+                    )}
+                  </span>
+                  <ChevronDown className="w-5 h-5 text-cyan-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+                </button>
 
-              {/* Dropdown */}
-              {isDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-white/20 rounded-lg shadow-xl z-50 max-h-80 overflow-hidden">
-                  {/* Search Input */}
-                  <div className="p-3 border-b border-gray-200 bg-gray-50">
-                    <input
-                      type="text"
-                      placeholder="Search countries..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 bg-white"
-                    />
+
+                {/* Dropdown */}
+                {isDropdownOpen && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-blue-900/50 border border-blue-600/50 rounded-xl shadow-xl z-50 overflow-hidden">
+                    {/* Search Input */}
+                    <div className="p-3 border-b border-blue-600/50 bg-blue-900/50">
+                      <input
+                        type="text"
+                        placeholder="Search countries..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full px-3 py-2 bg-blue-900 text-white border border-blue-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      />
+                    </div>
+
+                    {/* Countries List */}
+                    <div className="max-h-60 overflow-y-auto bg-blue-900/50">
+                      {filteredCountries.map((country) => (
+                        <div
+                          key={country.flag}
+                          onClick={() => handleCountrySelect(country)}
+                          className="w-full px-4 py-3 text-left hover:bg-blue-800 transition-colors duration-150 flex items-center text-white border-b border-blue-800 cursor-pointer"
+                        >
+                          <span className="text-2xl mr-3">{country.flag}</span>
+                          <span className="font-medium">{country.name}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
+                )}
+              </div>
+            </div>
 
-                  {/* Countries List */}
-                  <div className="max-h-60 overflow-y-auto bg-white">
-                    {filteredCountries.map((country) => (
-                      <div
-                        key={country.flag}
-                        onClick={() => handleCountrySelect(country)}
-                        className="w-full px-4 py-3 text-left hover:bg-blue-50 transition-colors duration-150 flex items-center text-gray-900 border-b border-gray-100 last:border-b-0 bg-white cursor-pointer"
-                        style={{ backgroundColor: 'white', color: 'black' }}
-                      >
-                        <span className="text-2xl mr-3">{country.flag}</span>
-                        <span className="font-medium">{country.name}</span>
-                      </div>
-                    ))}
-                  </div>
+            {/* Check Advisory Button */}
+            <button
+              onClick={handleCheckAdvisory}
+              disabled={!selectedCountry || isLoading}
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 disabled:bg-gray-600 disabled:cursor-not-allowed hover:from-cyan-600 hover:to-blue-600 text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
+            >
+              {isLoading ? (
+                <div className="flex items-center">
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                  Getting Travel Advisory...
+                </div>
+              ) : (
+                <div className="flex items-center">
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                  Check Travel Advisory
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Check Advisory Button */}
-          <button
-            onClick={handleCheckAdvisory}
-            disabled={!selectedCountry || isLoading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
-          >
-            {isLoading ? (
-              <div className="flex items-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                Getting Travel Advisory...
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <ExternalLink className="w-5 h-5 mr-2" />
-                Check Travel Advisory
-              </div>
-            )}
-          </button>
-
-          {/* Info Text */}
-          <div className="mt-6 text-center">
-            <p className="text-blue-100 text-sm">
-              You will be redirected to the official government travel advisory website
-            </p>
-          </div>
+            </button>
           </div>
         </div>
       </div>

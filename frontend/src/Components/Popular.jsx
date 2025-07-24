@@ -64,7 +64,7 @@ const Popular = () => {
       <div className="max-w-2xl mt-25 mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-4">
+          <h1 className="text-5xl font-bold text-cyan-300 mb-4">
             Explore Popular Spots
           </h1>
           <p className="text-blue-200 text-lg">

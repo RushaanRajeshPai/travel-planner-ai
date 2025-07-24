@@ -273,7 +273,7 @@ const TravelPlannerAI = () => {
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-cyan-300 mb-2">Generate Itinerary with Smart AI</h1>
           {/* <p className="text-xl text-cyan-300 mb-2"></p> */}
-          <p className="text-gray-300">
+          <p className="text-gray-300 text-lg">
             Discover personalized day-by-day plans crafted for your dream destination.
           </p>
         </div>
