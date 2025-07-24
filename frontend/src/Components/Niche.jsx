@@ -61,7 +61,7 @@ const Niche = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6 flex flex-col items-center justify-center">
 
-      <div className="max-w-2xl  mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+      <div className="max-w-7xl  mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         {/* Header Section */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold  text-cyan-300 mb-3">
@@ -146,14 +146,6 @@ const Niche = () => {
               <p className="text-red-300">{error}</p>
             </div>
           )}
-
-          {/* No Credit Card Message */}
-          {/* <div className="mt-6 text-center">
-            <p className="text-blue-300 text-sm flex items-center justify-center space-x-2">
-              <span>✨</span>
-              <span>No credit card required • Discover hidden gems in seconds</span>
-            </p>
-          </div> */}
         </div>
 
         {/* Results Section */}
@@ -162,7 +154,6 @@ const Niche = () => {
             <h2 className="text-3xl font-bold text-white text-center">
               Hidden Gems in {location}
             </h2>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {results.map((spot, index) => (
                 <div

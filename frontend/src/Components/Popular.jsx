@@ -61,7 +61,7 @@ const Popular = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 p-6">
       <FloatingBlob />
-      <div className="max-w-2xl mt-25 mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+      <div className="max-w-5xl mt-25 mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-cyan-300 mb-4">
