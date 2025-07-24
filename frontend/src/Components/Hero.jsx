@@ -3,7 +3,6 @@ import { ArrowRight, Sparkles, MapPin, Calendar, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import FloatingBlob from "./FloatingBlob";
-// ... imports remain the same
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
