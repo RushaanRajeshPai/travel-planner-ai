@@ -8,7 +8,8 @@ const authRoutes = require('./routes/auth');
 const travelPlannerRoutes = require('./routes/travelplanner');
 const travelAdvisoryRoutes = require('./routes/travelAdvisory');
 const popularRoutes = require('./routes/popular');
-const nicheRoutes = require('./routes/niche'); // Add this line
+const nicheRoutes = require('./routes/niche'); 
+const fetchUserRoutes = require('./routes/fetchuser');
 
 const app = express();
 
@@ -44,7 +45,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/travel', travelPlannerRoutes);
 app.use('/api/travel-advisory', travelAdvisoryRoutes);
 app.use('/api/popular', popularRoutes);
-app.use('/api/niche', nicheRoutes); // Add this line
+app.use('/api/niche', nicheRoutes); 
+app.use('/api/user', fetchUserRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Sparkles, Eye, AlertTriangle, User, Menu, X, ChevronDown } from 'lucide-react';
+import { MapPin, Sparkles, Eye, AlertTriangle, User, Menu, X, ChevronDown, Plane } from 'lucide-react';
+import FloatingBlob from './FloatingBlob';
+import maldives from '../assets/maldives.jpg';
+import swiss from '../assets/swiss.jpg';
+import itinerary from '../assets/itinerary.png'
+import adv from '../assets/adv.png'
+import popular from '../assets/popular.png';
+import hidden from '../assets/hidden.png';
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -25,13 +32,13 @@ const Home = () => {
       id: 3,
       title: "From the Shores of Maldives",
       description: "Indulge in turquoise waters, serene sunsets, and unforgettable island moments.",
-      image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&h=600&fit=crop&crop=center"
+      image: maldives
     },
     {
       id: 4,
       title: "To the Peaks of Switzerland",
       description: "Breathe in alpine air, glide through snowy slopes, and discover storybook landscapes.",
-      image: "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=1200&h=600&fit=crop&crop=center"
+      image: swiss
     },
     {
       id: 5,
@@ -42,40 +49,40 @@ const Home = () => {
   ];
 
   const features = [
-  {
-    title: "Plan Your Trip with Smart AI",
-    description: "Create personalized travel plans powered by AI",
-    icon: <Sparkles className="w-8 h-8" />,
-    route: "/travel-ai",
-    image: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&h=300&fit=crop&crop=center",
-    gradient: ""
-  },
-  {
-    title: "Check Travel Advisories Worldwide",
-    description: "Stay informed with official advisories",
-    icon: <AlertTriangle className="w-8 h-8" />,
-    route: "/advisory",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=500&h=300&fit=crop&crop=center",
-    gradient: ""
-  },
-  {
-    title: "Visit Iconic Locations",
-    description: "Discover trending destinations and must-visit attractions",
-    icon: <MapPin className="w-8 h-8" />,
-    route: "/popular",
-    image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73fb6?w=500&h=300&fit=crop&crop=center",
-    gradient: ""
-  },
-  {
-    title: "Uncover Hidden Gems",
-    description: "Find unique experiences and offbeat locations",
-    icon: <Eye className="w-8 h-8" />,
-    route: "/niche",
-    image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=500&h=300&fit=crop&crop=center",
-    gradient: ""
-  },
-  
-];
+    {
+      title: "Plan Your Trip with Smart AI",
+      description: "Create personalized travel plans powered by AI",
+      icon: <Sparkles className="w-8 h-8" />,
+      route: "/travel-ai",
+      image: itinerary,
+      gradient: ""
+    },
+    {
+      title: "Check Travel Advisories",
+      description: "Stay informed with official advisories",
+      icon: <AlertTriangle className="w-8 h-8" />,
+      route: "/advisory",
+      image: adv,
+      gradient: ""
+    },
+    {
+      title: "Visit Iconic Locations",
+      description: "Discover trending destinations and must-visit attractions",
+      icon: <MapPin className="w-8 h-8" />,
+      route: "/popular",
+      image: popular,
+      gradient: ""
+    },
+    {
+      title: "Uncover Hidden Gems",
+      description: "Find unique experiences and offbeat locations",
+      icon: <Eye className="w-8 h-8" />,
+      route: "/niche",
+      image: hidden,
+      gradient: ""
+    },
+
+  ];
 
   // Fetch user's full name
   useEffect(() => {
@@ -88,7 +95,7 @@ const Home = () => {
             'Content-Type': 'application/json',
           },
         });
-        
+
         if (response.ok) {
           const userData = await response.json();
           setUserFullName(userData.fullName);
@@ -97,7 +104,6 @@ const Home = () => {
         console.error('Error fetching user data:', error);
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -111,14 +117,6 @@ const Home = () => {
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, slides.length]);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
 
   const goToSlide = (index) => {
     setCurrentSlide(index);
@@ -148,7 +146,7 @@ const Home = () => {
         method: 'POST',
         credentials: 'include',
       });
-      
+
       if (response.ok) {
         window.location.href = '/';
       }
@@ -160,52 +158,51 @@ const Home = () => {
 
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800">
+      <FloatingBlob />
       {/* Navbar */}
       <nav className="relative z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex items-center h-20">
             {/* Logo and Brand */}
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                <Sparkles className="h-6 w-6 text-white" />
+                <Plane className="h-6 w-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">EzyVoyage AI</span>
+              <span className="text-xl font-bold bg-gradient-to-l from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent">EzyVoyage AI</span>
             </div>
-
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-8">
               <button
                 onClick={() => scrollToSection('hero-section')}
-                className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
               >
                 About Us
               </button>
               <button
                 onClick={() => scrollToSection('features-section')}
-                className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
               >
                 Features
               </button>
               <button
                 onClick={() => handleNavigation('/recommendations')}
-                className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
               >
                 Recommendations
               </button>
               <button
                 onClick={() => handleNavigation('/pricing')}
-                className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
               >
                 Pricing
               </button>
             </div>
-
             {/* User Profile Section */}
-            <div className="hidden md:flex items-center">
+            <div className="ml-auto hidden md:flex items-center">
               <div className="relative">
                 <button
                   onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                  className="flex items-center space-x-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
+                  className="flex items-center space-x-2 text-cyan-300 hover:text-cyan-400 transition-colors duration-200"
                 >
                   <div className="text-center">
                     <User className="w-6 h-6 mx-auto" />
@@ -241,7 +238,7 @@ const Home = () => {
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="absolute right-1 top-6 md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="text-gray-300 hover:text-cyan-400 transition-colors duration-200"
@@ -249,6 +246,7 @@ const Home = () => {
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
+
           </div>
 
           {/* Mobile Navigation */}
@@ -279,7 +277,7 @@ const Home = () => {
                 >
                   Pricing
                 </button>
-                
+
                 {/* Mobile User Profile */}
                 <div className="border-t border-white/10 pt-4">
                   <div className="flex items-center px-3 py-2">
@@ -320,7 +318,7 @@ const Home = () => {
           <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-blue-400/25 rounded-full blur-xl animate-float-slow"></div>
           <div className="absolute top-1/3 right-1/3 w-16 h-16 bg-sky-400/30 rounded-full blur-lg animate-float"></div>
         </div>
-        
+
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-teal-400/20 rounded-full blur-xl animate-pulse"></div>
           <div className="absolute top-3/4 right-1/4 w-48 h-48 bg-cyan-400/20 rounded-full blur-xl animate-pulse delay-1000"></div>
@@ -330,7 +328,7 @@ const Home = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-blue-900/30"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-900/20 to-transparent"></div>
-        
+
         {/* Hero Section */}
         <div id="hero-section" className="relative px-4 py-20 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center text-white">
@@ -345,7 +343,7 @@ const Home = () => {
               crafted just for you by our advanced AI technology.
             </p>
           </div>
-          
+
           {/* Carousel Section */}
           <div className="px-4 py-16 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
@@ -393,7 +391,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          
+
           {/* Features Section */}
           <div id="features-section" className="px-4 py-16 sm:px-6 lg:px-8">
             <div className="max-w-6xl mx-auto">
@@ -429,7 +427,7 @@ const Home = () => {
                             src={feature.image}
                             alt={feature.title}
                             className="rounded-xl w-full h-86 object-full shadow-lg bg-white/10"
-                            style={{ maxHeight: '500px', maxWidth:'500px', margin: '0 auto' }}
+                            style={{ maxHeight: '500px', maxWidth: '500px', margin: '0 auto' }}
                           />
                         </div>
                       </div>
@@ -459,7 +457,7 @@ const Home = () => {
                   aria-label="Follow us on X"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 </a>
                 <a
@@ -468,7 +466,7 @@ const Home = () => {
                   aria-label="Follow us on Instagram"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-2.013 0-3.64-1.628-3.64-3.64s1.628-3.64 3.64-3.64 3.64 1.628 3.64 3.64-1.628 3.64-3.64 3.64zm7.072 0c-2.013 0-3.64-1.628-3.64-3.64s1.628-3.64 3.64-3.64 3.64 1.628 3.64 3.64-1.628 3.64-3.64 3.64z"/>
+                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-2.013 0-3.64-1.628-3.64-3.64s1.628-3.64 3.64-3.64 3.64 1.628 3.64 3.64-1.628 3.64-3.64 3.64zm7.072 0c-2.013 0-3.64-1.628-3.64-3.64s1.628-3.64 3.64-3.64 3.64 1.628 3.64 3.64-1.628 3.64-3.64 3.64z" />
                   </svg>
                 </a>
               </div>
