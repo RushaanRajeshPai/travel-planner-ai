@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Search, Star, MessageCircle, Clock, AlertCircle, ChevronDown } from 'lucide-react';
+import { MapPin, Search, Star, MessageCircle, Clock, AlertCircle, ChevronDown, ExternalLink } from 'lucide-react';
 
 const Niche = () => {
   const [location, setLocation] = useState('');
@@ -56,6 +56,12 @@ const Niche = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleViewSpot = (spotName, spotLocation) => {
+    const searchQuery = `${spotName} ${spotLocation}`;
+    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+    window.open(googleSearchUrl, '_blank');
   };
 
   return (
@@ -208,11 +214,19 @@ const Niche = () => {
                       )}
                     </div>
 
-                    {/* Hidden Gem Badge */}
-                    <div className="pt-2">
+                    {/* Hidden Gem Badge and View Button */}
+                    <div className="pt-2 flex items-center justify-between">
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/30">
                         ✨ Hidden Gem
                       </span>
+                      
+                      <button
+                        onClick={() => handleViewSpot(spot.name, location)}
+                        className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 text-white text-xs font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"
+                      >
+                        <ExternalLink className="w-3 h-3 mr-1" />
+                        View this spot
+                      </button>
                     </div>
                   </div>
                 </div>
