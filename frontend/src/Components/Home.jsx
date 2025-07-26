@@ -394,49 +394,49 @@ const Home = () => {
 
           {/* Features Section */}
           <div id="features-section" className="px-4 py-16 sm:px-6 lg:px-8">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-white mb-16">
-                <span className="bg-gradient-to-l from-cyan-400 via-sky-400 to-teal-200 bg-clip-text text-transparent">
-                  Explore Our Features
-                </span>
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-15">
-                {features.map((feature, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleFeatureClick(feature.route)}
-                    className="group cursor-pointer transform hover:scale-105 transition-all duration-300"
-                  >
-                    <div className={`rounded-3xl shadow-xl ${feature.gradient} p-1 h-80 md:h-140`}>
-                      <div className="bg-white/20 backdrop-blur-md rounded-3xl p-10 border border-white/20 hover:bg-white/30 transition-colors flex flex-col h-full">
-                        <div className="flex items-center space-x-4 mb-6">
-                          <div className="text-white flex-shrink-0">
-                            {feature.icon}
-                          </div>
-                          <div className="flex-1">
-                            <h3 className="text-2xl font-bold text-white mb-1">
-                              {feature.title}
-                            </h3>
-                            <p className="text-gray-100 text-base">
-                              {feature.description}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex-1 flex items-center justify-center">
-                          <img
-                            src={feature.image}
-                            alt={feature.title}
-                            className="rounded-xl w-full h-86 object-full shadow-lg bg-white/10"
-                            style={{ maxHeight: '500px', maxWidth: '500px', margin: '0 auto' }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+  <div className="max-w-6xl mx-auto">
+    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-white mb-16">
+      <span className="bg-gradient-to-l from-cyan-400 via-sky-400 to-teal-200 bg-clip-text text-transparent">
+        Explore Our Features
+      </span>
+    </h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      {features.map((feature, index) => (
+        <div
+          key={index}
+          onClick={() => handleFeatureClick(feature.route)}
+          className="group cursor-pointer transform hover:scale-[1.02] transition-all duration-300"
+        >
+          <div className={`rounded-3xl shadow-xl ${feature.gradient} p-1`}>
+            <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/20 hover:bg-white/30 transition-colors flex flex-col h-full">
+              <div className="flex items-start space-x-4 mb-4 sm:mb-6">
+                <div className="text-white text-3xl sm:text-4xl flex-shrink-0">
+                  {feature.icon}
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-100 text-sm sm:text-base">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+              <div className="relative w-full mt-auto aspect-video sm:aspect-[4/3] md:aspect-[5/3] overflow-hidden rounded-xl">
+                <img
+                  src={feature.image}
+                  alt={feature.title}
+                  className="w-full h-full object-contain rounded-xl shadow-md"
+                />
               </div>
             </div>
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
 

@@ -164,11 +164,9 @@ const TravelAdvisory = () => {
                   </span>
                   <ChevronDown className="w-5 h-5 text-cyan-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
                 </button>
-
-
                 {/* Dropdown */}
                 {isDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-blue-900/50 border border-blue-600/50 rounded-xl shadow-xl z-50 overflow-hidden">
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-black border border-blue-600/50 rounded-xl shadow-xl z-50 overflow-hidden">
                     {/* Search Input */}
                     <div className="p-3 border-b border-blue-600/50 bg-blue-900/50">
                       <input

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, MapPin, Calendar, Users } from "lucide-react";
+import { ArrowRight, Sparkles, MapPin, Calendar, Users, Plane } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import FloatingBlob from "./FloatingBlob";
@@ -95,8 +95,8 @@ const Hero = () => {
 
       {/* Floating Icons (Responsive) */}
       <div className="absolute top-5 left-5 sm:top-10 sm:left-10 animate-bounce delay-1000  xs:flex">
-        <div className="bg-white/20 backdrop-blur-lg rounded-full p-2 border border-white/0">
-          <img src={logo} alt="Logo" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
+        <div className="bg-white/20 backdrop-blur-lg rounded-full p-3 border border-white/30">
+          <Plane className="w-5 h-5 sm:w-6 sm:h-6 text-teal-300" />
         </div>
       </div>
 
