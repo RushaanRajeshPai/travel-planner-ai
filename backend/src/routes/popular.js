@@ -70,6 +70,7 @@ class PopularSpotsSearchAgent {
         - address: Full address if available
         - description: Brief description of what makes it popular (2-3 sentences max)
         - priceLevel: Price range (Budget/Moderate/Expensive/Luxury) if applicable
+        - googleUrl: Generate a Google search URL for this specific place using the format: https://www.google.com/search?q=PLACE_NAME+LOCATION (URL encode the query)
         
         Return ONLY a valid JSON array with maximum 12 spots. If no popular ${spotType} are found in ${location}, return an empty array [].
         
@@ -81,7 +82,8 @@ class PopularSpotsSearchAgent {
             "reviewCount": "2,500+",
             "address": "123 Example Street, City",
             "description": "Popular local spot known for excellent food and atmosphere.",
-            "priceLevel": "Moderate"
+            "priceLevel": "Moderate",
+            "googleUrl": "https://www.google.com/search?q=Example+Place+Name+City+Location"
           }
         ]
         
@@ -89,6 +91,7 @@ class PopularSpotsSearchAgent {
         - Return ONLY the JSON array, no additional text
         - Ensure all spots are actually ${spotType} and located in ${location}
         - Focus on places with genuine high ratings and review counts
+        - Make sure to include the googleUrl field for each spot with proper URL encoding
         - If you're not confident about a place's popularity or location, don't include it
       `;
 
@@ -150,14 +153,24 @@ class ResultsFormattingAgent {
       }
 
       // Validate and clean each spot
-      const formattedSpots = spots.map(spot => ({
-        name: spot.name || 'Unknown Place',
-        rating: parseFloat(spot.rating) || 0,
-        reviewCount: spot.reviewCount || 'N/A',
-        address: spot.address || '',
-        description: spot.description || '',
-        priceLevel: spot.priceLevel || ''
-      })).filter(spot => spot.name !== 'Unknown Place' && spot.rating > 0);
+      const formattedSpots = spots.map(spot => {
+        // Generate Google URL if not provided or invalid
+        let googleUrl = spot.googleUrl;
+        if (!googleUrl || !googleUrl.startsWith('https://www.google.com/search?q=')) {
+          const searchQuery = encodeURIComponent(`${spot.name} ${location}`);
+          googleUrl = `https://www.google.com/search?q=${searchQuery}`;
+        }
+
+        return {
+          name: spot.name || 'Unknown Place',
+          rating: parseFloat(spot.rating) || 0,
+          reviewCount: spot.reviewCount || 'N/A',
+          address: spot.address || '',
+          description: spot.description || '',
+          priceLevel: spot.priceLevel || '',
+          googleUrl: googleUrl
+        };
+      }).filter(spot => spot.name !== 'Unknown Place' && spot.rating > 0);
 
       return {
         success: true,

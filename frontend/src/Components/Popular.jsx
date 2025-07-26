@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Search, Star, Users, ChevronDown } from 'lucide-react';
+import { MapPin, Search, Star, Users, ChevronDown, ExternalLink } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 
 const Popular = () => {
@@ -55,6 +55,12 @@ const Popular = () => {
       setSpots([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleViewSpot = (spot) => {
+    if (spot.googleUrl) {
+      window.open(spot.googleUrl, '_blank');
     }
   };
 
@@ -151,7 +157,7 @@ const Popular = () => {
             {spots.map((spot, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-blue-800/40 to-purple-800/40 backdrop-blur-sm rounded-xl border border-blue-400/20 p-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                className="bg-black/20 border border-cyan-500/30 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold text-white line-clamp-2">
@@ -187,6 +193,17 @@ const Popular = () => {
                       Price Level: {spot.priceLevel}
                     </div>
                   )}
+
+                  {/* View Spot Button */}
+                  <div className="pt-2">
+                    <button
+                      onClick={() => handleViewSpot(spot)}
+                      className="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-lg shadow-md hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-cyan-400/50 transition-all transform hover:scale-105 flex items-center justify-center space-x-2"
+                    >
+                      <ExternalLink size={16} />
+                      <span>View this spot</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
