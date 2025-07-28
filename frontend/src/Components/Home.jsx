@@ -88,17 +88,26 @@ const Home = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('/api/user/profile', {
+        const token = localStorage.getItem('token');
+        const response = await fetch('http://localhost:5000/api/user/profile', {
           method: 'GET',
           credentials: 'include',
           headers: {
             'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
           },
         });
 
         if (response.ok) {
           const userData = await response.json();
-          setUserFullName(userData.fullName);
+          if (userData.success) {
+            setUserFullName(userData.user.fullName);
+          }
+        } else if (response.status === 401) {
+          // Unauthorized - redirect to login
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/';
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -142,16 +151,34 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('/api/auth/logout', {
+      const response = await fetch('http://localhost:5000/api/auth/logout', {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
       if (response.ok) {
+        // Clear local storage
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        
+        // Redirect to login/home page
+        window.location.href = '/';
+      } else {
+        console.error('Logout failed:', response.status);
+        // Force logout on client side even if server request fails
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         window.location.href = '/';
       }
     } catch (error) {
       console.error('Logout error:', error);
+      // Force logout on client side
+      localStorage.removeItem('token');
+      localStorage.removeUser('user');
+      window.location.href = '/';
     }
     setIsProfileDropdownOpen(false);
   };

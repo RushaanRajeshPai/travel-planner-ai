@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('./config/passport');
 const connectDB = require('./config/database');
@@ -22,6 +23,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use(cookieParser()); // Add cookie parser middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

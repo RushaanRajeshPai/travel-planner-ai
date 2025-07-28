@@ -60,6 +60,14 @@ const register = async (req, res) => {
     // Generate token
     const token = generateToken(user._id);
 
+    // Set token as httpOnly cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
     // Send welcome email
     await sendWelcomeEmail(email, fullName);
 
@@ -118,32 +126,29 @@ const login = async (req, res) => {
       });
     }
 
-    req.login(user, (err) => {
-  if (err) {
-    return res.status(500).json({ success: false, message: 'Login failed' });
-  }
-
-  const token = generateToken(user._id); // Optional, if you're using JWT elsewhere
-
-  return res.json({
-    success: true,
-    message: 'Login successful',
-    token,
-    user: {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      nationality: user.nationality,
-      gender: user.gender,
-      age: user.age,
-      travelMode: user.travelMode
-    }
-  });
-});
-
     // Generate token
     const token = generateToken(user._id);
 
+    // Set token as httpOnly cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+
+    // Try to log in with passport for session-based auth compatibility
+    // But don't let it block the response if it fails
+    if (req.login) {
+      req.login(user, (err) => {
+        if (err) {
+          console.error('Passport login error:', err);
+          // Don't return error, continue with JWT-based response
+        }
+      });
+    }
+
+    // Send response immediately (don't wait for passport login)
     res.json({
       success: true,
       message: 'Login successful',
@@ -163,6 +168,74 @@ const login = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Server error during login'
+    });
+  }
+};
+
+// Logout user
+const logout = async (req, res) => {
+  try {
+    // Clear the token cookie
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
+
+    // Logout from passport session if exists
+    if (req.logout) {
+      req.logout((err) => {
+        if (err) {
+          console.error('Passport logout error:', err);
+        }
+        
+        // Destroy session after passport logout
+        if (req.session) {
+          req.session.destroy((err) => {
+            if (err) {
+              console.error('Session destroy error:', err);
+            }
+            
+            // Send response after session is destroyed
+            res.json({
+              success: true,
+              message: 'Logged out successfully'
+            });
+          });
+        } else {
+          // No session to destroy, send response
+          res.json({
+            success: true,
+            message: 'Logged out successfully'
+          });
+        }
+      });
+    } else {
+      // No passport logout needed, just destroy session if exists
+      if (req.session) {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error('Session destroy error:', err);
+          }
+          
+          res.json({
+            success: true,
+            message: 'Logged out successfully'
+          });
+        });
+      } else {
+        // No session to destroy
+        res.json({
+          success: true,
+          message: 'Logged out successfully'
+        });
+      }
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error during logout'
     });
   }
 };
@@ -188,6 +261,14 @@ const googleCallback = async (req, res) => {
   try {
     const token = generateToken(req.user._id);
     
+    // Set token as httpOnly cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+    
     // Redirect to frontend with token
     res.redirect(`${process.env.CLIENT_URL}/auth/success?token=${token}`);
   } catch (error) {
@@ -199,6 +280,7 @@ const googleCallback = async (req, res) => {
 module.exports = {
   register,
   login,
+  logout, // Export logout function
   getCountries,
   googleCallback
 };

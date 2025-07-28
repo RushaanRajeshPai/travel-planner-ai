@@ -1,25 +1,64 @@
 const express = require('express');
-const router = express.Router();
-const User = require('../models/User'); 
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
-// Middleware to check if user is authenticated
-const isAuthenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
+const router = express.Router();
+
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '') || 
+                req.cookies?.token;
+  
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: 'No token, authorization denied'
+    });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: 'Token is not valid'
+    });
+  }
+};
+
+// Alternative middleware for session-based auth (for users who logged in via Google)
+const requireAuth = (req, res, next) => {
+  // First try JWT token
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+  
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = { userId: decoded.userId };
+      return next();
+    } catch (error) {
+      // Token invalid, try session
+    }
+  }
+
+  // Try session-based auth
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    req.user = { userId: req.user._id };
     return next();
   }
+
   return res.status(401).json({
     success: false,
-    message: 'User not authenticated'
+    message: 'Authentication required'
   });
 };
 
-// GET /api/user/profile - Fetch user's profile information
-router.get('/profile', isAuthenticated, async (req, res) => {
+// Get user profile
+router.get('/profile', requireAuth, async (req, res) => {
   try {
-    const userId = req.user.id || req.user._id;
-    
-    // Find user by ID and select only necessary fields
-    const user = await User.findById(userId).select('firstName lastName fullName email');
+    const user = await User.findById(req.user.userId).select('-password');
     
     if (!user) {
       return res.status(404).json({
@@ -28,29 +67,69 @@ router.get('/profile', isAuthenticated, async (req, res) => {
       });
     }
 
-    // Construct full name if not stored as a single field
-    let fullName = user.fullName;
-    if (!fullName && user.firstName && user.lastName) {
-      fullName = `${user.firstName} ${user.lastName}`;
-    } else if (!fullName && user.firstName) {
-      fullName = user.firstName;
-    } else if (!fullName) {
-      fullName = 'User'; 
+    res.json({
+      success: true,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        nationality: user.nationality,
+        gender: user.gender,
+        age: user.age,
+        travelMode: user.travelMode
+      }
+    });
+  } catch (error) {
+    console.error('Get profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// Update user profile
+router.put('/profile', requireAuth, async (req, res) => {
+  try {
+    const { fullName, nationality, gender, age, travelMode } = req.body;
+    
+    const user = await User.findByIdAndUpdate(
+      req.user.userId,
+      {
+        fullName,
+        nationality,
+        gender,
+        age: parseInt(age),
+        travelMode
+      },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
     }
 
     res.json({
       success: true,
-      fullName: fullName,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName
+      message: 'Profile updated successfully',
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        nationality: user.nationality,
+        gender: user.gender,
+        age: user.age,
+        travelMode: user.travelMode
+      }
     });
-
   } catch (error) {
-    console.error('Error fetching user profile:', error);
+    console.error('Update profile error:', error);
     res.status(500).json({
       success: false,
-      message: 'Internal server error'
+      message: 'Server error'
     });
   }
 });

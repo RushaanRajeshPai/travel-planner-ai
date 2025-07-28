@@ -5,7 +5,8 @@ const {
   register,
   login,
   getCountries,
-  googleCallback
+  googleCallback,
+  logout // Add this import
 } = require('../controllers/authController');
 
 const router = express.Router();
@@ -43,7 +44,7 @@ const registerValidation = [
     .withMessage('Age must be between 1 and 120'),
   
   body('travelMode')
-    .isIn(['Relaxation', 'Trekking', 'Exploring cultural heritage', 'Educational'])
+    .isIn(['Relaxation', 'Trekking', 'Exploring cultural heritage', 'Educational', 'Honeymoon'])
     .withMessage('Please select a valid travel mode')
 ];
 
@@ -61,6 +62,7 @@ const loginValidation = [
 // Routes
 router.post('/register', registerValidation, register);
 router.post('/login', loginValidation, login);
+router.post('/logout', logout); // Add logout route
 router.get('/countries', getCountries);
 
 // Google OAuth routes
