@@ -118,6 +118,29 @@ const login = async (req, res) => {
       });
     }
 
+    req.login(user, (err) => {
+  if (err) {
+    return res.status(500).json({ success: false, message: 'Login failed' });
+  }
+
+  const token = generateToken(user._id); // Optional, if you're using JWT elsewhere
+
+  return res.json({
+    success: true,
+    message: 'Login successful',
+    token,
+    user: {
+      id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      nationality: user.nationality,
+      gender: user.gender,
+      age: user.age,
+      travelMode: user.travelMode
+    }
+  });
+});
+
     // Generate token
     const token = generateToken(user._id);
 

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, MapPin, Calendar, Users, Plane } from "lucide-react";
+import { ArrowRight, Sparkles, MapPin, AlertTriangle, Plane } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
 import FloatingBlob from "./FloatingBlob";
 
 const Hero = () => {
@@ -24,7 +23,7 @@ const Hero = () => {
       description: "Uncover unique destinations beyond the tourist trail"
     },
     {
-      icon: <Calendar className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />,
+      icon: <AlertTriangle className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />,
       title: "View Global Travel Alerts",
       description: "Access current advisories for every destination worldwide"
     }
@@ -48,7 +47,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-900/20 to-transparent" />
 
       {/* Main Content */}
-      <div className="relative z-10 flex-grow flex flex-col justify-center items-center px-4 pt-24 md:pt-32">
+      <div className="relative z-10 flex-grow flex flex-col justify-center items-center px-4 md:pt-32">
         <div className="text-center max-w-6xl w-full">
           <div className={`transition-all duration-1000 transform ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -59,7 +58,7 @@ const Hero = () => {
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-blue-100/90 mb-8 leading-relaxed max-w-3xl mx-auto px-2">
               Imagine having a travel expert who knows your preferences, understands your dreams,
-              and crafts the perfect journey just for you. Stop spending hours researching—let intelligence guide your wanderlust.
+              and crafts the perfect journey just for you. Stop spending hours researching, let intelligence guide your wanderlust.
             </p>
           </div>
 

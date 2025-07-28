@@ -171,7 +171,7 @@ const Home = () => {
               <span className="text-xl font-bold bg-gradient-to-l from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent">EzyVoyage AI</span>
             </div>
             {/* Desktop Navigation */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-8">
+            <div className="absolute text-xl left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-8">
               <button
                 onClick={() => scrollToSection('hero-section')}
                 className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
