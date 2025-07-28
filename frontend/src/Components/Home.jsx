@@ -163,7 +163,7 @@ const Home = () => {
         // Clear local storage
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        
+
         // Redirect to login/home page
         window.location.href = '/';
       } else {
@@ -421,48 +421,48 @@ const Home = () => {
 
           {/* Features Section */}
           <div id="features-section" className="px-4 py-16 sm:px-6 lg:px-8">
-  <div className="max-w-6xl mx-auto">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-white mb-16">
-      <span className="bg-gradient-to-l from-cyan-400 via-sky-400 to-teal-200 bg-clip-text text-transparent">
-        Explore Our Features
-      </span>
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {features.map((feature, index) => (
-        <div
-          key={index}
-          onClick={() => handleFeatureClick(feature.route)}
-          className="group cursor-pointer transform hover:scale-[1.02] transition-all duration-300"
-        >
-          <div className={`rounded-3xl shadow-xl ${feature.gradient} p-1`}>
-            <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/20 hover:bg-white/30 transition-colors flex flex-col h-full">
-              <div className="flex items-start space-x-4 mb-4 sm:mb-6">
-                <div className="text-white text-3xl sm:text-4xl flex-shrink-0">
-                  {feature.icon}
-                </div>
-                <div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
-                    {feature.title}
-                  </h3>
-                  <p className="text-gray-100 text-sm sm:text-base">
-                    {feature.description}
-                  </p>
-                </div>
-              </div>
-              <div className="relative w-full mt-auto aspect-video sm:aspect-[4/3] md:aspect-[5/3] overflow-hidden rounded-xl">
-                <img
-                  src={feature.image}
-                  alt={feature.title}
-                  className="w-full h-full object-contain rounded-xl shadow-md"
-                />
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center text-white mb-16">
+                <span className="bg-gradient-to-l from-cyan-400 via-sky-400 to-teal-200 bg-clip-text text-transparent">
+                  Explore Our Features
+                </span>
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {features.map((feature, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleFeatureClick(feature.route)}
+                    className="group cursor-pointer transform hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <div className={`rounded-3xl shadow-xl ${feature.gradient} p-1`}>
+                      <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 sm:p-8 lg:p-10 border border-white/20 hover:bg-white/30 transition-colors flex flex-col h-full">
+                        <div className="flex items-start space-x-4 mb-4 sm:mb-6">
+                          <div className="text-white text-3xl sm:text-4xl flex-shrink-0">
+                            {feature.icon}
+                          </div>
+                          <div>
+                            <h3 className="text-xl sm:text-2xl font-bold text-white mb-1">
+                              {feature.title}
+                            </h3>
+                            <p className="text-gray-100 text-sm sm:text-base">
+                              {feature.description}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="relative w-full mt-auto aspect-video sm:aspect-[4/3] md:aspect-[5/3] overflow-hidden rounded-xl">
+                          <img
+                            src={feature.image}
+                            alt={feature.title}
+                            className="w-full h-full object-contain rounded-xl shadow-md"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
 
         </div>
       </div>
@@ -479,21 +479,29 @@ const Home = () => {
               <span className="text-gray-400">Connect with us:</span>
               <div className="flex space-x-3">
                 <a
-                  href="#"
+                  href="https://x.com/rushaan21yo"
                   className="text-gray-400 hover:text-cyan-400 transition-colors duration-200"
                   aria-label="Follow us on X"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/RushaanRajeshPai"
                   className="text-gray-400 hover:text-cyan-400 transition-colors duration-200"
-                  aria-label="Follow us on Instagram"
+                  aria-label="Follow us on GitHub"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987s11.987-5.367 11.987-11.987C24.004 5.367 18.637.001 12.017.001zM8.449 16.988c-2.013 0-3.64-1.628-3.64-3.64s1.628-3.64 3.64-3.64 3.64 1.628 3.64 3.64-1.628 3.64-3.64 3.64zm7.072 0c-2.013 0-3.64-1.628-3.64-3.64s1.628-3.64 3.64-3.64 3.64 1.628 3.64 3.64-1.628 3.64-3.64 3.64z" />
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M12 .297a12 12 0 00-3.79 23.4c.6.111.82-.261.82-.58 0-.287-.011-1.045-.017-2.052-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.839 1.236 1.839 1.236 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.304-5.467-1.334-5.467-5.931 0-1.31.467-2.381 1.235-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.5 11.5 0 016 0c2.29-1.552 3.296-1.23 3.296-1.23.653 1.653.242 2.873.118 3.176.77.84 1.233 1.911 1.233 3.221 0 4.61-2.807 5.625-5.48 5.921.43.37.823 1.103.823 2.222 0 1.606-.015 2.903-.015 3.293 0 .321.218.694.825.576A12 12 0 0012 .297z"
+                    />
                   </svg>
                 </a>
               </div>
