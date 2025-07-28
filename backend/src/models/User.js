@@ -38,7 +38,7 @@ const userSchema = new mongoose.Schema({
   travelMode: {
     type: String,
     required: true,
-    enum: ['Relaxation', 'Trekking', 'Exploring cultural heritage', 'Educational', 'Honeymoon']
+    enum: ['Relaxation', 'Trekking', 'Exploring Cultural Heritage', 'Educational', 'Honeymoon']
   },
   googleId: {
     type: String,
