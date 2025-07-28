@@ -7,6 +7,10 @@ import TravelPlannerAI from './Components/TravelPlannerAI';
 import Popular from './Components/Popular';
 import Niche from './Components/Niche';
 import TravelAdvisory from './Components/TravelAdvisory';
+import Pricing from './Components/Pricing';
+import Recommendations from './Components/Recommendations';
+import Dashboard from './Components/Dashboard';
+import Bookmarked from './Components/Bookmarked';
 
 const App = () => {
   return (
@@ -19,6 +23,10 @@ const App = () => {
         <Route path="/popular" element={<Popular />} />
         <Route path="/niche" element={<Niche />} />
         <Route path="/advisory" element={<TravelAdvisory />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/recommendations" element={<Recommendations />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/bookmarked" element={<Bookmarked />} />
       </Routes>
     </Router>
   );

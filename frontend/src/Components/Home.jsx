@@ -242,10 +242,10 @@ const Home = () => {
                 {isProfileDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-slate-800/95 backdrop-blur-md rounded-lg shadow-lg border border-white/10">
                     <button
-                      onClick={() => handleNavigation('/profile')}
+                      onClick={() => handleNavigation('/dashboard')}
                       className="block w-full text-left px-4 py-2 text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors duration-200"
                     >
-                      Your Profile
+                      Dashboard
                     </button>
                     <button
                       onClick={() => handleNavigation('/bookmarked')}
@@ -312,10 +312,10 @@ const Home = () => {
                     <span className="text-gray-300">{userFullName || 'User'}</span>
                   </div>
                   <button
-                    onClick={() => handleNavigation('/profile')}
+                    onClick={() => handleNavigation('/dashboard')}
                     className="block px-6 py-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
                   >
-                    Your Profile
+                    Dashboard
                   </button>
                   <button
                     onClick={() => handleNavigation('/bookmarked')}
