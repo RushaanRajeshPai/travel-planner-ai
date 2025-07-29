@@ -79,7 +79,7 @@ const Popular = () => {
         </div>
 
         {/* Search Form */}
-        <div className="bg-black/20 rounded-2xl border border-cyan-500/30   p-8 mb-8 shadow-2xl">
+        <div className="bg-black/20 rounded-2xl border border-cyan-500/30 p-8 mb-8 shadow-2xl">
           <div className="space-y-6">
             <div className="grid md:grid-cols-1 gap-6">
               {/* Location Input */}

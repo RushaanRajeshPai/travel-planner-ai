@@ -3,7 +3,7 @@ import { User, Mail, Globe, Calendar, Heart, Edit3, Save, X } from 'lucide-react
 import maleAvatar from '../assets/male-avatar.json';
 import femaleAvatar from '../assets/female-avatar.json';
 import { Player } from '@lottiefiles/react-lottie-player';
-
+import FloatingBlob from './FloatingBlob';
 
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -142,7 +142,7 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-800 flex items-center justify-center">
+      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 flex items-center justify-center">
         <div className="bg-red-500/20 border border-red-500 rounded-lg p-6 max-w-md text-center">
           <X className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <p className="text-red-200 text-lg mb-4">{error}</p>
@@ -158,8 +158,9 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-800 py-8 px-4">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 py-8 px-4">
       <div className="max-w-4xl mx-auto">
+        <FloatingBlob />
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-2">Your Profile</h1>
@@ -167,7 +168,7 @@ const Dashboard = () => {
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8 shadow-2xl">
+        <div className="bg-black/20 backdrop-blur-lg rounded-2xl border border-black/20 p-8 shadow-2xl">
           {/* Avatar Section */}
           <div className="text-center mb-8">
             <div className="relative inline-block mb-4">
