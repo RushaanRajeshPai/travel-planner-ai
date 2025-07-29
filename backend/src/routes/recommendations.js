@@ -43,7 +43,7 @@ const generateTripsForMode = async (travelMode, count = 8) => {
     {
       "trips": [
         {
-          "title": "Catchy and engaging trip title (max 60 characters)",
+          "title": "A trip title (max 60 characters)",
           "location": "City, Country",
           "description": "Brief description of why this trip is perfect for ${travelMode.toLowerCase()}"
         }
