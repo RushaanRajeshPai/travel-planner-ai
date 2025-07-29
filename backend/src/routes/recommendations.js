@@ -31,6 +31,74 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+// NEW ROUTE: Fetch image for a location
+router.get('/get-image', verifyToken, async (req, res) => {
+  try {
+    const { location, title } = req.query;
+    
+    if (!location) {
+      return res.status(400).json({
+        success: false,
+        message: 'Location parameter is required'
+      });
+    }
+
+    const searchQuery = `${location} travel destination`;
+    const unsplashUrl = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=1&orientation=landscape&client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
+
+    const response = await fetch(unsplashUrl);
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch from Unsplash API');
+    }
+
+    const data = await response.json();
+    
+    if (data.results && data.results.length > 0) {
+      const imageUrl = data.results[0].urls.regular;
+      res.json({
+        success: true,
+        imageUrl: imageUrl,
+        alt: data.results[0].alt_description || `${location} travel destination`
+      });
+    } else {
+      // Fallback to a more generic search
+      const fallbackQuery = location.split(',')[0]; // Just use city name
+      const fallbackUrl = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(fallbackQuery)}&per_page=1&orientation=landscape&client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
+      
+      const fallbackResponse = await fetch(fallbackUrl);
+      const fallbackData = await fallbackResponse.json();
+      
+      if (fallbackData.results && fallbackData.results.length > 0) {
+        const imageUrl = fallbackData.results[0].urls.regular;
+        res.json({
+          success: true,
+          imageUrl: imageUrl,
+          alt: fallbackData.results[0].alt_description || `${location} travel destination`
+        });
+      } else {
+        // Final fallback
+        res.json({
+          success: true,
+          imageUrl: `https://source.unsplash.com/800x600/?${encodeURIComponent(fallbackQuery)},travel`,
+          alt: `${location} travel destination`
+        });
+      }
+    }
+
+  } catch (error) {
+    console.error('Error fetching image:', error);
+    
+    // Return fallback image
+    const fallbackLocation = req.query.location.split(',')[0];
+    res.json({
+      success: true,
+      imageUrl: `https://source.unsplash.com/800x600/?${encodeURIComponent(fallbackLocation)},travel`,
+      alt: `${req.query.location} travel destination`
+    });
+  }
+});
+
 // Helper function to generate trips using Gemini AI
 const generateTripsForMode = async (travelMode, count = 8) => {
   try {
