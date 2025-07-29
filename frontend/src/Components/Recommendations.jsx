@@ -177,17 +177,18 @@ const Recommendations = () => {
             <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 animate-pulse"></div>
           )}
           
-          
+          <div className="absolute bottom-4 left-4 text-white">
+            
+          </div>
         </div>
         <div className="p-4 sm:p-5 md:p-6 text-center">
-          <div className="flex items-center mb-1 text-center justify-center ">
+          <div className="flex items-center mb-1 text-center justify-center">
               <MapPin className="w-4 h-4 mr-1 text-black" />
-              <span className="text-sm text-black font-semibold drop-shadow-lg">{trip.location}</span>
+              <span className="text-sm font-semibold drop-shadow-lg text-black">{trip.location}</span>
             </div>
           <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 line-clamp-2 leading-tight">
             {trip.title}
           </h3>
-          
           <button
             onClick={() => onClick(trip.title, trip.location)}
             className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-2 sm:py-2.5 md:py-2 px-4 rounded-lg hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
@@ -207,7 +208,7 @@ const Recommendations = () => {
         disabled={disabled || currentIndex === 0}
         className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-white shadow-lg rounded-full hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
-        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+        <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
         <span className="font-medium">Previous</span>
       </button>
       <button
@@ -215,15 +216,15 @@ const Recommendations = () => {
         disabled={disabled || currentIndex + 4 >= totalItems}
         className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-white shadow-lg rounded-full hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
-        <span className="font-medium">Next</span>
-        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+        <span className="font-medium">Previous</span>
+        <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
       </button>
     </div>
   );
 
   if (loading) {
     return (
-      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 flex items-center justify-center p-4">
+      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 flex items-center justify-center p-4 overflow-x-hidden">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-lg sm:text-xl font-semibold text-cyan-300 max-w-md mx-auto px-4">
@@ -236,7 +237,7 @@ const Recommendations = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 flex items-center justify-center p-4">
+      <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 flex items-center justify-center p-4 overflow-x-hidden">
         <div className="text-center">
           <div className="text-red-500 text-lg sm:text-xl font-semibold mb-4 px-4">{error}</div>
           <button
@@ -251,12 +252,12 @@ const Recommendations = () => {
   }
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 overflow-x-hidden">
       <FloatingBlob />
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 px-4">
+          <h1 className="text-xl sm:text-4xl md:text-xl font-bold mb-4 px-4 leading-tight">
             <span className="text-cyan-300">Personalized Recommendations for You</span> 
           </h1>
           <p className="text-lg sm:text-xl max-w-2xl mx-auto px-4 text-white">
@@ -274,7 +275,7 @@ const Recommendations = () => {
           </div>
 
           {/* Responsive Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
             {favoriteTrips.slice(favoriteCurrentIndex, favoriteCurrentIndex + 4).map((trip, index) => (
               <TripCard
                 key={index}
@@ -307,7 +308,7 @@ const Recommendations = () => {
               </h3>
               
               {/* Responsive Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
                 {trips.slice(otherCurrentIndexes[mode] || 0, (otherCurrentIndexes[mode] || 0) + 4).map((trip, index) => (
                   <TripCard
                     key={index}
