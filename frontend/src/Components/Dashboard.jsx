@@ -131,7 +131,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-800 flex items-center justify-center">
+      <div className="min-h-screen w-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-800 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-cyan-200 text-lg">Loading your profile...</p>
