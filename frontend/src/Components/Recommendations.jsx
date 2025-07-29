@@ -161,7 +161,7 @@ const Recommendations = () => {
     const imageUrl = tripImages[imageKey];
 
     return (
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 w-full">
+      <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 w-full">
         <div className="h-48 sm:h-52 md:h-48 lg:h-48 xl:h-52 relative overflow-hidden">
           {imageUrl ? (
             <img 
@@ -176,17 +176,13 @@ const Recommendations = () => {
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-600 animate-pulse"></div>
           )}
-          
-          <div className="absolute bottom-4 left-4 text-white">
-            
-          </div>
         </div>
         <div className="p-4 sm:p-5 md:p-6 text-center">
           <div className="flex items-center mb-1 text-center justify-center">
-              <MapPin className="w-4 h-4 mr-1 text-black" />
-              <span className="text-sm font-semibold drop-shadow-lg text-black">{trip.location}</span>
+              <MapPin className="w-4 h-4 mr-1 text-cyan-300" />
+              <span className="text-sm font-semibold drop-shadow-lg text-cyan-300">{trip.location}</span>
             </div>
-          <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3 line-clamp-2 leading-tight">
+          <h3 className="text-base sm:text-lg font-semibold mb-3 line-clamp-2 leading-tight">
             {trip.title}
           </h3>
           <button
