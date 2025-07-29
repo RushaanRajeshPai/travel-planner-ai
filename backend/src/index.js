@@ -11,7 +11,8 @@ const travelAdvisoryRoutes = require('./routes/travelAdvisory');
 const popularRoutes = require('./routes/popular');
 const nicheRoutes = require('./routes/niche'); 
 const fetchUserRoutes = require('./routes/fetchuser');
-const dashboardRoutes = require('./routes/dashboard'); // Add dashboard routes
+const dashboardRoutes = require('./routes/dashboard'); 
+const recommendationsRoutes = require('./routes/recommendations');
 
 const app = express();
 
@@ -50,7 +51,8 @@ app.use('/api/travel-advisory', travelAdvisoryRoutes);
 app.use('/api/popular', popularRoutes);
 app.use('/api/niche', nicheRoutes); 
 app.use('/api/user', fetchUserRoutes);
-app.use('/api/dashboard', dashboardRoutes); // Add dashboard routes
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/recommendations', recommendationsRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
