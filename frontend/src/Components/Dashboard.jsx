@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { User, Mail, Globe, Calendar, Heart, Edit3, Save, X } from 'lucide-react';
+import maleAvatar from '../assets/male-avatar.json';
+import femaleAvatar from '../assets/female-avatar.json';
+import { Player } from '@lottiefiles/react-lottie-player';
+
 
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
@@ -11,7 +15,7 @@ const Dashboard = () => {
 
   const travelModeOptions = [
     'Relaxation',
-    'Trekking', 
+    'Trekking',
     'Exploring Cultural Heritage',
     'Educational',
     'Honeymoon'
@@ -25,11 +29,11 @@ const Dashboard = () => {
     try {
       // Try to get token from localStorage as backup
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-      
+
       const headers = {
         'Content-Type': 'application/json',
       };
-      
+
       // Add Authorization header if token exists in localStorage
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -42,7 +46,7 @@ const Dashboard = () => {
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setUserInfo(data.user);
         setEditedTravelMode(data.user.travelMode);
@@ -68,11 +72,11 @@ const Dashboard = () => {
     try {
       // Try to get token from localStorage as backup
       const token = localStorage.getItem('token') || localStorage.getItem('authToken');
-      
+
       const headers = {
         'Content-Type': 'application/json',
       };
-      
+
       // Add Authorization header if token exists in localStorage
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
@@ -86,7 +90,7 @@ const Dashboard = () => {
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setUserInfo(prev => ({ ...prev, travelMode: editedTravelMode }));
         setIsEditing(false);
@@ -106,23 +110,21 @@ const Dashboard = () => {
     setIsEditing(false);
   };
 
-  // Animation component for waving user
   const WavingUser = ({ gender }) => {
-    const isGenderCriteriaMet = gender && (gender.toLowerCase() === 'male' || gender.toLowerCase() === 'female');
-    
+    const avatarSrc = gender?.toLowerCase() === 'female' ? femaleAvatar : maleAvatar;
+
     return (
-      <div className="relative w-24 h-24 mx-auto">
+      <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56">
+        {/* Glowing circle effect */}
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full opacity-20 animate-pulse"></div>
         <div className="relative w-full h-full flex items-center justify-center">
-          {isGenderCriteriaMet ? (
-            <div className="text-4xl animate-bounce">
-              {gender.toLowerCase() === 'male' ? '👋🧑' : '👋👩'}
-            </div>
-          ) : (
-            <div className="text-4xl animate-bounce">👋😊</div>
-          )}
+          <Player
+            autoplay
+            loop
+            src={avatarSrc}
+            style={{ height: '100%', width: '100%' }}
+          />
         </div>
-        <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full animate-ping"></div>
       </div>
     );
   };
@@ -144,7 +146,7 @@ const Dashboard = () => {
         <div className="bg-red-500/20 border border-red-500 rounded-lg p-6 max-w-md text-center">
           <X className="w-12 h-12 text-red-400 mx-auto mb-4" />
           <p className="text-red-200 text-lg mb-4">{error}</p>
-          <button 
+          <button
             onClick={fetchUserInfo}
             className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors"
           >
@@ -169,7 +171,7 @@ const Dashboard = () => {
           {/* Avatar Section */}
           <div className="text-center mb-8">
             <div className="relative inline-block mb-4">
-              <div className="w-32 h-32 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-500/30 border-4 border-cyan-400/50 flex items-center justify-center mx-auto backdrop-blur-sm">
+              <div className="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-cyan-400/30 to-blue-500/30 border-4 border-cyan-400/50 flex items-center justify-center mx-auto backdrop-blur-sm">
                 <WavingUser gender={userInfo?.gender} />
               </div>
             </div>
@@ -249,21 +251,20 @@ const Dashboard = () => {
                     </option>
                   ))}
                 </select>
-                
+
                 <div className="flex gap-3">
                   <button
                     onClick={handleSaveChanges}
                     disabled={saving || editedTravelMode === userInfo?.travelMode}
-                    className={`flex items-center px-6 py-2 rounded-lg transition-colors ${
-                      saving || editedTravelMode === userInfo?.travelMode
+                    className={`flex items-center px-6 py-2 rounded-lg transition-colors ${saving || editedTravelMode === userInfo?.travelMode
                         ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
                         : 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white'
-                    }`}
+                      }`}
                   >
                     <Save className="w-4 h-4 mr-2" />
                     {saving ? 'Saving...' : 'Save Changes'}
                   </button>
-                  
+
                   <button
                     onClick={handleCancelEdit}
                     className="flex items-center px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors"
