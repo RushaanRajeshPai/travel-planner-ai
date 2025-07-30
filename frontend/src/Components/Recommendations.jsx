@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, ExternalLink, MapPin } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ExternalLink, MapPin, Bookmark, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import FloatingBlob from './FloatingBlob';
 
@@ -12,6 +12,9 @@ const Recommendations = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [tripImages, setTripImages] = useState({});
+  const [bookmarkedTrips, setBookmarkedTrips] = useState([]);
+  const [bookmarkingTrip, setBookmarkingTrip] = useState(null);
+  const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   const navigate = useNavigate();
 
   const travelModes = ['Relaxation', 'Trekking', 'Exploring Cultural Heritage', 'Educational', 'Honeymoon'];
@@ -19,6 +22,60 @@ const Recommendations = () => {
   useEffect(() => {
     fetchRecommendations();
   }, []);
+
+  // Show notification
+  const showNotification = (message, type = 'success') => {
+    setNotification({ show: true, message, type });
+    setTimeout(() => {
+      setNotification({ show: false, message: '', type: '' });
+    }, 3000);
+  };
+
+  // Check if trip is bookmarked
+  const isTripBookmarked = (title, location) => {
+    return bookmarkedTrips.some(trip => trip.title === title && trip.location === location);
+  };
+
+  // Bookmark trip function
+  const bookmarkTrip = async (trip, travelMode) => {
+    if (bookmarkingTrip || isTripBookmarked(trip.title, trip.location)) {
+      return;
+    }
+
+    setBookmarkingTrip(`${trip.title}-${trip.location}`);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:5000/api/recommendations/bookmark-trip', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: trip.title,
+          location: trip.location,
+          description: trip.description || '',
+          travelMode: travelMode
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Add to bookmarked trips
+        setBookmarkedTrips(prev => [...prev, data.bookmarkedTrip]);
+        showNotification('Trip bookmarked successfully!', 'success');
+      } else {
+        showNotification(data.message || 'Failed to bookmark trip', 'error');
+      }
+    } catch (error) {
+      console.error('Error bookmarking trip:', error);
+      showNotification('Failed to bookmark trip. Please try again.', 'error');
+    } finally {
+      setBookmarkingTrip(null);
+    }
+  };
 
   // Function to fetch trip image using backend API
   const fetchTripImage = async (location, title) => {
@@ -96,6 +153,7 @@ const Recommendations = () => {
         setUserTravelMode(data.userTravelMode);
         setFavoriteTrips(data.favoriteTrips);
         setOtherTrips(data.otherTrips);
+        setBookmarkedTrips(data.bookmarkedTrips || []);
         
         // Initialize current indexes for other travel modes
         const initialIndexes = {};
@@ -156,9 +214,11 @@ const Recommendations = () => {
     }
   };
 
-  const TripCard = ({ trip, onClick }) => {
+  const TripCard = ({ trip, onClick, travelMode }) => {
     const imageKey = `${trip.title}-${trip.location}`;
     const imageUrl = tripImages[imageKey];
+    const isBookmarked = isTripBookmarked(trip.title, trip.location);
+    const isBookmarking = bookmarkingTrip === `${trip.title}-${trip.location}`;
 
     return (
       <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 w-full">
@@ -179,19 +239,49 @@ const Recommendations = () => {
         </div>
         <div className="p-4 sm:p-5 md:p-6 text-center">
           <div className="flex items-center mb-1 text-center justify-center">
-              <MapPin className="w-4 h-4 mr-1 text-cyan-300" />
-              <span className="text-sm font-semibold drop-shadow-lg text-cyan-300">{trip.location}</span>
-            </div>
+            <MapPin className="w-4 h-4 mr-1 text-cyan-300" />
+            <span className="text-sm font-semibold drop-shadow-lg text-cyan-300">{trip.location}</span>
+          </div>
           <h3 className="text-base sm:text-lg font-semibold mb-3 line-clamp-2 leading-tight">
             {trip.title}
           </h3>
-          <button
-            onClick={() => onClick(trip.title, trip.location)}
-            className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-2 sm:py-2.5 md:py-2 px-4 rounded-lg hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
-          >
-            Check This Trip
-            <ExternalLink className="w-4 h-4" />
-          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={() => onClick(trip.title, trip.location)}
+              className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-2 sm:py-2.5 md:py-2 px-4 rounded-lg hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm sm:text-base"
+            >
+              Check This Trip
+              <ExternalLink className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => bookmarkTrip(trip, travelMode)}
+              disabled={isBookmarked || isBookmarking}
+              className={`w-full py-2 sm:py-2.5 md:py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm sm:text-base ${
+                isBookmarked 
+                  ? 'bg-green-600 text-white cursor-not-allowed' 
+                  : isBookmarking
+                  ? 'bg-yellow-600 text-white cursor-not-allowed'
+                  : 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600'
+              }`}
+            >
+              {isBookmarking ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  Bookmarking...
+                </>
+              ) : isBookmarked ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  Bookmarked
+                </>
+              ) : (
+                <>
+                  <Bookmark className="w-4 h-4" />
+                  Bookmark Trip
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -217,6 +307,26 @@ const Recommendations = () => {
       </button>
     </div>
   );
+
+  // Notification Component
+  const Notification = ({ show, message, type }) => {
+    if (!show) return null;
+
+    return (
+      <div className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${
+        type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+      }`}>
+        <div className="flex items-center gap-2">
+          {type === 'success' ? (
+            <Check className="w-5 h-5" />
+          ) : (
+            <ExternalLink className="w-5 h-5" />
+          )}
+          <span className="font-medium">{message}</span>
+        </div>
+      </div>
+    );
+  };
 
   if (loading) {
     return (
@@ -250,6 +360,8 @@ const Recommendations = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 overflow-x-hidden">
       <FloatingBlob />
+      <Notification show={notification.show} message={notification.message} type={notification.type} />
+      
       <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
@@ -277,6 +389,7 @@ const Recommendations = () => {
                 key={index}
                 trip={trip}
                 onClick={handleTripClick}
+                travelMode={userTravelMode}
               />
             ))}
           </div>
@@ -310,6 +423,7 @@ const Recommendations = () => {
                     key={index}
                     trip={trip}
                     onClick={handleTripClick}
+                    travelMode={mode}
                   />
                 ))}
               </div>

@@ -47,7 +47,29 @@ const userSchema = new mongoose.Schema({
   isEmailVerified: {
     type: Boolean,
     default: false
-  }
+  },
+  bookmarkedTrips: [{
+    title: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      default: ''
+    },
+    travelMode: {
+      type: String,
+      required: true
+    },
+    bookmarkedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 }, {
   timestamps: true
 });

@@ -99,6 +99,72 @@ router.get('/get-image', verifyToken, async (req, res) => {
   }
 });
 
+// NEW ROUTE: Bookmark a trip
+router.post('/bookmark-trip', verifyToken, async (req, res) => {
+  try {
+    const { title, location, description, travelMode } = req.body;
+    
+    if (!title || !location || !travelMode) {
+      return res.status(400).json({
+        success: false,
+        message: 'Title, location, and travel mode are required'
+      });
+    }
+
+    const user = await User.findById(req.user.userId);
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Check if trip is already bookmarked
+    const existingBookmark = user.bookmarkedTrips.find(
+      trip => trip.title === title && trip.location === location
+    );
+
+    if (existingBookmark) {
+      return res.status(400).json({
+        success: false,
+        message: 'Trip is already bookmarked'
+      });
+    }
+
+    // Add the trip to bookmarked trips
+    user.bookmarkedTrips.push({
+      title,
+      location,
+      description: description || '',
+      travelMode,
+      bookmarkedAt: new Date()
+    });
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Trip bookmarked successfully',
+      bookmarkedTrip: {
+        title,
+        location,
+        description: description || '',
+        travelMode,
+        bookmarkedAt: new Date()
+      }
+    });
+
+  } catch (error) {
+    console.error('Error bookmarking trip:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to bookmark trip',
+      error: error.message
+    });
+  }
+});
+
 // Helper function to generate trips using Gemini AI
 const generateTripsForMode = async (travelMode, count = 8) => {
   try {
@@ -242,6 +308,9 @@ router.get('/get-recommendations', verifyToken, async (req, res) => {
     // Get other travel modes (excluding user's favorite)
     const otherTravelModes = allTravelModes.filter(mode => mode !== userTravelMode);
 
+    // Get user's bookmarked trips for checking
+    const bookmarkedTrips = user.bookmarkedTrips || [];
+
     try {
       // Generate trips for user's favorite travel mode
       console.log(`Generating trips for user's favorite mode: ${userTravelMode}`);
@@ -263,6 +332,7 @@ router.get('/get-recommendations', verifyToken, async (req, res) => {
         userTravelMode,
         favoriteTrips,
         otherTrips,
+        bookmarkedTrips, // Send bookmarked trips to frontend
         message: 'Recommendations generated successfully'
       });
 
@@ -317,6 +387,7 @@ router.post('/refresh-recommendations', verifyToken, async (req, res) => {
       userTravelMode,
       favoriteTrips,
       otherTrips,
+      bookmarkedTrips: user.bookmarkedTrips || [],
       message: 'Recommendations refreshed successfully'
     });
 
