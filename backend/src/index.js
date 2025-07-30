@@ -13,6 +13,7 @@ const nicheRoutes = require('./routes/niche');
 const fetchUserRoutes = require('./routes/fetchuser');
 const dashboardRoutes = require('./routes/dashboard'); 
 const recommendationsRoutes = require('./routes/recommendations');
+const bookmarkedRoutes = require('./routes/bookmarked');
 
 const app = express();
 
@@ -53,6 +54,7 @@ app.use('/api/niche', nicheRoutes);
 app.use('/api/user', fetchUserRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/recommendations', recommendationsRoutes);
+app.use('/api/bookmarked', bookmarkedRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
