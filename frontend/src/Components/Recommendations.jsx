@@ -15,6 +15,7 @@ const Recommendations = () => {
   const [bookmarkedTrips, setBookmarkedTrips] = useState([]);
   const [bookmarkingTrip, setBookmarkingTrip] = useState(null);
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
+  const [isBookmarkButtonExpanded, setIsBookmarkButtonExpanded] = useState(false);
   const navigate = useNavigate();
 
   const travelModes = ['Relaxation', 'Trekking', 'Exploring Cultural Heritage', 'Educational', 'Honeymoon'];
@@ -214,6 +215,20 @@ const Recommendations = () => {
     }
   };
 
+  const handleBookmarkButtonClick = () => {
+    if (!isBookmarkButtonExpanded) {
+      // Start spinning animation, then expand after 2 seconds
+      setIsBookmarkButtonExpanded(true);
+    } else {
+      // Collapse immediately
+      setIsBookmarkButtonExpanded(false);
+    }
+  };
+
+  const handleBookmarkedTripsClick = () => {
+    navigate('/bookmarked');
+  };
+
   const TripCard = ({ trip, onClick, travelMode }) => {
     const imageKey = `${trip.title}-${trip.location}`;
     const imageUrl = tripImages[imageKey];
@@ -307,6 +322,92 @@ const Recommendations = () => {
     </div>
   );
 
+  // Floating Bookmark Button Component
+  const FloatingBookmarkButton = () => (
+    <div className="fixed bottom-6 right-6 z-50">
+      <div className="relative">
+        {/* Curved Arrow Branch */}
+        <div className={`absolute transition-all duration-[2000ms] ease-out ${
+          isBookmarkButtonExpanded 
+            ? 'opacity-100 scale-100 delay-[1000ms]' 
+            : 'opacity-0 scale-75 pointer-events-none'
+        }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)' }}>
+          <svg 
+            width="80" 
+            height="60" 
+            viewBox="0 0 80 60" 
+            className="absolute sm:w-[120px] sm:h-[80px]"
+            style={{ right: '-20px', bottom: '-30px' }}
+          >
+            <path
+              d="M 60 30 Q 40 15 20 30"
+              stroke="rgba(251, 146, 60, 0.8)"
+              strokeWidth="3"
+              fill="none"
+              markerEnd="url(#arrowhead)"
+              className="sm:d-[M 100 40 Q 60 20 20 40]"
+            />
+            <defs>
+              <marker
+                id="arrowhead"
+                markerWidth="10"
+                markerHeight="7"
+                refX="9"
+                refY="3.5"
+                orient="auto"
+              >
+                <polygon
+                  points="0 0, 10 3.5, 0 7"
+                  fill="rgba(251, 146, 60, 0.8)"
+                />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+
+        {/* Text Button - Positioned separately */}
+        <div className={`absolute transition-all duration-[2000ms] ease-out ${
+          isBookmarkButtonExpanded 
+            ? 'opacity-100 scale-100 delay-[1000ms]' 
+            : 'opacity-0 scale-75 pointer-events-none'
+        }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)', marginRight: '100px' }} 
+        >
+          <button
+            onClick={handleBookmarkedTripsClick}
+            className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-3 py-2 sm:px-6 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-medium text-xs sm:text-base whitespace-nowrap"
+          >
+            <span>Your Bookmarked Trips</span>
+          </button>
+        </div>
+
+        {/* Main Circular Button */}
+        <button
+          onClick={handleBookmarkButtonClick}
+          className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-12 h-12 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
+          style={{
+            animation: isBookmarkButtonExpanded 
+              ? 'spin 1s ease-in-out' 
+              : 'none'
+          }}
+        >
+          <Bookmark className="w-5 h-5 sm:w-6 sm:h-6" />
+        </button>
+      </div>
+
+      {/* CSS Animation Styles */}
+      <style jsx>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+
   // Notification Component
   const Notification = ({ show, message, type }) => {
     if (!show) return null;
@@ -359,6 +460,7 @@ const Recommendations = () => {
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 overflow-x-hidden">
       <FloatingBlob />
       <Notification show={notification.show} message={notification.message} type={notification.type} />
+      <FloatingBookmarkButton />
 
       <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12">
         {/* Header */}
