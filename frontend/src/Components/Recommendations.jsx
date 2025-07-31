@@ -80,7 +80,7 @@ const Recommendations = () => {
   // Function to fetch trip image using backend API
   const fetchTripImage = async (location, title) => {
     const imageKey = `${title}-${location}`;
-    
+
     if (tripImages[imageKey]) {
       return tripImages[imageKey];
     }
@@ -103,7 +103,7 @@ const Recommendations = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.success && data.imageUrl) {
         setTripImages(prev => ({
           ...prev,
@@ -129,7 +129,7 @@ const Recommendations = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      
+
       if (!token) {
         navigate('/login');
         return;
@@ -148,13 +148,13 @@ const Recommendations = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.success) {
         setUserTravelMode(data.userTravelMode);
         setFavoriteTrips(data.favoriteTrips);
         setOtherTrips(data.otherTrips);
         setBookmarkedTrips(data.bookmarkedTrips || []);
-        
+
         // Initialize current indexes for other travel modes
         const initialIndexes = {};
         Object.keys(data.otherTrips).forEach(mode => {
@@ -200,7 +200,7 @@ const Recommendations = () => {
   const navigateOther = (mode, direction) => {
     const currentIndex = otherCurrentIndexes[mode] || 0;
     const trips = otherTrips[mode] || [];
-    
+
     if (direction === 'next' && currentIndex + 4 < trips.length) {
       setOtherCurrentIndexes(prev => ({
         ...prev,
@@ -224,8 +224,8 @@ const Recommendations = () => {
       <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 w-full">
         <div className="h-48 sm:h-52 md:h-48 lg:h-48 xl:h-52 relative overflow-hidden">
           {imageUrl ? (
-            <img 
-              src={imageUrl} 
+            <img
+              src={imageUrl}
               alt={`${trip.location} - ${trip.title}`}
               className="w-full h-full object-cover"
               loading="lazy"
@@ -256,13 +256,12 @@ const Recommendations = () => {
             <button
               onClick={() => bookmarkTrip(trip, travelMode)}
               disabled={isBookmarked || isBookmarking}
-              className={`w-full py-2 sm:py-2.5 md:py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm sm:text-base ${
-                isBookmarked 
-                  ? 'bg-green-600 text-white cursor-not-allowed' 
-                  : isBookmarking
+              className={`w-full py-2 sm:py-2.5 md:py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm sm:text-base ${isBookmarked
+                ? 'bg-green-600 text-white cursor-not-allowed'
+                : isBookmarking
                   ? 'bg-yellow-600 text-white cursor-not-allowed'
-                  : 'bg-gradient-to-r from-amber-500 to-orange-500 text-white hover:from-amber-600 hover:to-orange-600'
-              }`}
+                  : 'bg-gradient-to-r from-amber-600 to-orange-600 text-white hover:from-amber-600 hover:to-orange-600'
+                }`}
             >
               {isBookmarking ? (
                 <>
@@ -313,9 +312,8 @@ const Recommendations = () => {
     if (!show) return null;
 
     return (
-      <div className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${
-        type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-      }`}>
+      <div className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+        }`}>
         <div className="flex items-center gap-2">
           {type === 'success' ? (
             <Check className="w-5 h-5" />
@@ -361,14 +359,21 @@ const Recommendations = () => {
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 overflow-x-hidden">
       <FloatingBlob />
       <Notification show={notification.show} message={notification.message} type={notification.type} />
-      
+
       <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h1 className="text-xl sm:text-4xl md:text-xl font-bold mb-4 px-4 leading-tight">
-            <span className="text-cyan-300">Personalized Recommendations for You</span> 
+          {/* Desktop & Tablet */}
+          <h1 className="hidden sm:block text-4xl lg:text-5xl font-bold mb-4 px-4 leading-tight text-cyan-300">
+            Personalized Recommendations for You
           </h1>
-          <p className="text-lg sm:text-xl max-w-2xl mx-auto px-4 text-white">
+          {/* Mobile */}
+          <p className="block sm:hidden text-4xl font-bold mb-4 px-4 leading-tight text-cyan-300">
+            Personalized Recommendations
+            <br />
+            for You
+          </p>
+          <p className="text-base sm:text-xl max-w-2xl mx-auto px-4 text-white">
             Discover amazing trips tailored to your preferences and explore new adventures
           </p>
         </div>
@@ -415,7 +420,7 @@ const Recommendations = () => {
               <h3 className="text-xl sm:text-2xl font-bold text-cyan-300 mb-6 sm:mb-8 text-center px-4">
                 {mode}
               </h3>
-              
+
               {/* Responsive Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
                 {trips.slice(otherCurrentIndexes[mode] || 0, (otherCurrentIndexes[mode] || 0) + 4).map((trip, index) => (

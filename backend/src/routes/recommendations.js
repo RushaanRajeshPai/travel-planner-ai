@@ -186,7 +186,7 @@ const generateTripsForMode = async (travelMode, count = 8) => {
     
     Requirements:
     - All ${count} trips must be from different countries
-    - Titles should be catchy and engaging
+    - Titles should have 6 to 7 words only
     - Each trip should be specifically relevant to ${travelMode.toLowerCase()} travel
     - Focus on real, accessible destinations
     - Vary the geographical regions (Europe, Asia, Americas, Africa, Oceania)
