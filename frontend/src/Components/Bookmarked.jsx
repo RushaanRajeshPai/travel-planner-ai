@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapPin, Trash2, ExternalLink, Calendar, Filter, Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import FloatingBlob from './FloatingBlob';
 
 const Bookmarked = () => {
   const [bookmarkedTrips, setBookmarkedTrips] = useState([]);
@@ -31,7 +32,7 @@ const Bookmarked = () => {
   // Function to fetch trip image
   const fetchTripImage = async (location, title) => {
     const imageKey = `${title}-${location}`;
-    
+
     if (tripImages[imageKey]) {
       return tripImages[imageKey];
     }
@@ -54,7 +55,7 @@ const Bookmarked = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.success && data.imageUrl) {
         setTripImages(prev => ({
           ...prev,
@@ -79,7 +80,7 @@ const Bookmarked = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      
+
       if (!token) {
         navigate('/login');
         return;
@@ -98,10 +99,10 @@ const Bookmarked = () => {
       }
 
       const data = await response.json();
-      
+
       if (data.success) {
         setBookmarkedTrips(data.bookmarkedTrips);
-        
+
         // Group trips by travel mode
         const grouped = data.bookmarkedTrips.reduce((acc, trip) => {
           if (!acc[trip.travelMode]) {
@@ -110,7 +111,7 @@ const Bookmarked = () => {
           acc[trip.travelMode].push(trip);
           return acc;
         }, {});
-        
+
         setGroupedBookmarks(grouped);
 
         // Pre-fetch images for bookmarked trips
@@ -152,7 +153,7 @@ const Bookmarked = () => {
       if (response.ok && data.success) {
         // Remove from bookmarked trips
         setBookmarkedTrips(prev => prev.filter(t => !(t.title === trip.title && t.location === trip.location)));
-        
+
         // Update grouped bookmarks
         setGroupedBookmarks(prev => {
           const updated = { ...prev };
@@ -164,7 +165,7 @@ const Bookmarked = () => {
           }
           return updated;
         });
-        
+
         showNotification('Trip removed from bookmarks successfully!', 'success');
       } else {
         showNotification(data.message || 'Failed to remove bookmark', 'error');
@@ -199,8 +200,8 @@ const Bookmarked = () => {
       <div className="bg-white/10 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 w-full relative">
         <div className="h-48 sm:h-52 md:h-48 lg:h-48 xl:h-52 relative overflow-hidden">
           {imageUrl ? (
-            <img 
-              src={imageUrl} 
+            <img
+              src={imageUrl}
               alt={`${trip.location} - ${trip.title}`}
               className="w-full h-full object-cover"
               loading="lazy"
@@ -215,11 +216,10 @@ const Bookmarked = () => {
           <button
             onClick={() => onRemove(trip)}
             disabled={isDeleting}
-            className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-300 ${
-              isDeleting 
-                ? 'bg-yellow-600 cursor-not-allowed' 
+            className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-300 ${isDeleting
+                ? 'bg-yellow-600 cursor-not-allowed'
                 : 'bg-red-600 hover:bg-red-700'
-            } text-white shadow-lg`}
+              } text-white shadow-lg`}
             title="Remove from bookmarks"
           >
             {isDeleting ? (
@@ -263,9 +263,8 @@ const Bookmarked = () => {
     if (!show) return null;
 
     return (
-      <div className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${
-        type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
-      }`}>
+      <div className={`fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+        }`}>
         <div className="flex items-center gap-2">
           <span className="font-medium">{message}</span>
         </div>
@@ -306,28 +305,32 @@ const Bookmarked = () => {
 
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 overflow-x-hidden">
+      <FloatingBlob />
       <Notification show={notification.show} message={notification.message} type={notification.type} />
-      
+
       <div className="w-full max-w-none px-4 sm:px-6 lg:px-8 xl:px-12 py-8 sm:py-12">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12">
           <div className="flex items-center justify-center mb-4">
-            <Bookmark className="w-8 h-8 sm:w-10 sm:h-10 text-cyan-300 mr-3" />
-            <h1 className="text-2xl sm:text-4xl font-bold text-white">
-              Your <span className="text-cyan-300">Bookmarked</span> Trips
+            <Bookmark className="hidden sm:block w-8 h-8 sm:w-10 sm:h-10 text-cyan-300 mr-3" />
+            <h1 className="text-2xl sm:text-4xl font-bold text-cyan-300">
+              Your Bookmarked Trips
             </h1>
           </div>
           <p className="text-lg sm:text-xl max-w-2xl mx-auto text-gray-300">
-            {bookmarkedTrips.length === 0 
+            {bookmarkedTrips.length === 0
               ? "You haven't bookmarked any trips yet. Start exploring and save your favorites!"
               : `You have ${bookmarkedTrips.length} amazing trip${bookmarkedTrips.length !== 1 ? 's' : ''} saved for later`
             }
           </p>
+          {bookmarkedTrips.length > 0 && (
+            <div className="hidden sm:block w-24 h-1 mt-2 bg-gradient-to-r from-cyan-400 to-blue-500 mx-auto rounded-full"></div>
+          )}
         </div>
 
         {bookmarkedTrips.length === 0 ? (
           <div className="text-center py-16">
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 sm:p-12 max-w-md mx-auto">
+            <div className="bg-black/20 backdrop-blur-lg rounded-2xl p-8 sm:p-12 max-w-md mx-auto">
               <Bookmark className="w-16 h-16 text-cyan-300 mx-auto mb-4 opacity-50" />
               <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4">No Bookmarks Yet</h3>
               <p className="text-gray-300 mb-6">
@@ -352,27 +355,25 @@ const Bookmarked = () => {
               <div className="flex flex-wrap gap-2 justify-center">
                 <button
                   onClick={() => setFilterMode('all')}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                    filterMode === 'all'
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${filterMode === 'all'
                       ? 'bg-cyan-600 text-white'
                       : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                  }`}
+                    }`}
                 >
                   All ({bookmarkedTrips.length})
                 </button>
                 {travelModes.map(mode => {
                   const count = bookmarkedTrips.filter(trip => trip.travelMode === mode).length;
                   if (count === 0) return null;
-                  
+
                   return (
                     <button
                       key={mode}
                       onClick={() => setFilterMode(mode)}
-                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                        filterMode === mode
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${filterMode === mode
                           ? 'bg-cyan-600 text-white'
                           : 'bg-white/10 text-gray-300 hover:bg-white/20'
-                      }`}
+                        }`}
                     >
                       {mode} ({count})
                     </button>
@@ -384,7 +385,7 @@ const Bookmarked = () => {
             {/* Results Summary */}
             <div className="text-center mb-8">
               <p className="text-gray-300">
-                {filterMode === 'all' 
+                {filterMode === 'all'
                   ? `Showing all ${filteredTrips.length} bookmarked trips`
                   : `Showing ${filteredTrips.length} trips for ${filterMode}`
                 }
