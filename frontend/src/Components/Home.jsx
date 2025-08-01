@@ -8,6 +8,62 @@ import adv from '../assets/adv.png'
 import popular from '../assets/popular.png';
 import hidden from '../assets/hidden.png';
 
+const DockContainer = ({ children }) => {
+  return (
+    <div className="flex items-center justify-center">
+      <div className="flex items-center space-x-1 bg-slate-800/40 backdrop-blur-md rounded-2xl px-3 py-2 border border-white/10 shadow-lg">
+        {children}
+      </div>
+    </div>
+  );
+};
+
+const DockItem = ({ children, onClick }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`
+        relative px-4 py-2 text-xl font-medium text-cyan-300 
+        transition-all duration-300 ease-out
+        hover:text-cyan-100 hover:scale-110
+        ${isHovered ? 'z-10' : 'z-0'}
+        transform-gpu
+      `}
+      style={{
+        transformOrigin: 'bottom center',
+      }}
+    >
+      <span className="relative z-10">{children}</span>
+      
+      {/* Hover background effect */}
+      <div className={`
+        absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-blue-500/20 
+        rounded-xl transition-all duration-300 ease-out
+        ${isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-95'}
+      `} />
+      
+      {/* Glow effect */}
+      <div className={`
+        absolute inset-0 bg-cyan-400/10 rounded-xl blur-sm
+        transition-all duration-300 ease-out
+        ${isHovered ? 'opacity-100 scale-110' : 'opacity-0 scale-90'}
+      `} />
+      
+      {/* Bottom indicator */}
+      <div className={`
+        absolute -bottom-1 left-1/2 transform -translate-x-1/2
+        w-1 h-1 bg-cyan-400 rounded-full
+        transition-all duration-300 ease-out
+        ${isHovered ? 'opacity-100 scale-150' : 'opacity-0 scale-50'}
+      `} />
+    </button>
+  );
+};
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -81,7 +137,6 @@ const Home = () => {
       image: hidden,
       gradient: ""
     },
-
   ];
 
   // Fetch user's full name
@@ -197,32 +252,22 @@ const Home = () => {
               </div>
               <span className="text-xl font-bold bg-gradient-to-l from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent">EzyVoyage AI</span>
             </div>
-            {/* Desktop Navigation */}
-            <div className="absolute text-xl left-1/2 transform -translate-x-1/2 hidden md:flex items-center space-x-8">
-              <button
-                onClick={() => scrollToSection('hero-section')}
-                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
-              >
-                About Us
-              </button>
-              <button
-                onClick={() => scrollToSection('features-section')}
-                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
-              >
-                Features
-              </button>
-              <button
-                onClick={() => handleNavigation('/recommendations')}
-                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
-              >
-                Recommendations
-              </button>
-              <button
-                onClick={() => handleNavigation('/pricing')}
-                className="text-cyan-300 hover:text-cyan-400 hover:underline hover:underline-offset-4 hover:decoration-cyan-400 hover:font-semibold transition duration-200"
-              >
-                Pricing
-              </button>
+            {/* Desktop Navigation with Dock Effect */}
+            <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex items-center">
+              <DockContainer>
+                <DockItem onClick={() => scrollToSection('hero-section')}>
+                  About Us
+                </DockItem>
+                <DockItem onClick={() => scrollToSection('features-section')}>
+                  Features
+                </DockItem>
+                <DockItem onClick={() => handleNavigation('/recommendations')}>
+                  Recommendations
+                </DockItem>
+                <DockItem onClick={() => handleNavigation('/pricing')}>
+                  Pricing
+                </DockItem>
+              </DockContainer>
             </div>
             {/* User Profile Section */}
             <div className="ml-auto hidden md:flex items-center">
