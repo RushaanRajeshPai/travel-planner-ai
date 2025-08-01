@@ -316,98 +316,104 @@ const Recommendations = () => {
         disabled={disabled || currentIndex + 4 >= totalItems}
         className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-white shadow-lg rounded-full hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
-        <span className="font-medium">Previous</span>
+        <span className="font-medium">Next</span>
         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
       </button>
     </div>
   );
 
-  // Floating Bookmark Button Component
-  const FloatingBookmarkButton = () => (
-    <div className="fixed bottom-6 right-6 z-50">
-      <div className="relative">
-        {/* Curved Arrow Branch */}
-        <div className={`absolute transition-all duration-[2000ms] ease-out ${
-          isBookmarkButtonExpanded 
-            ? 'opacity-100 scale-100 delay-[1000ms]' 
+ const FloatingBookmarkButton = () => (
+  <div className="fixed bottom-6 right-6 z-50">
+    <div className="relative">
+      {/* Desktop/Tablet Version - Hidden on mobile */}
+      <div className="hidden sm:block">
+        {/* Curved Arrow Branch - Positioned to touch both buttons */}
+        <div className={`absolute transition-all duration-[3000ms] ease-in-out ${isBookmarkButtonExpanded
+            ? 'opacity-100 scale-100 delay-[1000ms]'
             : 'opacity-0 scale-75 pointer-events-none'
-        }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)' }}>
-          <svg 
-            width="80" 
-            height="60" 
-            viewBox="0 0 80 60" 
-            className="absolute sm:w-[120px] sm:h-[80px]"
-            style={{ right: '-20px', bottom: '-30px' }}
+          }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)' }}>
+          <svg
+            width="160"
+            height="80"
+            viewBox="0 0 160 80"
+            className="absolute"
+            style={{ right: '0px', bottom: '-40px' }}
           >
             <path
-              d="M 60 30 Q 40 15 20 30"
-              stroke="rgba(251, 146, 60, 0.8)"
+              d="M 160 40 Q 80 20 0 40"
+              stroke="rgba(251, 146, 60, 0.9)"
               strokeWidth="3"
               fill="none"
-              markerEnd="url(#arrowhead)"
-              className="sm:d-[M 100 40 Q 60 20 20 40]"
+              strokeDasharray="none"
             />
-            <defs>
-              <marker
-                id="arrowhead"
-                markerWidth="10"
-                markerHeight="7"
-                refX="9"
-                refY="3.5"
-                orient="auto"
-              >
-                <polygon
-                  points="0 0, 10 3.5, 0 7"
-                  fill="rgba(251, 146, 60, 0.8)"
-                />
-              </marker>
-            </defs>
           </svg>
         </div>
 
-        {/* Text Button - Positioned separately */}
-        <div className={`absolute transition-all duration-[2000ms] ease-out ${
-          isBookmarkButtonExpanded 
-            ? 'opacity-100 scale-100 delay-[1000ms]' 
+        {/* Text Button - Positioned to touch the arrow */}
+        <div className={`absolute transition-all duration-[1500ms] ease-in-out ${isBookmarkButtonExpanded
+            ? 'opacity-100 scale-100 delay-[1000ms]'
             : 'opacity-0 scale-75 pointer-events-none'
-        }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)', marginRight: '100px' }} 
-        >
+          }`} style={{
+            bottom: '50%',
+            right: '100%',
+            transform: 'translateY(50%)',
+            marginRight: '160px'
+          }}>
           <button
             onClick={handleBookmarkedTripsClick}
-            className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-3 py-2 sm:px-6 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-medium text-xs sm:text-base whitespace-nowrap"
+            className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-4 py-3 sm:px-6 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-medium text-sm sm:text-base whitespace-nowrap"
           >
             <span>Your Bookmarked Trips</span>
           </button>
         </div>
 
-        {/* Main Circular Button */}
+        {/* Main Circular Button - Desktop/Tablet */}
         <button
           onClick={handleBookmarkButtonClick}
           className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-12 h-12 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
           style={{
-            animation: isBookmarkButtonExpanded 
-              ? 'spin 1s ease-in-out' 
-              : 'none'
+            animation: isBookmarkButtonExpanded && !isBookmarkButtonExpanded
+              ? 'spin 1s ease-in-out'
+              : isBookmarkButtonExpanded
+                ? 'spin 1s ease-in-out'
+                : 'none'
           }}
         >
           <Bookmark className="w-5 h-5 sm:w-6 sm:h-6" />
         </button>
       </div>
 
-      {/* CSS Animation Styles */}
-      <style jsx>{`
-        @keyframes spin {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
+      {/* Mobile Version - Simple button that directly navigates */}
+      <div className="block sm:hidden">
+        <button
+          onClick={handleBookmarkedTripsClick}
+          className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
+          style={{
+            animation: isBookmarkButtonExpanded && !isBookmarkButtonExpanded
+              ? 'spin 1s ease-in-out'
+              : isBookmarkButtonExpanded
+                ? 'spin 1s ease-in-out'
+                : 'none'
+          }}
+        >
+          <Bookmark className="w-7 h-7" />
+        </button>
+      </div>
     </div>
-  );
 
+    {/* CSS Animation Styles */}
+    <style jsx>{`
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `}</style>
+  </div>
+);
   // Notification Component
   const Notification = ({ show, message, type }) => {
     if (!show) return null;
