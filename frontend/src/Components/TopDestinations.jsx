@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plane } from 'lucide-react';
+import { Plane, ExternalLink } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 import t1 from '../assets/t1.jpeg';
 import t2 from '../assets/t2.jpeg';
@@ -190,7 +190,6 @@ const TopDestinations = () => {
       <nav className="relative z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
         <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center h-20">
-            {/* Logo and Brand */}
             <div className="flex items-center space-x-3">
               <div className="h-10 w-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
                 <Plane className="h-6 w-6 text-white" />
@@ -224,9 +223,10 @@ const TopDestinations = () => {
               <div className="text-center">
                 <button
                   onClick={() => handleCheckoutTrip(destination.searchQuery)}
-                  className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm rounded-lg shadow-lg hover:shadow-cyan-500/30 transform hover:scale-105 transition-all duration-300 hover:from-cyan-400 hover:to-blue-400"
+                  className="w-full px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-semibold text-sm rounded-lg shadow-lg hover:shadow-cyan-500/30 transform hover:scale-105 transition-all duration-300 hover:from-cyan-400 hover:to-blue-400 flex items-center justify-center gap-2"
                 >
                   Checkout This Trip
+                  <ExternalLink className="w-4 h-4 font-bold" />
                 </button>
               </div>
             </div>
@@ -275,7 +275,7 @@ const TopDestinations = () => {
         </div>
       </footer>
     </div>
-    
+
   );
 };
 
