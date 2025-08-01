@@ -1,4 +1,5 @@
 import React from 'react';
+import { Plane } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 import t1 from '../assets/t1.jpeg';
 import t2 from '../assets/t2.jpeg';
@@ -178,7 +179,6 @@ const TopDestinations = () => {
     );
   };
 
-
   const handleCheckoutTrip = (searchQuery) => {
     const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
     window.open(searchUrl, '_blank');
@@ -187,9 +187,22 @@ const TopDestinations = () => {
   return (
     <div className="min-h-screen w-screen bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800">
       <FloatingBlob />
+      <nav className="relative z-50 bg-slate-900/80 backdrop-blur-md border-b border-white/10">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative flex items-center h-20">
+            {/* Logo and Brand */}
+            <div className="flex items-center space-x-3">
+              <div className="h-10 w-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
+                <Plane className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-l from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent">EzyVoyage AI</span>
+            </div>
+          </div>
+        </div>
+      </nav>
       <div className="text-center py-12 px-4">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-cyan-300 mb-4 tracking-tight">
-          Top Destinations
+          Top Trending Destinations of 2025
         </h1>
         <p className="text-lg md:text-xl text-blue-200 font-light max-w-2xl mx-auto">
           Discover the world's most loved travel spots.
