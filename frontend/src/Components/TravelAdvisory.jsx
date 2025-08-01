@@ -109,7 +109,7 @@ const TravelAdvisory = () => {
             <div className="flex items-center justify-center mb-2">
               <h1 className="text-4xl text-cyan-300 font-bold">Travel Advisory</h1>
             </div>
-            <p className="text-blue-100 text-lg">
+            <p className="text-blue-200 text-lg">
               Check official travel advisories for your destination
             </p>
           </div>

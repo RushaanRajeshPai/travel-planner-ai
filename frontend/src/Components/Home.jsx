@@ -264,8 +264,8 @@ const Home = () => {
                 <DockItem onClick={() => handleNavigation('/recommendations')}>
                   Recommendations
                 </DockItem>
-                <DockItem onClick={() => handleNavigation('/pricing')}>
-                  Pricing
+                <DockItem onClick={() => handleNavigation('/top-destinations')}>
+                  Top Destinations
                 </DockItem>
               </DockContainer>
             </div>
