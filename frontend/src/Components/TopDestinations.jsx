@@ -201,7 +201,7 @@ const TopDestinations = () => {
       </nav>
       <div className="text-center py-12 px-4">
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-cyan-300 mb-4 tracking-tight">
-          Top Trending Destinations of 2025
+          Top Travel Destinations of 2025
         </h1>
         <p className="text-lg md:text-xl text-blue-200 font-light max-w-2xl mx-auto">
           Discover the world's most loved travel spots.

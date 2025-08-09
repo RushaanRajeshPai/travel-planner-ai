@@ -290,8 +290,9 @@ const Recommendations = () => {
                 </>
               ) : (
                 <>
+                  
+                  Bookmark This Trip
                   <Bookmark className="w-4 h-4" />
-                  Bookmark Trip
                 </>
               )}
             </button>
@@ -316,7 +317,7 @@ const Recommendations = () => {
         disabled={disabled || currentIndex + 4 >= totalItems}
         className="flex items-center gap-1 sm:gap-2 px-3 sm:px-6 py-2 sm:py-3 bg-white shadow-lg rounded-full hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
       >
-        <span className="font-medium">Next</span>
+        <span className="font-medium">Previous</span>
         <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
       </button>
     </div>

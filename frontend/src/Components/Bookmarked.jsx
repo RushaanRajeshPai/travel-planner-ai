@@ -340,7 +340,7 @@ const Bookmarked = () => {
                 onClick={() => navigate('/recommendations')}
                 className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-cyan-700 hover:to-blue-700 transition-all duration-300 font-medium"
               >
-                Explore Recommendations
+                Check Recommendations
               </button>
             </div>
           </div>
@@ -445,7 +445,7 @@ const Bookmarked = () => {
         {/* Quick Actions */}
         {bookmarkedTrips.length > 0 && (
           <div className="text-center mt-12 sm:mt-16">
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto">
+            <div className="bg-black/20 backdrop-blur-lg rounded-2xl p-6 sm:p-8 max-w-2xl mx-auto">
               <h3 className="text-lg sm:text-xl font-semibold text-white mb-4">Quick Actions</h3>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button

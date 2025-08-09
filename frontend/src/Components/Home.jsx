@@ -38,21 +38,21 @@ const DockItem = ({ children, onClick }) => {
       }}
     >
       <span className="relative z-10">{children}</span>
-      
+
       {/* Hover background effect */}
       <div className={`
         absolute inset-0 bg-gradient-to-t from-cyan-500/20 to-blue-500/20 
         rounded-xl transition-all duration-300 ease-out
         ${isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-95'}
       `} />
-      
+
       {/* Glow effect */}
       <div className={`
         absolute inset-0 bg-cyan-400/10 rounded-xl blur-sm
         transition-all duration-300 ease-out
         ${isHovered ? 'opacity-100 scale-110' : 'opacity-0 scale-90'}
       `} />
-      
+
       {/* Bottom indicator */}
       <div className={`
         absolute -bottom-1 left-1/2 transform -translate-x-1/2
@@ -498,7 +498,7 @@ const Home = () => {
                           <img
                             src={feature.image}
                             alt={feature.title}
-                            className="w-full h-full object-contain rounded-xl shadow-md"
+                            className="w-full h-full object-contain sm:object-fill md:object-fill lg:object-fill xl:object-fill rounded-xl shadow-md"
                           />
                         </div>
                       </div>
