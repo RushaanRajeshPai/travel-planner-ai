@@ -296,7 +296,7 @@ const Home = () => {
                       onClick={() => handleNavigation('/bookmarked')}
                       className="block w-full text-left px-4 py-2 text-gray-300 hover:text-cyan-400 hover:bg-white/5 transition-colors duration-200"
                     >
-                      Bookmarked Trips
+                      Bucket List
                     </button>
                     <button
                       onClick={handleLogout}
@@ -366,7 +366,7 @@ const Home = () => {
                     onClick={() => handleNavigation('/bookmarked')}
                     className="block px-6 py-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
                   >
-                    Bookmarked Trips
+                    Bucket List
                   </button>
                   <button
                     onClick={handleLogout}

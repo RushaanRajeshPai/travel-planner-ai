@@ -166,13 +166,13 @@ const Bookmarked = () => {
           return updated;
         });
 
-        showNotification('Trip removed from bookmarks successfully!', 'success');
+        showNotification('Trip removed from your bucket list!', 'success');
       } else {
-        showNotification(data.message || 'Failed to remove bookmark', 'error');
+        showNotification(data.message || 'Failed to remove the trip', 'error');
       }
     } catch (error) {
-      console.error('Error removing bookmark:', error);
-      showNotification('Failed to remove bookmark. Please try again.', 'error');
+      console.error('Error removing the trip from the bucket list:', error);
+      showNotification('Failed to remove the trip. Please try again.', 'error');
     } finally {
       setDeletingTrip(null);
     }
@@ -278,7 +278,7 @@ const Bookmarked = () => {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
           <p className="text-lg sm:text-xl font-semibold text-cyan-300 max-w-md mx-auto px-4">
-            Loading your bookmarked trips...
+            Loading your bucket list...
           </p>
         </div>
       </div>
@@ -314,7 +314,7 @@ const Bookmarked = () => {
           <div className="flex items-center justify-center mb-4">
             <Bookmark className="hidden sm:block w-8 h-8 sm:w-10 sm:h-10 text-cyan-300 mr-3" />
             <h1 className="text-2xl sm:text-4xl font-bold text-cyan-300">
-              Your Bookmarked Trips
+              Your Bucket List
             </h1>
           </div>
           <p className="text-lg sm:text-xl max-w-2xl mx-auto text-gray-300">
