@@ -346,10 +346,10 @@ const Home = () => {
                   Recommendations
                 </button>
                 <button
-                  onClick={() => handleNavigation('/pricing')}
+                  onClick={() => handleNavigation('/top-destinations')}
                   className="block px-3 py-2 text-gray-300 hover:text-cyan-400 transition-colors duration-200"
                 >
-                  Pricing
+                  Top Destinations
                 </button>
 
                 {/* Mobile User Profile */}

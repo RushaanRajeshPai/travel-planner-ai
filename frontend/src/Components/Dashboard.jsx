@@ -5,6 +5,8 @@ import femaleAvatar from '../assets/female-avatar.json';
 import { Player } from '@lottiefiles/react-lottie-player';
 import FloatingBlob from './FloatingBlob';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const Dashboard = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const Dashboard = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch('/api/dashboard/profile', {
+      const response = await fetch(`${API_BASE_URL}/api/dashboard/profile`, {
         method: 'GET',
         credentials: 'include', // This ensures cookies are sent
         headers
@@ -82,7 +84,7 @@ const Dashboard = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
 
-      const response = await fetch('/api/dashboard/update-travel-mode', {
+      const response = await fetch(`${API_BASE_URL}/api/dashboard/update-travel-mode`, {
         method: 'PUT',
         credentials: 'include',
         headers,
@@ -258,8 +260,8 @@ const Dashboard = () => {
                     onClick={handleSaveChanges}
                     disabled={saving || editedTravelMode === userInfo?.travelMode}
                     className={`flex items-center px-6 py-2 rounded-lg transition-colors ${saving || editedTravelMode === userInfo?.travelMode
-                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white'
+                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                      : 'bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white'
                       }`}
                   >
                     <Save className="w-4 h-4 mr-2" />
