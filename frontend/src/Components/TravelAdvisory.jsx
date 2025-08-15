@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, ExternalLink, AlertTriangle, Globe, MapPin } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const TravelAdvisory = () => {
   const [userNationality, setUserNationality] = useState('');
   const [countries, setCountries] = useState([]);
@@ -27,7 +29,7 @@ const TravelAdvisory = () => {
         return;
       }
 
-      const response = await fetch('/api/travel-advisory/user-nationality', {
+      const response = await fetch(`${API_BASE_URL}/api/travel-advisory/user-nationality`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -65,7 +67,7 @@ const TravelAdvisory = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/travel-advisory/get-advisory-url', {
+      const response = await fetch(`${API_BASE_URL}/api/travel-advisory/get-advisory-url`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +128,7 @@ const TravelAdvisory = () => {
           <div className="bg-black/20 rounded-2xl border border-cyan-500/30  p-8 mb-8 shadow-2xl">
             <div className="mb-6">
               <label className="flex items-center text-white font-semibold mb-2">
-                <Globe className="w-5 h-5 mr-2 text-cyan-400"/>
+                <Globe className="w-5 h-5 mr-2 text-cyan-400" />
                 Your Nationality
               </label>
               <div className="w-full px-4 py-3 pr-10 bg-blue-900/50 border border-blue-600/50 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent appearance-none cursor-pointer">
