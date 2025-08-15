@@ -3,6 +3,8 @@ import { MapPin, Trash2, ExternalLink, Calendar, Filter, Bookmark } from 'lucide
 import { useNavigate } from 'react-router-dom';
 import FloatingBlob from './FloatingBlob';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const Bookmarked = () => {
   const [bookmarkedTrips, setBookmarkedTrips] = useState([]);
   const [groupedBookmarks, setGroupedBookmarks] = useState({});
@@ -40,7 +42,7 @@ const Bookmarked = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(
-        `http://localhost:5000/api/recommendations/get-image?location=${encodeURIComponent(location)}&title=${encodeURIComponent(title)}`,
+        `${API_BASE_URL}/api/recommendations/get-image?location=${encodeURIComponent(location)}&title=${encodeURIComponent(title)}`,
         {
           method: 'GET',
           headers: {
@@ -86,7 +88,7 @@ const Bookmarked = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/bookmarked/get-bookmarked-trips', {
+      const response = await fetch(`${API_BASE_URL}/api/bookmarked/get-bookmarked-trips`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -136,7 +138,7 @@ const Bookmarked = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/bookmarked/remove-bookmark', {
+      const response = await fetch(`${API_BASE_URL}/api/bookmarked/remove-bookmark`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -217,8 +219,8 @@ const Bookmarked = () => {
             onClick={() => onRemove(trip)}
             disabled={isDeleting}
             className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-300 ${isDeleting
-                ? 'bg-yellow-600 cursor-not-allowed'
-                : 'bg-red-600 hover:bg-red-700'
+              ? 'bg-yellow-600 cursor-not-allowed'
+              : 'bg-red-600 hover:bg-red-700'
               } text-white shadow-lg`}
             title="Remove from bookmarks"
           >
@@ -356,8 +358,8 @@ const Bookmarked = () => {
                 <button
                   onClick={() => setFilterMode('all')}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${filterMode === 'all'
-                      ? 'bg-cyan-600 text-white'
-                      : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    ? 'bg-cyan-600 text-white'
+                    : 'bg-white/10 text-gray-300 hover:bg-white/20'
                     }`}
                 >
                   All ({bookmarkedTrips.length})
@@ -371,8 +373,8 @@ const Bookmarked = () => {
                       key={mode}
                       onClick={() => setFilterMode(mode)}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${filterMode === mode
-                          ? 'bg-cyan-600 text-white'
-                          : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                        ? 'bg-cyan-600 text-white'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
                         }`}
                     >
                       {mode} ({count})

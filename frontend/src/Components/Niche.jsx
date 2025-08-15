@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { MapPin, Search, Star, MessageCircle, Clock, AlertCircle, ChevronDown, ExternalLink } from 'lucide-react';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const Niche = () => {
   const [location, setLocation] = useState('');
   const [spotType, setSpotType] = useState('');
@@ -31,7 +33,8 @@ const Niche = () => {
     setResults([]);
 
     try {
-      const response = await fetch('http://localhost:5000/api/niche/find-hidden-gems', {
+      const response = await fetch(`${API_BASE_URL}/api/niche/find-hidden-gems`, {
+        method: 'POST',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -219,7 +222,7 @@ const Niche = () => {
                       <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/30">
                         ✨ Hidden Gem
                       </span>
-                      
+
                       <button
                         onClick={() => handleViewSpot(spot.name, location)}
                         className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-400 hover:to-cyan-400 text-white text-xs font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25"

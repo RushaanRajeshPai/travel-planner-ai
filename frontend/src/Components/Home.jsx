@@ -64,6 +64,8 @@ const DockItem = ({ children, onClick }) => {
   );
 };
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -144,7 +146,7 @@ const Home = () => {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:5000/api/user/profile', {
+        const response = await fetch(`${API_BASE_URL}/api/user/profile`, {
           method: 'GET',
           credentials: 'include',
           headers: {
@@ -206,7 +208,7 @@ const Home = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/logout', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: 'POST',
         credentials: 'include',
         headers: {

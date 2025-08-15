@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight, ExternalLink, MapPin, Bookmark, Check } from
 import { useNavigate } from 'react-router-dom';
 import FloatingBlob from './FloatingBlob';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const Recommendations = () => {
   const [userTravelMode, setUserTravelMode] = useState('');
   const [favoriteTrips, setFavoriteTrips] = useState([]);
@@ -47,7 +49,8 @@ const Recommendations = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/recommendations/bookmark-trip', {
+      const response = await fetch(`${API_BASE_URL}/api/recommendations/bookmark-trip`, {
+        method: 'POST',
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -89,7 +92,7 @@ const Recommendations = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await fetch(
-        `http://localhost:5000/api/recommendations/get-image?location=${encodeURIComponent(location)}&title=${encodeURIComponent(title)}`,
+        `${API_BASE_URL}/api/recommendations/get-image?location=${encodeURIComponent(location)}&title=${encodeURIComponent(title)}`,
         {
           method: 'GET',
           headers: {
@@ -136,7 +139,8 @@ const Recommendations = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/recommendations/get-recommendations', {
+      const response = await fetch(`${API_BASE_URL}/api/recommendations/get-recommendations`, {
+        method: 'GET',
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -290,7 +294,7 @@ const Recommendations = () => {
                 </>
               ) : (
                 <>
-                  
+
                   Bookmark This Trip
                   <Bookmark className="w-4 h-4" />
                 </>
@@ -323,87 +327,87 @@ const Recommendations = () => {
     </div>
   );
 
- const FloatingBookmarkButton = () => (
-  <div className="fixed bottom-6 right-6 z-50">
-    <div className="relative">
-      {/* Desktop/Tablet Version - Hidden on mobile */}
-      <div className="hidden sm:block">
-        {/* Curved Arrow Branch - Positioned to touch both buttons */}
-        <div className={`absolute transition-all duration-[3000ms] ease-in-out ${isBookmarkButtonExpanded
+  const FloatingBookmarkButton = () => (
+    <div className="fixed bottom-6 right-6 z-50">
+      <div className="relative">
+        {/* Desktop/Tablet Version - Hidden on mobile */}
+        <div className="hidden sm:block">
+          {/* Curved Arrow Branch - Positioned to touch both buttons */}
+          <div className={`absolute transition-all duration-[3000ms] ease-in-out ${isBookmarkButtonExpanded
             ? 'opacity-100 scale-100 delay-[1000ms]'
             : 'opacity-0 scale-75 pointer-events-none'
-          }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)' }}>
-          <svg
-            width="160"
-            height="80"
-            viewBox="0 0 160 80"
-            className="absolute"
-            style={{ right: '0px', bottom: '-40px' }}
-          >
-            <path
-              d="M 160 40 Q 80 20 0 40"
-              stroke="rgba(251, 146, 60, 0.9)"
-              strokeWidth="3"
-              fill="none"
-              strokeDasharray="none"
-            />
-          </svg>
-        </div>
+            }`} style={{ bottom: '50%', right: '100%', transform: 'translateY(50%)' }}>
+            <svg
+              width="160"
+              height="80"
+              viewBox="0 0 160 80"
+              className="absolute"
+              style={{ right: '0px', bottom: '-40px' }}
+            >
+              <path
+                d="M 160 40 Q 80 20 0 40"
+                stroke="rgba(251, 146, 60, 0.9)"
+                strokeWidth="3"
+                fill="none"
+                strokeDasharray="none"
+              />
+            </svg>
+          </div>
 
-        {/* Text Button - Positioned to touch the arrow */}
-        <div className={`absolute transition-all duration-[1500ms] ease-in-out ${isBookmarkButtonExpanded
+          {/* Text Button - Positioned to touch the arrow */}
+          <div className={`absolute transition-all duration-[1500ms] ease-in-out ${isBookmarkButtonExpanded
             ? 'opacity-100 scale-100 delay-[1000ms]'
             : 'opacity-0 scale-75 pointer-events-none'
-          }`} style={{
-            bottom: '50%',
-            right: '100%',
-            transform: 'translateY(50%)',
-            marginRight: '160px'
-          }}>
+            }`} style={{
+              bottom: '50%',
+              right: '100%',
+              transform: 'translateY(50%)',
+              marginRight: '160px'
+            }}>
+            <button
+              onClick={handleBookmarkedTripsClick}
+              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-4 py-3 sm:px-6 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-medium text-sm sm:text-base whitespace-nowrap"
+            >
+              <span>Your Bookmarked Trips</span>
+            </button>
+          </div>
+
+          {/* Main Circular Button - Desktop/Tablet */}
           <button
-            onClick={handleBookmarkedTripsClick}
-            className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white px-4 py-3 sm:px-6 sm:py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 font-medium text-sm sm:text-base whitespace-nowrap"
+            onClick={handleBookmarkButtonClick}
+            className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-12 h-12 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
+            style={{
+              animation: isBookmarkButtonExpanded && !isBookmarkButtonExpanded
+                ? 'spin 1s ease-in-out'
+                : isBookmarkButtonExpanded
+                  ? 'spin 1s ease-in-out'
+                  : 'none'
+            }}
           >
-            <span>Your Bookmarked Trips</span>
+            <Bookmark className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
-        {/* Main Circular Button - Desktop/Tablet */}
-        <button
-          onClick={handleBookmarkButtonClick}
-          className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-12 h-12 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
-          style={{
-            animation: isBookmarkButtonExpanded && !isBookmarkButtonExpanded
-              ? 'spin 1s ease-in-out'
-              : isBookmarkButtonExpanded
+        {/* Mobile Version - Simple button that directly navigates */}
+        <div className="block sm:hidden">
+          <button
+            onClick={handleBookmarkedTripsClick}
+            className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
+            style={{
+              animation: isBookmarkButtonExpanded && !isBookmarkButtonExpanded
                 ? 'spin 1s ease-in-out'
-                : 'none'
-          }}
-        >
-          <Bookmark className="w-5 h-5 sm:w-6 sm:h-6" />
-        </button>
+                : isBookmarkButtonExpanded
+                  ? 'spin 1s ease-in-out'
+                  : 'none'
+            }}
+          >
+            <Bookmark className="w-7 h-7" />
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Version - Simple button that directly navigates */}
-      <div className="block sm:hidden">
-        <button
-          onClick={handleBookmarkedTripsClick}
-          className={`bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center transform`}
-          style={{
-            animation: isBookmarkButtonExpanded && !isBookmarkButtonExpanded
-              ? 'spin 1s ease-in-out'
-              : isBookmarkButtonExpanded
-                ? 'spin 1s ease-in-out'
-                : 'none'
-          }}
-        >
-          <Bookmark className="w-7 h-7" />
-        </button>
-      </div>
-    </div>
-
-    {/* CSS Animation Styles */}
-    <style jsx>{`
+      {/* CSS Animation Styles */}
+      <style jsx>{`
       @keyframes spin {
         from {
           transform: rotate(0deg);
@@ -413,8 +417,8 @@ const Recommendations = () => {
         }
       }
     `}</style>
-  </div>
-);
+    </div>
+  );
   // Notification Component
   const Notification = ({ show, message, type }) => {
     if (!show) return null;

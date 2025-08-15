@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { MapPin, Search, Star, Users, ChevronDown, ExternalLink } from 'lucide-react';
 import FloatingBlob from './FloatingBlob';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const Popular = () => {
   const [location, setLocation] = useState('');
   const [spotType, setSpotType] = useState('');
@@ -31,7 +33,7 @@ const Popular = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/popular/spots', {
+      const response = await fetch(`${API_BASE_URL}/api/popular/spots`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

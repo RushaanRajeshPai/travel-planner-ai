@@ -3,6 +3,8 @@ import { Plane, MapPin, Calendar, Users, Compass, Mountain, Heart, GraduationCap
 import FloatingBlob from './FloatingBlob';
 import RevealOnScroll from './RevealOnScroll';
 
+const API_BASE_URL = 'https://travel-planner-ai-912o.onrender.com';
+
 const TravelPlannerAI = () => {
   const [formData, setFormData] = useState({
     destination: '',
@@ -62,7 +64,7 @@ const TravelPlannerAI = () => {
     setDestinationImages([]); // Clear previous images
 
     try {
-      const response = await fetch('http://localhost:5000/api/travel/generate-itinerary', {
+      const response = await fetch(`${API_BASE_URL}/api/travel/generate-itinerary`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
