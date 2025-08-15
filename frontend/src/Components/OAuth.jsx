@@ -353,7 +353,7 @@ const OAuth = () => {
                   onClick={() => setIsLogin(true)}
                   className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors duration-200"
                 >
-                  Sign In
+                  Login
                 </button>
               </p>
             </div>
